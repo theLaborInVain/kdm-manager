@@ -4,8 +4,11 @@
 
 """
 
+# standard lib imports
 import os
+import sys
 
+# app imports
 from app import app
 
 if __name__ == '__main__':

@@ -29,6 +29,7 @@ class Config(object):
     SESSION_COOKIE_NAME = 'kdm-manager_session'
     DEBUG = True
     DEVELOPMENT = {
+        'alpha_hosts': ['li66-186.members.linode.com'],
         'api_port': 8013,
     }
     DEV_SSL_CERT = 'deploy/dev_cert.pem'
@@ -47,6 +48,11 @@ class Config(object):
         variables. """
 
         if socket.getfqdn() == self.PRODUCTION['app_fqdn']:
+            self.API = {
+                'url': self.PRODUCTION['api_url'],
+                'verify_ssl': True,
+            }
+        elif socket.getfqdn() in self.DEVELOPMENT['alpha_hosts']:
             self.API = {
                 'url': self.PRODUCTION['api_url'],
                 'verify_ssl': True,
