@@ -168,8 +168,9 @@ def get_logger(log_level="INFO", log_name=False):
         )
 
         if not os.path.isdir(log_root_dir):
-            e = Exception("Logging root dir '%s' does not exist!" % log_root_dir)
-            raise e
+            err = "Logging root dir '%s' does not exist! Creating..."
+            sys.stderr.write(err % log_root_dir)
+            os.mkdir(log_root_dir)
 
         log_path = os.path.join(log_root_dir, log_file_name + ".log")
         logger_fh = logging.FileHandler(log_path)
