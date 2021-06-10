@@ -91,11 +91,10 @@
 
         <div
             class="dashboard_button_list"
-            ng-if="dashboard.user.campaigns !== undefined"
+            ng-if="dashboard.user.settlements !== undefined"
         >
             <div
-                ng-repeat="s in dashboard.user.campaigns | orderBy: '-'"
-                ng-if="s.abandoned === undefined"
+                ng-repeat="s in dashboard.user.settlements | orderBy: '-'"
                 ng-click="
                     showFullPageLoader();
                     loadURL('/settlement/' + s._id.$oid);
