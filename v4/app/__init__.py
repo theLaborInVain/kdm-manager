@@ -1,6 +1,6 @@
 """
 
-    Initialize the application.
+    Initialize the application, which is conveniently named 'app'.
 
 """
 
@@ -21,3 +21,4 @@ login.login_view = 'login'
 
 # pace, PEP8
 from app import routes
+app.logger.info('KDM Manager application is running...')
