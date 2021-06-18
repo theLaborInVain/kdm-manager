@@ -27,20 +27,23 @@
         ng-class="{'rolled_down': ngRolledUp['dashboardSystemDiv'] === false}"
     >
 
-        <div class="dashboard_panel_card gear_card_gradient">
+        <div
+            class="dashboard_panel_card gear_card_gradient"
+            ng-if="currentUser"
+        >
 
             <h3 class="kd title">User Info</h3>
             <div class="kd worksheet_row">
                 <div class="kd checkbox checked"></div>
                 <div class="kd checkbox_desc">
-                    <i>{{current_user.login}}</i>
+                    <i>{a currentUser.login a}</i>
                 </div>
             </div>
             <div class="kd worksheet_row">
                 <div
                     class="kd checkbox"
                     ng-class="{
-                        'checked': '{{current_user.verified_email}}' === 'True',
+                        'checked': currentUser.verified_email === true,
                     }"
                 >
                 </div>
@@ -51,14 +54,14 @@
             <div class="kd worksheet_row">
                 <div class="kd checkbox checked"></div>
                 <div class="kd checkbox_desc">
-                    Registered user for {{current_user.age}}
+                    Registered user for {a currentUser.age a}
                 </div>
             </div>
             <div class="kd worksheet_row">
                 <div
                     class="kd checkbox"
                     ng-class="{
-                        'checked': {{current_user.subscriber.level}} > 0,
+                        'checked': currentUser.subscriber.level > 0,
                     }"
                 >
                 </div>
@@ -66,12 +69,12 @@
                     class="kd checkbox_title"
                 >
                     <span
-                        ng-if="{{ current_user.subscriber.level }} > 0"
+                        ng-if="currentUser.subscriber.level > 0"
                     >
-                        <b>{{ current_user.subscriber.desc }}</b>
+                        <b>{a currentUser.subscriber.desc a}</b>
                     </span>
                     <span
-                        ng-if="{{ current_user.subscriber.level }} === 0"
+                        ng-if="currentUser.subscriber.level === 0"
                     >
                         Non-subscriber / free user
                     </span>
@@ -81,19 +84,19 @@
                 <div
                     class="kd checkbox"
                     ng-class="{
-                        'checked': {{current_user.subscriber.level}} > 0,
+                        'checked': currentUser.subscriber.level > 0,
                     }"
                 >
                 </div>
                 <div class="kd checkbox_desc">
                     <span
-                        ng-if="{{ current_user.subscriber.level }} > 0"
+                        ng-if="currentUser.subscriber.level > 0"
                     >
-                        Subscriber for {{ current_user.subscriber.age }}
+                        Subscriber for {a currentUser.subscriber.age a}
                     </span>
                     <span
                         class="disabled"
-                        ng-if="{{ current_user.subscriber.level }} === 0"
+                        ng-if="currentUser.subscriber.level === 0"
                     >
                         Subscriber for 0 days
                     </span>
@@ -101,8 +104,8 @@
             </div>
 
             <button
-                class="kd capsule full_width pink"
-                ng-if="{{current_user.subscriber.level}} < 1"
+                class="kd capsule full_width green"
+                ng-if="currentUser.subscriber.level < 1"
                 ng-click="loadURL('https://thelaborinvain-2.myshopify.com/')"
             >
                 Buy a subscription!
@@ -119,7 +122,7 @@
 
         <div
             class="dashboard_panel_card gear_card_gradient"
-            ng-if="'{{current_user.verified_email}}' !== true"
+            ng-if="!currentUser.verified_email"
         >
             <h3 class="kd title">Verify Email Address</h3>
 
@@ -127,6 +130,31 @@
 
         </div>
 
+        <!-- notifications -->
+        <div
+            class="ng_fade dashboard_panel_card gear_card_gradient"
+            ng-if="!ngEquals({}, currentUser.notifications)"
+        >
+
+            <h3 class="kd title">Notifications</h3>
+
+            <p>
+                Use this button to cause all previously dismissed notifications
+                to appear the next time you view the dashboard.
+            </p>
+
+            <button
+                class="kd capsule full_width pink"
+                ng-click="
+                    updateCurrentUser('set_notifications', {'notifications': ['RESET']});
+                "
+            >
+                Reset notifications
+            </button>
+
+        </div> <!-- dashboard_panel_card (notifications) -->
+
+        <!-- change pw -->
         <div class="dashboard_panel_card gear_card_gradient">
 
             <h3 class="kd title">Change Password</h3>
@@ -164,74 +192,68 @@
 
         </div> <!-- dashboard_panel_card (change pw) -->
 
-        <!-- hack city!!! -->
-        <span
-            class="hidden font_small"
-            ng-init='setUserPreferences("({{current_user.preferences}})")'
-        >
-            |prefs|{a scratch.userPreferences a}|prefs|
-        </span>
-
+        <!-- preferences begin here! -->
         {% for group in PREFERENCES %}
 
-            <div class="dashboard_panel_card gear_card_gradient">
+            <div class="dashboard_panel_card gear_card_gradient" ng-if="currentUser.preferences">
 
                 <h3 class="kd title">{{ group.name }}</h3>
 
                 {% for pref in group.options %}
 
+                        <p> {{ pref.desc|safe }} </p>
                     <div
-                        class="ng_fade dashboard_preference"
-                        ng-disabled="
-                            {{current_user.subscriber.level}} < {{pref.subscriber_level}}
-                        "
+                        class="kd worksheet_block borderless"
+                        ng-class="{
+                            'disabled': currentUser.subscriber.level < {{pref.subscriber_level}},
+                        }"
                     >
-                        <p
-                            class="dashboard_preference_description"
-                        >
-                            {{ pref.desc|safe }}
-                        </p>
 
-                        <div class="dashboard_preference_elections_container">
+
+                        <div
+                            class="kd worksheet_row clickable"
+                            ng-repeat="choice in [
+                                ['affirmative', true], ['negative', false] 
+                            ]"
+                            ng-click="
+                                currentUser.preferences.{{pref.handle}} = choice[1];
+                                updateCurrentUser(
+                                    'set_preferences',
+                                    {
+                                        'preferences': [
+                                            {
+                                                'handle': '{{pref.handle}}',
+                                                'value': choice[1]
+                                            },
+                                        ]
+                                    }
+                                );
+                            "
+                        >
 
                             <div
-                                class="kd worksheet_row clickable"
-                                ng-repeat="
-                                    choice in [
-                                        ['affirmative', true],
-                                        ['negative', false]
-                                    ]
-                                "
-                                ng-click="setPref(
-                                    '{{pref.handle}}', choice[1]
-                                )"
+                                class="kd checkbox"
+                                ng-class="{
+                                    'checked': currentUser.preferences.{{pref.handle}} === choice[1],
+                                }"
                             >
-
-                                <div
-                                    class="kd checkbox"
-                                    ng-class="{
-                                        'checked': scratch.userPreferences['{{pref.handle}}'] === choice[1],
-                                    }"
-                                >
-                                </div>
-
-                                <div
-                                    class="kd checkbox_desc"
-                                    ng-if="choice[0] === 'affirmative'"
-                                >
-                                    {{ pref['affirmative'] }}
-                                </div>
-
-                                <div
-                                    class="kd checkbox_desc"
-                                    ng-if="choice[0] === 'negative'"
-                                >
-                                    {{ pref['negative'] }}
-                                </div>
-
                             </div>
 
-                        </div> <!-- dashboard_preference_elections_container -->
+                            <div
+                                class="kd checkbox_desc"
+                                ng-if="choice[0] === 'affirmative'"
+                            >
+                                {{ pref['affirmative'] }}
+                            </div>
+
+                            <div
+                                class="kd checkbox_desc"
+                                ng-if="choice[0] === 'negative'"
+                            >
+                                {{ pref['negative'] }}
+                            </div>
+
+                        </div>
 
                     </div><!-- dashboard_preference -->
 

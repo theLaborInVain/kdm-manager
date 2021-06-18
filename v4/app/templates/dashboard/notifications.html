@@ -1,0 +1,87 @@
+<!-- hack city!!! -->
+<span class="hidden" ng-if="currentUser" ng-init="setNotifications()">
+    <span
+        class="hidden"
+        ng-if="scratch.activeNotifications.length > 0"
+        ng-init="ngShow('dashboardNotificationsModal')"
+    >
+    </span>
+</span>
+
+<!--
+
+    the alerts viewer modal starts here
+
+-->
+
+<div
+    id="dashboardNotificationsModal"
+    class="modal hidden"
+    ng-if="
+        ngVisible['dashboardNotificationsModal'] &&
+        scratch.activeNotifications.length > 0
+    "
+>
+    <div
+        class="modal-content"
+    >
+
+        <h3 class="kd title">Notifications</h3>
+
+        <p>
+            Welcome to KDM-Manager version {{ VERSION }}!
+            Complete release notes can be found on the Manager's 
+            <a
+                target="top"
+                href="{a api_url + 'blog/release/' + latestRelease._id.$oid a}"
+            >
+                development blog</a>.
+        </p>
+
+        <div
+            ng-repeat="notification in scratch.activeNotifications"
+            class="ng_fade clickable kd worksheet_row lined"
+            ng-click="
+                notification.checked = true;
+                scratch.activeNotifications.splice($index, 1);
+                updateCurrentUser(
+                    'set_notifications',
+                    {'notifications': [notification._id.$oid]}
+                );
+            "
+        >
+            <div
+                class="kd checkbox"
+                ng-class="{
+                    'checked': notification.checked === true,
+                }"
+            >
+            </div>
+            <div
+                class="kd checkbox_desc"
+                ng-bind-html="notification.body|trustedHTML"
+            >
+            </div>
+        </div>
+
+        <div class="kd worksheet_row">
+            <p>
+                Tap or click a notification to dismiss it. You may restore
+                dismissed notifications from the "System" panel.
+            </p>
+        </div>
+
+        <div
+            class="kd capsule full_width pink"
+            ng-click="
+                clearActiveNotifications();
+            "
+        >
+                Dismiss all notifications
+        </div>
+
+
+    </div><!-- modal-content -->
+
+</div>
+<!-- dashboard alerts -->

@@ -11,6 +11,7 @@
 
 <body
     ng-if="apiStat"
+    ng-init="setLatestRelease()"
 >
 
     {% include 'dashboard/welcome.html' %}
@@ -30,7 +31,7 @@
         {%  include 'dashboard/settlements.html' %}
         {%  include 'dashboard/world.html' %}
         {%  include 'dashboard/about.html' %}
-        {%  include 'dashboard/alerts.html' %}
+        {%  include 'dashboard/notifications.html' %}
 
 
         <img

@@ -1,0 +1,60 @@
+<!--
+
+    DEFEATED MONSTERS
+    
+-->
+<div class="kd_sheet_ui_border_box">
+
+    <div
+        class="settlement_sheet_kd_sheet_ui_box"
+        title="Tap or click to remove an item!"
+    >
+
+        <div class="font_large kd_sheet_ui_row title">
+            Defeated Monsters
+        </div>
+
+        <p>
+            A list of defeated monsters and their level.
+        </p>
+
+        <div
+            class="ng_fade clickable kd worksheet_row lined"
+            ng-repeat="x in settlement.sheet.defeated_monsters track by $index"
+            ng-click="
+                settlement.sheet.defeated_monsters.splice($index, 1);
+                settlement.game_assets.defeated_monsters = undefined;
+                postJSONtoAPI(
+                    'settlement', 'rm_defeated_monster', settlement.sheet._id.$oid,
+                    {'monster': x},
+                    true, true, false
+                );
+            "
+        >
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">
+                {a x a}
+            </div>
+        </div>
+
+    </div><!-- settlement_sheet_kd_sheet_ui_box -->
+
+    <select
+        class="kd capsule full_width"
+        ng-model="addDefeatedMonster"
+        ng-disabled="!settlement.game_assets.defeated_monsters"
+        ng-change="
+            settlement.sheet.defeated_monsters.push(addDefeatedMonster);
+            settlement.game_assets.defeated_monsters = undefined;
+            postJSONtoAPI(
+                'settlement', 'add_defeated_monster', settlement.sheet._id.$oid,
+                {'monster': addDefeatedMonster},
+                true, true, false
+            );
+            addDefeatedMonster = undefined;
+        "
+        ng-options="d as d for d in settlement.game_assets.defeated_monsters"
+    >
+        <option selected disabled value="">Add Defeated Monster</option>
+    </select>
+</div> <!-- defeatedMonstersController -->

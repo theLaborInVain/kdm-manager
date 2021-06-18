@@ -1,0 +1,65 @@
+<!--
+
+    QUARRIES
+
+-->
+<div
+   class="kd_sheet_ui_border_box"
+>
+
+    <div
+        class="settlement_sheet_kd_sheet_ui_box"
+        title="Tap or click to remove an item!"
+    >
+
+        <div class="font_large kd_sheet_ui_row title">
+             Quarries
+        </div>
+
+        <p>
+            The monsters your settlement can select to hunt.
+        </p>
+
+        <div
+            class="ng_fade clickable kd worksheet_row lined"
+            ng-repeat="q in settlement.sheet.quarries"
+            ng-click="
+                settlement.sheet.quarries.splice($index, 1);
+                settlement.game_assets.quarry_options = undefined;
+                postJSONtoAPI(
+                    'settlement', 'rm_monster', settlement.sheet._id.$oid,
+                    {'handle': q},
+                    true, true, false
+                );
+            "
+        >
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">
+                {a kingdomDeath.monsters[q].name a}
+            </div>
+        </div>
+
+    </div> <!-- settlement_sheet_kd_sheet_ui_box -->
+
+    <select
+        class="kd capsule full_width"
+        ng-model="addQuarryMonster"
+        ng-disabled="!settlement.game_assets.quarry_options"
+        ng-options="q.handle as q.name for q in settlement.game_assets.quarry_options"
+        ng-change="
+            settlement.sheet.quarries.push(addQuarryMonster);
+            settlement.game_assets.quarry_options = undefined;
+            postJSONtoAPI(
+                'settlement', 'add_monster', settlement.sheet._id.$oid,
+                {'handle': addQuarryMonster},
+                true, true, false
+            );
+            addQuarryMonster = undefined;
+        "
+    >
+        <option selected disabled value="">
+            Add Quarry Monster
+        </option>
+    </select>
+
+</div> <!-- quarriesController -->

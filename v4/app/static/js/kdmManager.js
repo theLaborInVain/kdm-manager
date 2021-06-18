@@ -74,7 +74,11 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                 console.info(
                     'KDM API v' + $rootScope.apiStat.meta.api.version + ' @ ' + $rootScope.APIURL
                 );
+
+                // now that the API is alive, set a few things
                 $rootScope.setKingdomDeath();
+                $rootScope.setCurrentUser();
+
             }, function errorCallback(response) {
                 $rootScope.apiStat = false;
                 console.error('Could not stat API!');
@@ -95,7 +99,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
             }
         );
+
     };
+
+    
 
     $rootScope.setJwtFromCookie = function() {
 		// injects the JWT into the root scope
@@ -496,6 +503,12 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 		// for readability. It behaves differently to the original/legacy
 		// implementation, so proceed with caution!
 
+        // sanity check!
+        if (collection == 'user') {
+            window.alert('postJSONtoAPI() cannot be used to update the user!\nUse updateCurrentUser() instead!');
+            return false;
+        };
+
 		// first, if we're doing on-screen alerts, show the small loader
 	    if (showAlert) {
             $scope.ngFlash('cornerSpinner', 500);
@@ -611,15 +624,14 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     // set methods
     $rootScope.setApiAlerts = function() {
         // gets all of Kingdom Death from the API; hangs it on 
-        // $rootScope.kingdomDeath
+        // $rootScope.kingdomDeath; returns its promise (so that other
+        // methods can wait for it and then take action).
 
         var reqURL = $rootScope.APIURL + 'get/notifications';
         console.time(reqURL);
         
-        $http({
-            method:'GET',
-            url: reqURL,
-        }).then(
+        var apiAlertsPromise = $http.get(reqURL, $rootScope.CONFIG);
+        apiAlertsPromise.then(
             function successCallback(response) {
                 $scope.apiAlerts = response.data;
                 console.timeEnd(reqURL);
@@ -629,6 +641,58 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                 console.timeEnd(reqURL);
             }
         );
+
+        return apiAlertsPromise
+    };
+
+
+    $rootScope.setCurrentUser = function() {
+        // sets the current_user (from flask) to rootScope.currentUSer
+
+        var reqURL = $rootScope.APIURL + 'user/get/' + $rootScope.USER;
+        console.time(reqURL);
+        
+        $http.get(
+            reqURL,
+            $rootScope.CONFIG
+        ).then(
+            function successCallback(response) {
+                $rootScope.currentUser = response.data.user;
+                console.timeEnd(reqURL);
+            }, function errorCallback(response) {
+                console.error('Could not set $rootScope.currentUser!');
+                console.error(response);
+                console.timeEnd(reqURL);
+            }
+        );
+    };
+
+    $rootScope.updateCurrentUser = function(method, updateJson) {
+        // updates the current user via 'method'; POSTs 'updateJson' as the payload
+
+        var reqURL = $rootScope.APIURL + 'user/' + method + '/' + $rootScope.USER;
+        console.time(reqURL);
+        
+        var userUpdatePromise = $http.post(
+            reqURL,
+            updateJson,
+            $rootScope.CONFIG
+        )
+        
+        userUpdatePromise.then(
+            function successCallback(response) {
+                $rootScope.currentUser = response.data.user;
+                console.info('Updated user successfully!');
+                console.timeEnd(reqURL);
+                $rootScope.flashCapsuleAlert('Saved');
+            }, function errorCallback(response) {
+                console.error('Could not update currentUser!');
+                console.error(response);
+                console.timeEnd(reqURL);
+            }
+        );
+
+        return userUpdatePromise;
     };
 
 
@@ -639,10 +703,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         var reqURL = $rootScope.APIURL + 'kingdom_death';
         console.time(reqURL);
         
-        $http({
-            method:'GET',
-            url: reqURL,
-        }).then(
+        $http.get(
+            reqURL,
+            $rootScope.CONFIG
+        ).then(
             function successCallback(response) {
                 $rootScope.kingdomDeath = response.data;
                 console.timeEnd(reqURL);
@@ -771,6 +835,17 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 	//
 	//	utilities / junk
 	//
+
+    $rootScope.range  = function(count) {
+        // functions like python range() i.e. like this:
+        //  In [1]: range(3)
+        //  Out[1]: [0, 1, 2]
+        var output = [];
+        for (var i = 0; i < count; i++) {
+            output.push(i)
+        }
+        return output;
+    };
 
     $rootScope.toTitle = function(str) {
         // converts a string to a KD-style title; useful for handles, etc.

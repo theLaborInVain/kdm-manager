@@ -2394,6 +2394,19 @@ h3.new_survivor_sheet {
     margin-bottom: 3%; 
 }
 
+/*  settlement sheet right column */
+.nemesis_level_clicker {
+    align-items: center;
+    display: inline-flex;
+    margin-right: 0.5rem;
+}
+.nemesis_level_clicker * {
+    margin-right: 0.1rem;
+}
+.nemesis_level_clicker:last-child {
+    margin-right: 0;
+}
+
 /*  storage - mobile    */
 #editStorage {
     width: 100%; 

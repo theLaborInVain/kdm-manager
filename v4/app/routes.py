@@ -205,7 +205,7 @@ def api_get_asset(asset_module):
 def dashboard():
     prefs = users.Preferences()
     return flask.render_template(
-        'dashboard/index.html',
+        'dashboard/_base.html',
         PREFERENCES = prefs.dump(),     # because we edit them here
         **app.config
     )

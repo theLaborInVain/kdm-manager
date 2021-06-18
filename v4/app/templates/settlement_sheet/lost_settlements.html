@@ -1,0 +1,121 @@
+<!-- 
+
+    LOST SETTLEMENTS
+
+-->
+<div
+    class="kd_sheet_ui_border_box"
+>
+    <div
+        class="settlement_sheet_kd_sheet_ui_box clickable"
+        ng-click="ngRoll('lostSettlementsControl')"
+        title="
+            Lost Settlements controller for {a settlement.sheet.name a}.
+            Tap or click to edit!
+        "
+    >
+
+        <div class="font_large kd_sheet_ui_row title">
+            Lost Settlements
+        </div>
+
+        <div class="kd worksheet_row checkbox_container lined">
+            <div
+                class="kd checkbox"
+                ng-repeat="
+                    lostCount in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+                "
+                ng-class="{
+                    'checked': settlement.sheet.lost_settlements > lostCount,
+                    'heavy': [4,9,14,18].indexOf(lostCount) !== -1,
+                }"
+            ></div>
+        </div>
+
+        <div class="kd worksheet_row">
+            <div>
+                <font class="kdm_font">g</font>
+                <b> Game Over </b>
+                <span class="font_small">
+                    (p. {a settlement.game_assets.events['core_game_over'].page a})
+                </span>
+            </div>
+        </div>
+
+    </div> <!-- settlement_sheet_kd_sheet_ui_box -->
+
+    <div
+        id="lostSettlementsControl"
+        class="kd_sheet_ui_roll_down rolled_up"
+    >
+        <div
+            class="kd_sheet_ui_roll_down_controls embedded"
+            ng-if="ngRolledUp['lostSettlementsControl'] === false"
+        >
+            <div class="kd_sheet_ui_row dynamic_tip wrap">
+
+                <div
+                    class="font_small dynamic_tip_container"
+                    ng-repeat="
+                        storyEvent in [
+                            {count: 4, desc: 'Left Overs', boxes: [0]},
+                            {count: 9, desc: 'Those Before Us', boxes: [0,1]},
+                            {count: 14, desc: 'Ocular Parasites', boxes: [0,1,2]},
+                            {count: 19, desc: 'Rainy Season', boxes: [0,1,2,3]},
+                        ]
+                    "
+                >
+                    <div
+                        ng-repeat="box in storyEvent.boxes"
+                        class="kd_sheet_ui_box small"
+                        ng-class="
+                            {checked: settlement.sheet.lost_settlements > storyEvent.count}
+                        "
+                    ></div>
+
+                    <span>
+                        {a storyEvent.desc a}
+                    </span>
+
+                </div>
+
+            </div><!-- kd_sheet_ui_row.dynamic_tip.wrap -->
+
+
+            <button
+                class="kd capsule full_width"
+                ng-click="
+                    settlement.sheet.lost_settlements = settlement.sheet.lost_settlements + 1
+                "
+            >
+                &#x25B2;
+            </button>
+
+            <button
+                class="kd capsule full_width"
+                ng-click="
+                    settlement.sheet.lost_settlements = settlement.sheet.lost_settlements - 1
+                "
+            >
+                &#x25BC;
+            </button>
+
+            <button
+                class="kd capsule full_width blue"
+                ng-click="
+                    ngRollUp('lostSettlementsControl');
+                    postJSONtoAPI(
+                        'settlement', 'set_lost_settlements', settlement.sheet._id.$oid,
+                        {'value': settlement.sheet.lost_settlements},
+                        false, true, true
+                    );
+                "
+            >
+                Save Changes
+            </button>
+
+        </div> <!-- kd_sheet_ui_roll_down_controls.integrated -->
+
+    </div> <!-- kd_sheet_ui_roll_down -->
+
+</div> <!-- lost_settlement_controls_container -->

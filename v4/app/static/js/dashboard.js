@@ -109,11 +109,10 @@ app.controller("dashboardController", function($scope, $rootScope, $http) {
     $scope.updatePassword = function() {
 		// updates a user's password and logs them out;
         if ($scope.scratch.password === $scope.scratch.password_again) {
-            $scope.postJSONtoAPI(
-                'user', 'update_password', $rootScope.USER,
-				{password: $scope.scratch.password},
-				false
-			);
+            $rootScope.updateCurrentUser(
+                'update_password',
+                {'password': $scope.scratch.password},
+            );
             $scope.scratch.saved_password = true;
             $scope.scratch.password = undefined;
             $scope.scratch.password_again = undefined;
@@ -123,79 +122,6 @@ app.controller("dashboardController", function($scope, $rootScope, $http) {
             console.error('pw match fail');
         };
 
-    };
-
-    // preferences management; hybrid of angular and jinja2
-    $scope.setUserPreferences = function(prefsJSON) {
-        // use Jinja2 to inject details from current_user into $scope
-        var True = true;
-        var False = false;
-        $scope.scratch.userPreferences = eval(prefsJSON);
-    };
-
-
-    $scope.setPref = function(prefHandle, newValue) {
-        // change a preference setting
-
-        var originalValue = $scope.scratch.userPreferences[prefHandle];
-
-        // first, change it in the browser
-        $scope.scratch.userPreferences[prefHandle] = newValue;
-
-        // then, if it's a change, let the API know
-        if (originalValue !== newValue) {
-            js_obj = {
-                preferences: [
-                    {handle: prefHandle, value: newValue}
-                ]
-            };
-            $scope.postJSONtoAPI(
-                'user', 'set_preferences', $rootScope.USER,
-                js_obj,
-                false
-            );
-        };
-    };
-
-
-    //
-    //  collection panel
-    //
-
-    // collection management; hybrid of angular and jinja2
-    $scope.setUserCollection = function(collectionJSON) {
-        // use Jinja2 to inject details from current_user into $scope
-        $scope.scratch.userCollection = collectionJSON;
-    };
-
-    $scope.toggleUserExpansion = function(expansionHandle) {
-        // toggles an expansion handle in or out of the user's list of expansions
-
-        var handleIndex = $scope.scratch.userCollection.expansions.indexOf(expansionHandle);
-
-        // toggle in the browser and the API at the same time:
-        if (handleIndex === -1) {
-            $scope.scratch.userCollection.expansions.push(expansionHandle);
-            $scope.postJSONtoAPI(
-                'user', 'add_expansion_to_collection', $rootScope.USER,
-                {handle: expansionHandle},
-                false
-            );
-        } else {
-            $scope.scratch.userCollection.expansions.splice(handleIndex, 1);
-            $scope.postJSONtoAPI(
-                'user', 'rm_expansion_from_collection', $rootScope.USER,
-                {handle: expansionHandle},
-                false
-            );
-        };
-
-        // now do that same operation in the API:
-        if (handleIndex === -1) {
-            $scope.scratch.userCollection.expansions.push(expansionHandle);
-        } else {
-            $scope.scratch.userCollection.splice(handleIndex, 1);
-        };
     };
 
 
@@ -222,5 +148,56 @@ app.controller("dashboardController", function($scope, $rootScope, $http) {
             }
         );
 	};
+
+    //
+    //  alerts / notifications
+    //
+
+    $scope.setNotifications = function() {
+        // uses the $rootScope.currentUser and main module methods to determine
+        // the contents of $scope.scratch.activeNotifications
+
+        $scope.scratch.activeNotifications = [];
+
+        $rootScope.setApiAlerts().then(
+            function successCallback(response) {
+                var apiAlerts = response.data;
+
+                for (var i = 0; i < apiAlerts.length; i++) {
+                    var apiAlert = apiAlerts[i];
+                    if (!$rootScope.currentUser.notifications[apiAlert._id.$oid]) {
+                        $scope.scratch.activeNotifications.push(apiAlert);
+                    };
+                };
+
+            }, function errorCallback(response) {
+                console.error('Could not set user notifications!');
+            }
+        );
+        
+    };
+
+    $scope.clearActiveNotifications = function() {
+        // marks all notifications in the $scope.scratch.activeNotifications
+        //  as dismissed; updates the user in the API
+
+        var notificationIdList = [];
+        for (var i = 0; i < $scope.scratch.activeNotifications.length; i++) {
+            var notification = $scope.scratch.activeNotifications[i];
+            notification.checked = true;
+            notificationIdList.push(notification._id.$oid);
+        };
+
+        $rootScope.updateCurrentUser(
+            'set_notifications',
+            {'notifications': notificationIdList}
+        ).then(
+            function successCallback(response){
+                $scope.setNotifications();
+            }, function errorCallback(response) {
+                console.error('Failed to update user; cannot clear notifications!');
+            }
+        );
+    };
 
 });

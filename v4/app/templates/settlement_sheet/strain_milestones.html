@@ -1,0 +1,82 @@
+<!-- STRAIN MILESTONES -->
+<div
+    class="kd_sheet_ui_border_box"
+    ng-if="!ngEquals({}, settlement.game_assets.strain_milestones)"
+>
+
+    <div
+        class="settlement_sheet_kd_sheet_ui_box"
+        title="Tap or click to toggle!"
+    >
+
+        <div class="font_large kd_sheet_ui_row title">
+             Strain Milestones
+        </div>
+
+        <p>
+            During the Check Milestones step of the Settlement Phase,
+            check the Milestone Strain cards first.
+        </p>
+
+        <div
+            class="clickable hover_highlight"
+            ng-repeat="m in settlement.game_assets.strain_milestones"
+            ng-click="
+                toggleArrayItem(settlement.sheet.strain_milestones, m.handle);
+            "
+            ng-class="
+                {active: settlement.sheet.strain_milestones.includes(m.handle)}
+            "
+        >
+            <div class="kd worksheet_row">
+
+                <div
+                    class="kd checkbox"
+                    ng-class="{
+                        checked: settlement.sheet.strain_milestones.indexOf(m.handle) != -1
+                    }"
+                ></div>
+
+                <div class="kd checkbox_desc">
+                    <b>{a m.name a} </b>
+                </div>
+
+            </div>
+
+            <div
+                class="ng_fade kd worksheet_row caption"
+                ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) === -1"
+                ng-bind-html="m.milestone_condition|trustedHTML">
+            </div>
+
+            <div
+                class="ng_fade kd worksheet_row caption"
+                ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) >= 0"
+                ng-bind-html="m.permanent_effect|trustedHTML">
+            </div>
+
+            <div
+                class="strain_milestone_fighting_arts kd worksheet_row caption"
+                ng-repeat="fa in settlement.game_assets.strain_milestones[m.handle].fighting_arts"
+                ng-class="{
+                    faded: settlement.sheet.strain_milestones.indexOf(m.handle) == -1,
+                    unlocked_strain_fa: settlement.sheet.strain_milestones.indexOf(m.handle) != -1
+                }"
+            >
+                <span
+                    ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) == -1"
+                >
+                    &#x1F512;
+                </span>
+                <span
+                    ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) != -1"
+                >
+                    &#x1F513;
+                </span>
+                <b>{a settlement.game_assets.fighting_arts[fa].name a}</b> fighting art
+            </div>
+        </div>
+
+    </div> <!-- settlement_sheet_kd_sheet_ui_box -->
+
+</div> <!-- kd_sheet_ui_border_box  -->

@@ -94,6 +94,7 @@ class User(flask_login.UserMixin):
         )
 
         if response.status_code != 200:
+            self.logger.error(endpoint)
             self.logger.error('[%s] %s' % (
                 response.status_code, response.reason)
             )

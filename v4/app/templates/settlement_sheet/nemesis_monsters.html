@@ -1,0 +1,93 @@
+<!--
+
+    NEMESIS MONSTERS
+    
+-->
+<div
+    class="kd_sheet_ui_border_box"
+>
+
+    <div
+        class="settlement_sheet_kd_sheet_ui_box"
+        title="Tap or click to edit!"
+    >
+
+        <div class="font_large kd_sheet_ui_row title">
+            <img
+                class="kd_icon"
+                src="/static/media/nemesis_encounter_event.jpg"
+                ng-class="{
+                    'invert_image': currentUser.preferences.night_mode === true,
+                }"
+            />
+            Nemesis Monsters
+        </div>
+
+        <p>
+            The available nemesis encounter monsters.
+        </p>
+
+        <div
+            class="ng_fade clickable kd worksheet_row lined principle"
+            ng-repeat="n in settlement.sheet.nemesis_monsters"
+            ng-click="
+                settlement.sheet.nemesis_monsters.splice($index, 1);
+                settlement.game_assets.nemesis_options = undefined;
+                postJSONtoAPI(
+                    'settlement', 'rm_monster', settlement.sheet._id.$oid,
+                    {'handle': n},
+                    true, true, false
+                );
+            "
+        >
+            <div class="kd checkbox checked"></div>
+            <div> {a settlement.game_assets.monsters[n].name a} </div>
+
+            <div ng-click="$event.stopPropagation()">
+                <div
+                    class="nemesis_level_clicker"
+                    ng-repeat="lvl in range(settlement.game_assets.monsters[n].levels)"
+                    ng-click="
+                        toggleArrayItem(settlement.sheet.nemesis_encounters[n], lvl);
+                        postJSONtoAPI(
+                            'settlement', 'update_nemesis_levels', settlement.sheet._id.$oid,
+                            {'handle': n, 'levels': settlement.sheet.nemesis_encounters[n]}
+                        );
+                    "
+                >
+                    <div
+                        class="kd checkbox"
+                        ng-class="{
+                            checked: settlement.sheet.nemesis_encounters[n].indexOf(lvl) >= 0
+                        }"
+                    ></div>
+                    <div >
+                        Lvl {a lvl a}
+                    </div>
+                </div>
+            </div><!-- clickable checkboxes container -->
+
+        </div><!-- nemesis repeater / line item -->
+
+    </div> <!-- settlement_sheet_kd_sheet_ui_box -->
+
+    <select
+        class="kd capsule full_width"
+        ng-disabled="!settlement.game_assets.nemesis_options"
+        ng-model="addNemesisMonster"
+        ng-options="n.handle as n.name for n in settlement.game_assets.nemesis_options"
+        ng-change="
+            settlement.sheet.nemesis_monsters.push(addNemesisMonster);
+            settlement.game_assets.nemesis_options = undefined;
+            postJSONtoAPI(
+                'settlement', 'add_monster', settlement.sheet._id.$oid,
+                {'handle': addNemesisMonster},
+                true, true, false
+            );
+            addNemesisMonster = undefined;
+        "
+    >
+        <option selected disabled value="">Add Nemesis Monster</option>
+    </select>
+
+</div> <!-- nemesis_monsters_controls_container -->

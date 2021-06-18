@@ -1,7 +1,6 @@
 <!-- collections -->
 <div
     class="ng_fade dashboard_menu"
-    ng-init='setUserCollection({{current_user.collection}})'
 >
 
     <h2
@@ -81,26 +80,35 @@
             >
                 <div
                     class="kd worksheet_row"
-                    ng-click="toggleUserExpansion(handle)"
+                    ng-click="
+                    toggleArrayItem(currentUser.collection.expansions, handle);
+                    updateCurrentUser(
+                        'set_collection',
+                        {'collection': currentUser.collection}
+                    )"
                     ng-if="expansion.ui.pretty_category === category"
                 >
 
                     <div
                         class="kd checkbox"
-                        ng-class="{'checked': scratch.userCollection.expansions.indexOf(handle) != -1}"
+                        ng-class="
+                            {'checked': currentUser.collection.expansions.indexOf(handle) != -1}
+                        "
                     ></div>
 
                     <div
                         class="kd checkbox_desc"
-                        ng-class="{'checked': scratch.userCollection.expansions.indexOf(handle) != -1}"
-                        >
+                        ng-class="
+                            {'checked': currentUser.collection.expansions.indexOf(handle) != -1}
+                        "
+                    >
                         {a expansion.name a}
                     </div>
 
                 </div>
 
                 <div
-                    class="kd worksheet_row caption"
+                    class="font_small kd worksheet_row caption"
                     ng-if="
                         expansion.ui.pretty_category === category &&
                         expansion.subtitle !== undefined
