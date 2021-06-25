@@ -719,8 +719,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     };
 
     $rootScope.setSettlementMacros = function() {
-        // gets all of Kingdom Death from the API; hangs it on 
-        // $rootScope.kingdomDeath
+        // sets $rootScope.settlementMacros
 
         var reqURL = $rootScope.APIURL + 'game_asset/macros';
         console.time(reqURL);

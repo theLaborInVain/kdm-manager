@@ -1,0 +1,105 @@
+<div
+    id="settlementSheetEventLogTab"
+    class="view_tab"
+    ng-show='tabsObject.activeTab === 3'
+    ng-if="settlement.sheet"
+>
+
+    <div
+        class="event_log"
+        ng-init="settlementEventLog = {}"
+    >
+
+        <h3 class="kd title">Event Log</h3>
+
+        <p
+            class="kd_sheet_ui_row_tip"
+            ng-if="user.user.preferences.show_ui_tips"
+        >
+            The settlement Event Log keeps track of all activity in the
+            campaign. Click or tap a Lantern Year below to review the events
+            for that year!
+        </p>
+
+        <div
+            class="clickable kd worksheet_block"
+            ng-repeat="ly_dict in settlement.sheet.timeline"
+            ng-init="
+                ly = ly_dict['year'];
+                controlID = 'ly' + ly + 'controlID'
+            "
+            ng-click="
+                ngShowHide(controlID);
+            "
+        >
+            <div
+                class="kd worksheet_row"
+            >
+                <div
+                    class="kd checkbox"
+                    ng-class="{
+                        checked: ly <= settlement.sheet.lantern_year}
+                    "
+                />
+                </div>
+
+                <div
+                    class="kd checkbox_desc"
+                >
+
+                    Lantern Year {a ly a}
+
+                    <span
+                        class="event_count"
+                        ng-if="settlementEventLog[ly] !== undefined"
+                    >
+                        - {a settlementEventLog[ly].length a} events
+                    </span>
+
+                 </div> <!-- event_log_clicker_title_name -->
+
+            </div> <!-- event_log_clicker_title -->
+
+            <div
+                id="{a controlID a}"
+                class="event_log_container hidden"
+                ng-if="ngVisible[controlID]"
+                ng-init="loadSettlementEventLogLy(ly, settlementEventLog)"
+                ng-click="settlementEventLog[ly] = undefined"
+            >
+
+                <p
+                    class="kd_sheet_ui_row_tip"
+                    ng-if="currentUser.preferences.show_ui_tips"
+                >
+                    Click or tap again to hide these events.
+                </p>
+
+                <div
+                    class="kd worksheet_row"
+                    ng-repeat="line in settlementEventLog[ly] | orderBy:'$index':true"
+                    ng-class-even="'zebra'"
+                    ng-class="line.event_type"
+                >
+                    <span ng-bind-html="line.event|trustedHTML"></span>
+                </div>
+
+                <center
+                    id="eventLogLY{a ly a}Loader"
+                    class="font_small ng_fade"
+                    ng-if="!settlementEventLog[ly]"
+                >
+                    <img
+                        class="tiny_loader"
+                        src="/static/media/loading_lantern.gif"
+                    />
+                    Loading settlement event log...
+                </center>
+
+            </div> <!-- LY event log container -->
+
+        </div> <!-- LY clicker -->
+        
+    </div><!-- inner ring container -->
+
+</div><!-- modal-black -->

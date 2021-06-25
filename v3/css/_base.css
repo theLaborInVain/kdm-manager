@@ -1593,14 +1593,13 @@ h3.new_survivor_sheet {
 .timeline_ly_repeater.active {
     padding: 0.5rem 0 1rem 0;
 }
-.timeline_container .timeline_top_line {
-    border-bottom: 3px solid;
+.timeline_top_line {
+    border-bottom: 0.1rem solid;
     display: flex;
     flex-direction: row;
-    margin: 0 auto 1% auto;
-    width: 96%;
+    margin: 0.5rem auto auto auto;
 }
-.timeline_container .timeline_top_line div {
+.timeline_top_line div {
     margin-left: 1.7rem;
 }
 

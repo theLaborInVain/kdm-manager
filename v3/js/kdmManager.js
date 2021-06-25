@@ -867,7 +867,7 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
 
                     // finish initializing the settlement
                     $rootScope.hideControls = false; 
-                    $scope.postJSONtoAPI('settlement', 'set_last_accessed', {}, false, false, false);
+//                    $scope.postJSONtoAPI('settlement', 'set_last_accessed', {}, false, false, false);
 
                     console.timeEnd('initializeSettlement()');
 

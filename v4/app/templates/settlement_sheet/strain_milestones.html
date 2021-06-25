@@ -23,6 +23,11 @@
             ng-repeat="m in settlement.game_assets.strain_milestones"
             ng-click="
                 toggleArrayItem(settlement.sheet.strain_milestones, m.handle);
+                postJSONtoAPI(
+                    'settlement', 'set_strain_milestones', settlement.sheet._id.$oid,
+                    {'strain_milestones': settlement.sheet.strain_milestones},
+                    false, true, false
+                );
             "
             ng-class="
                 {active: settlement.sheet.strain_milestones.includes(m.handle)}
@@ -32,10 +37,13 @@
 
                 <div
                     class="kd checkbox"
-                    ng-class="{
-                        checked: settlement.sheet.strain_milestones.indexOf(m.handle) != -1
-                    }"
+                    ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) === -1"
                 ></div>
+                <div
+                    ng-if="settlement.sheet.strain_milestones.indexOf(m.handle) !== -1"
+                >
+                   <b> &#128917;  </b>
+                </div>
 
                 <div class="kd checkbox_desc">
                     <b>{a m.name a} </b>

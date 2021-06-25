@@ -119,6 +119,17 @@
 					icon: '&#9776;',
 		        },
 		        {
+		            id: 2,
+		            name: 'Timeline',
+					icon: '&#10711;',
+		        },
+		        {
+		            id: 3,
+		            name: 'Event Log',
+                    font: 'kdm_font',
+					icon: 'g',
+		        },
+		        {
 		            id: 6,
 		            name: 'Admin',
                 	icon: '&#8943;',
@@ -154,17 +165,6 @@
     >
         <div class="silverado">E</div>
         <div class="font_small">Expansions</div>
-    </div>
-
-    <div
-        class="v4_nav_folder clickable"
-        ng-click="
-            ngShow('timelineControls');
-            ngNavController.active = undefined;
-        "
-    >
-        &#10711;
-        <div class="font_small">Timeline</div>
     </div>
 
     <div
@@ -283,7 +283,6 @@
 
 <!-- settlement templates -->
 {% include 'expansion_content_controls.html' %}
-{% include 'timeline.html' %}
 
 <!-- control templates -->
 {%  include 'errors/report_error.html' %}

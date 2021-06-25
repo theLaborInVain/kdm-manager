@@ -2,45 +2,28 @@
 
 app.controller("settlementSheetController", function($scope, $rootScope, $http) {
 
-    $scope.setSettlementAttribute = function(attribName) {
-        // generic setter for settlement attributes; posts the current value of
-        // the attrib back to the API
 
-        var jsonObject = {};
-        jsonObject[attribName] = $scope.settlement.sheet[attribName];
-   
-        $scope.postJSONtoAPI(
-            'settlement',
-            'set_milestones',
-            $scope.settlement.sheet._id.$oid,
-            jsonObject,
-            false,
-            true,
-            true,
-        );
+    $scope.loadSettlementEventLogLy = function(ly, destinationObj) {
+        // sets $scope.settlementEventLog; don't call this on settlement init:
+        // it's a bit of a fatty, in terms of API response
 
-    };
+        var reqUrl = $rootScope.APIURL + 'settlement/get_event_log' + '/' + $scope.settlement.sheet._id.$oid;
+        console.time(reqUrl);
 
-    $scope.loadSettlementMacros = function() {
-        // sets $scope.settlementMacros based on values from the API
+        var promise = $http.post(reqUrl, {'ly': ly}, $rootScope.CONFIG);
 
-        var reqURL = $rootScope.APIURL + 'game_assets/macros';
-        console.time(reqURL);
-
-        $http({
-            method:'GET',
-            url: reqURL,
-        }).then(
-            function(payload) {
-                $scope.settlementMacros = payload.data;
-				console.timeEnd(reqURL);
+        promise.then(
+            function successCallback(response) {
+                console.timeEnd(reqUrl);
+                destinationObj[ly] = response.data;
             },
-                function(errorPayload) {
-                console.error("Failed to retrieve and set macros!");
-                console.error(errorPayload);
-				console.timeEnd(reqURL);
+            function errorCallback(response) {
+                console.error('Unable to retrieve settlement event log!');
+                console.error(response);
+                console.timeEnd(reqUrl);
             }
         );
+
     };
 
 }); // settlementSheetController ends
