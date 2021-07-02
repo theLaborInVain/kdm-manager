@@ -158,7 +158,7 @@
 
     <button
         class="kd_kickstarter_button floating_close_modal_button"
-        ng-click="showHide('modalTimelineContainer')"
+        ng-click="ngHide('modalTimelineContainer')"
     >
         Close
     </button>
@@ -366,7 +366,7 @@
         <div class="kd_kickstarter_button_raft">
             <button
                 class="kd_kickstarter_button kd_blue"
-                ng-click="updateLanternYear(ly); showHide(modalControlID)"
+                ng-click="updateLanternYear(ly); ngShowHide(modalControlID)"
             >
                 Save Changes to LY {{ly.year}}
             </button>

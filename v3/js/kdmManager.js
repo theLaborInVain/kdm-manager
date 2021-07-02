@@ -8,7 +8,7 @@ function rollUp(e_id) {
 
 function showHide(e_id, force) {
     console.error('The public showHide() method is deprecated and removed in version 4!');
-    console.error("showHide('" + e_id + "') will lose support in March 2021!");
+    console.error("showHide('" + e_id + "') lost full support March 2021!");
 
     var e = document.getElementById(e_id);
     var hide_class = "hidden";

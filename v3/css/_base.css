@@ -1598,6 +1598,7 @@ h3.new_survivor_sheet {
     display: flex;
     flex-direction: row;
     margin: 0.5rem auto auto auto;
+    width: 100%;
 }
 .timeline_top_line div {
     margin-left: 1.7rem;

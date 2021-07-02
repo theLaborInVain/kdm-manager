@@ -73,7 +73,7 @@
         id="bulkAddOpenerButton"
         ng-if="settlement.sheet !== undefined"
         ng-click="
-            showHide('modalBulkAdd');
+            ngShow('modalBulkAdd');
             closeLeftSideNav();
         "
         ng-disabled="user.user.subscriber.level < 2"
@@ -127,7 +127,7 @@
         ng-if="user_is_settlement_admin && new_settlement_assets != undefined"
         class="visible"
         ng-click="
-            showHide('modalExpansionsManager');
+            ngShow('modalExpansionsManager');
             closeLeftSideNav();
         "
     >
@@ -138,7 +138,7 @@
         id="timelineOpenerButton"
         class="hidden"
         ng-click="
-            showHide('modalTimelineContainer');
+            ngShow('modalTimelineContainer');
             closeLeftSideNav();
         "
     >
@@ -149,7 +149,7 @@
         id="eventLogOpenerButton"
         class="hidden"
         ng-click="
-            ngShowHide('eventLogContainer');
+            ngShow('eventLogContainer');
             closeLeftSideNav();
         "
     >
@@ -211,7 +211,10 @@
 
 
     <button
-        ng-click="showHide('helpModal'); closeLeftSideNav()"
+        ng-click="
+            ngShow('helpModal');
+            closeLeftSideNav()
+        "
     >
         Help!
     </button>
