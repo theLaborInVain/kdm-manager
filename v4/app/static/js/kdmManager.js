@@ -32,6 +32,28 @@ app.filter('attributeFilter', function() {
     };
 });
 
+// allows the use of contentEditable divs as text inputs
+app.directive("contenteditable", function() {
+  return {
+    restrict: "A",
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+
+      function read() {
+        ngModel.$setViewValue(element.html());
+      }
+
+      ngModel.$render = function() {
+        element.html(ngModel.$viewValue || "");
+      };
+
+      element.bind("blur keyup change", function() {
+        scope.$apply(read);
+      });
+    }
+  };
+});
+
 app.controller('rootScopeController', function($scope, $rootScope, $http, $timeout) {
 
     // primary init starts here; auth/token methods follow
@@ -406,8 +428,9 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     }
     $rootScope.ngRoll = function(activeElementId, rollGroup=[]) {
         // the preferred roll-up/roll-down method; this toggles roll status of
-        // 'e_id' and rolls down all the members of 'rollGroup', which should be
-        // a list
+        // 'e_id' and rolls up all the members of 'rollGroup', which should be
+        // a list. The idea here is that one element is the focus, and the
+        // others are hidden 
 
         if (rollGroup === []) {
             console.warn("ngRoll() -> 'rollGroup' list is empty!");
@@ -438,6 +461,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     //  browsing and navigation helpers
     //
     $rootScope.loadURL = function(destination) {
+        console.warn('Refactor code to use loadUrl() instead!');
+        $rootScope.loadUrl(destination);
+    };
+    $rootScope.loadUrl = function(destination) {
        // allows us to use ng-click to re-direct to URLs
         window.location = destination;
     };
@@ -543,29 +570,39 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 		promise.then(
 			function successCallback(response) {
 //                console.warn('reinit: ' + reinit + ', showAlert: ' + showAlert + ', updateSheet: ' + updateSheet);
-                if (reinit) { $rootScope.initializeSettlement(objectOid) };
+                if (reinit) { $rootScope.initializeSettlement($scope.settlement.sheet._id.$oid) };
 				if (showAlert) { $rootScope.flashCapsuleAlert('Saved') };
                 if (updateSheet) { $scope.settlement.sheet = response.data.sheet };
 				console.timeEnd(endpoint);
 			},
 			function errorCallback(response) {
+
+                $rootScope.flashCapsuleAlert('Error');
+
                 // revert the sheet on failure
                 console.error('postJSONtoAPI() failed! Re-initializing...');
-                $rootScope.initializeSettlement(objectOid);
+                $rootScope.initializeSettlement($scope.settlement.sheet._id.$oid);
 
                 // show the error, end the call
                 if (response.data) {
                     console.error(response.data);
+                    // hand-off 403's to the alerter when a user isn't allowed to
+                    //  make changes to the settlement
+                    if (response.status === 403) {
+                        $rootScope.ngShow('accessDeniedModal');
+                    } else {
+                        $rootScope.ngShow('apiErrorModal');
+                        $rootScope.apiError = {
+                            'status': response.status,
+                            'response': response.data,
+                        };
+                    };
+
                 } else {
                     console.error(response);
                 };
 				console.timeEnd(endpoint);
 
-                // hand-off 403's to the alerter when a user isn't allowed to
-                //  make changes to the settlement
-                if (response.status === 403) {
-                    $rootScope.ngShow('accessDeniedModal');
-                }
 			}	
 		);
 

@@ -8,13 +8,18 @@
     <div id="settlementSheetLeftColumn">
 
         <div
-            id="settlementName"
             contentEditable="true"
             class="settlement_name"
-            ng-model="scratch.newSettlementName"
+            ng-model="settlement.sheet.name"
             ng-placeholder="Settlement Name"
-            ng-blur="setSettlementName()"
             title="Tap or click to edit settlement name!"
+            ng-blur="
+                postJSONtoAPI(
+                    'settlement', 'set_name', settlement.sheet._id.$oid,
+                    {'name': settlement.sheet.name},
+                    false, true, false
+                );
+            "
         >
             {a settlement.sheet.name a}
         </div>
@@ -28,10 +33,11 @@
         </p>
 
         <h1
+            id="settlementSheetAbandonedStamp"
             ng-if="settlement && settlement.sheet.abandoned"
             class="settlement_abandoned_stamp"
         >
-            ABANDONED
+            LOST
         </h1>
 
 

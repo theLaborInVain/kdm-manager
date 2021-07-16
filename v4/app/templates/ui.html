@@ -53,10 +53,73 @@
 <!--
 	START errors
 -->
+<div
+    id="apiErrorModal"
+    class="hidden ng_fadeout modal error"
+    ng-if="ngVisible['apiErrorModal']"
+    ng-click="ngHide('apiErrorModal')"
+>
+
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+        <div
+            class="corner_close_modal"
+            ng-click="ngHide('apiErrorModal')"
+        >
+        </div>
+        
+        <h3 class="kd title">Error {a apiError.status a}</h3>
+
+        <div class="kd worksheet_row lined ">{a apiError.response a}</div>
+
+        <p>
+            If you would like to report this error, there are
+            a number of options:
+        </p>
+        
+        <div class="kd worksheet_row">
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">
+                Use the button below to report the error directly.
+            </div>
+        </div>
+        <div class="kd worksheet_row">
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">
+                If you use GitHub, you may  
+                <a href="https://github.com/theLaborInVain/kdm-manager/issues">
+                 log the issue there</a>.
+            </div>
+        </div>
+
+        <p>
+            Otherwise, click the "Continue..." button to return to the Manager.
+        </p>
+
+        <button
+            class="kd capsule pink full_width"
+            ng-click="
+                ngHide('apiErrorModal');
+                ngShow('modalReportError');
+            "
+        >
+            Report
+        </button>
+
+        <button
+            class="kd capsule full_width"
+            ng-click="ngHide('apiErrorModal')"
+        >
+            Continue...
+        </button>
+
+    </div>
+
+</div>
+
 
 <div
     id="accessDeniedModal"
-    class="hidden ng_fadeout modal"
+    class="hidden ng_fadeout modal error"
     ng-if="ngVisible['accessDeniedModal']"
     ng-click="ngHide('accessDeniedModal')"
 >
@@ -73,11 +136,8 @@
         <p>
             If you did not create this settlement, <b>you may not update
             the settlement sheet or any survivors that you did not create</b>.
-            To change this, ask the settlement's creator to make you an
-            <i>admin</i>.
-        </p>
-        <p>
-            (They can do from the Settlement Administration controls.)
+            To change this, ask the settlement's creator to make you a
+            <i>Settlement Administrator</i>.
         </p>
         <p>
             Otherwise, if you believe you are receiving this message in error,

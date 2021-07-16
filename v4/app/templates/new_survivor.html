@@ -4,7 +4,7 @@
     ng-if="ngVisible['newSurvivorModal']"
     ng-init="
         ngShow('newSurvivorCreationControls');
-        newSurvivor = {};
+        newSurvivorObject = {};
     "
 >
 
@@ -84,38 +84,42 @@
         >
 
             <div
-                id="newSurvivorName"
-                class="kd worksheet_row "
+                class="kd worksheet_row lined font_large silverado"
                 ng-blur="setNewSurvivorName()"
+                ng-model="newSurvivorObject.newSurvivorName"
                 contentEditable="true"
                 placeholder="Name"
             />
             </div>
 
-            <div
-                class="clickable kd_sheet_ui_row_toggle_box right_align"
-                ng-click="toggleSex()"
+            <h3 class="kd title">Sex</h3>
+            <select
+                class="kd capsule full_width"
+                ng-init="
+                    sexOptions = [
+                        {'name': 'Male', 'value': 'M'},
+                        {'name': 'Female', 'value': 'F'},
+                        {'name': 'Random', 'value': 'R'},
+                    ];
+                    newSurvivorObject.newSurvivorSex = 'R';
+                "
+                ng-model="newSurvivorObject.newSurvivorSex"
+                ng-options="sex.value as sex.name for sex in sexOptions"
             >
-               M <div class="kd_sheet_ui_box" ng-class="{checked: newSurvivorObject.newSurvivorSex == 'M'}"></div>
-               F <div class="kd_sheet_ui_box" ng-class="{checked: newSurvivorObject.newSurvivorSex == 'F'}"></div>
-               ? <div class="kd_sheet_ui_box" ng-class="{checked: newSurvivorObject.newSurvivorSex == 'R'}"></div>
+            </select>
+
+
+            <h3 class="kd title">Survivor Avatar</h3>
+            <div class="kd worksheet_row lined">
+                <input
+                    id="newSurvivorAvatarInput"
+                    type="file"
+                    class="new_survivor_avatar"
+                    accept="image/*"
+                    custom-on-change="setAvatar"
+                />
             </div>
 
-            <div>
-
-                <h3 class="kd title">Survivor Avatar</h3>
-
-                <div class="kd worksheet_row">
-                    <input
-                        id="newSurvivorAvatarInput"
-                        type="file"
-                        class="new_survivor_avatar"
-                        accept="image/*"
-                        custom-on-change="setAvatar"
-                    />
-                </div>
-
-            </div>
 
             <div
                 ng-if="
@@ -202,83 +206,75 @@
             </div><!-- parent_selector -->
 
             <!-- access -->
-            <div id="newSurvivorAccess">
+            <h3 class="kd title">Access</h3>
+            <p
+                class="kd_sheet_ui_row_tip"
+                ng-if="currentUser.preferences.show_ui_tips"
+            >
+                Enter the email address of the registered user who will be
+                responsible for the new survivor.
+            </p>
 
-                <h3 class="kd title">Access</h3>
+            <input
+                type="email"
+                class="capsule yellow full_width"
+                ng-model="newSurvivorObject.newSurvivorEmail"
+                placeholder="email"
+                onclick="this.select()"
+                ng-value="currentUser.login"
+            />
 
-                <p
-                    class="kd_sheet_ui_row_tip"
-                    ng-if="currentUser.preferences.show_ui_tips"
-                >
-                    Enter the email address of the registered user who will be
-                    responsible for the new survivor.
-                </p>
+            <p
+                class="kd_sheet_ui_row_tip"
+                ng-if="currentUser.preferences.show_ui_tips"
+            >
+                Check the box below to mark this survivor <b>Public</b>,
+                which will allow any player in the campaign to manage
+                this survivor.
+            </p>
 
-                <div class="kd worksheet_row">
-                    <input
-                        type="email"
-                        class="font_large capsule full_width"
-                        ng-model="newSurvivorObject.newSurvivorEmail"
-                        placeholder="email"
-                        onclick="this.select()"
-                        ng-value="currentUser.login"
-                    />
-                </div>
-
-                <p
-                    class="kd_sheet_ui_row_tip"
-                    ng-if="currentUser.preferences.show_ui_tips"
-                >
-                    Check the box below to mark this survivor <b>Public</b>,
-                    which will allow any player in the campaign to manage
-                    this survivor.
-                </p>
-
+            <div
+                class="kd worksheet_row"
+                ng-click="
+                    newSurvivorObject.newSurvivorPublic = !newSurvivorObject.newSurvivorPublic
+                "
+            >
                 <div
-                    class="kd worksheet_row"
-                    ng-click="
-                        newSurvivorObject.newSurvivorPublic = !newSurvivorObject.newSurvivorPublic
-                    "
+                    class="kd checkbox"
+                    ng-class="{'checked': newSurvivorObject.newSurvivorPublic}"
                 >
-                    <div
-                        class="kd checkbox"
-                        ng-class="{'checked': newSurvivorObject.newSurvivorPublic}"
-                    >
-                    </div>
-                    <div class="kd checkbox_desc">
-                        Public
-                    </div>
                 </div>
+                <div class="kd checkbox_desc">
+                    Public
+                </div>
+            </div>
 
-            </div> <!-- newSurvivorAccess -->
 
-            <div class="kd worksheet_row">
-                <button
-                    class="kd capsule blue"
-                    ng-disabled="!newSurvivorObject.newSurvivorEmail"
-                    ng-click="
-                        createNewSurvivor();
-                        ngHide('newSurvivorCreationControls');
-                        ngShow('newSurvivorCreateAnotherButton');
-                    "
-                >
-                    Create {a newSurvivorObject.newSurvivorName a}
-                </button>
+            <button
+                class="kd capsule blue full_width"
+                ng-disabled="!newSurvivorObject.newSurvivorEmail"
+                ng-click="
+                    createNewSurvivor();
+                    ngHide('newSurvivorCreationControls');
+                    ngShow('newSurvivorCreateAnotherButton');
+                "
+            >
+                Create {a newSurvivorObject.newSurvivorName a}
+            </button>
 
-                <button
-                    id="newSurvivorCreateAnotherButton"
-                    class="kd capsule blue full_width"
-                    ng-if="
-                        newSurvivorObject.newSurvivorsCreated > 0
-                    "
-                    ng-click="
-                        ngShow('newSurvivorCreationControls');
-                        ngHide('newSurvivorCreateAnotherButton')
-                    "
-                >
-                    Create another!
-                </button>
-            </div> <!-- worksheet row that holds the 'create' buttons -->
+            <button
+                id="newSurvivorCreateAnotherButton"
+                class="kd capsule blue full_width"
+                ng-if="
+                    newSurvivorObject.newSurvivorsCreated > 0
+                "
+                ng-click="
+                    ngShow('newSurvivorCreationControls');
+                    ngHide('newSurvivorCreateAnotherButton')
+                "
+            >
+                Create another!
+            </button>
 
         </div><!-- kd_sheet_ui_inner_ring_container newSurvivorCreationControls -->
 

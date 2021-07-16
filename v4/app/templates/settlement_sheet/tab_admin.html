@@ -12,56 +12,199 @@
             Version
         </div>
 
-        <p>
+        <p ng-if="currentUser.preferences.show_ui_tips">
             Change the version of <i>Monster</i> game assets and rules that
             are used by this settlement.
         </p>
-        <p
-            ng-if="
-                user.user.preferences.show_ui_tips
-            "
-        >
+        <p ng-if="currentUser.preferences.show_ui_tips">
             Changing this <b>will not</b> alter settlement or survivor data!
         </p>
         <select
-            class="kd_kickstarter_select"
+            class="kd capsule yellow full_width"
             ng-disabled="
-                {{current_user.subscriber.level}} < 2
-                && '{{current_user.preferences.beta}}' !== 'True'
+                currentUser.subscriber.level < 2
+                && currentUser.preferences.beta !== 'True'
             "
             ng-model="settlement.sheet.version"
             ng-options="
                 version.handle as version.version + ' - ' + version.released_summary for version in settlement.game_assets.versions
             "
-            ng-change="setVersion()"
+            ng-change="
+                postJSONtoAPI(
+                    'settlement', 'set_version', settlement.sheet._id.$oid,
+                    {'version': settlement.sheet.version},
+                    false, true, false
+                );
+            "
             ng-selected="settlement.sheet.version"
         >
         </select>
 
     </div> <!-- set version -->
 
+    <!-- settlement players/admins -->
+    <div
+        class="kd worksheet_block"
+    >
+        <div class="kd worksheet_block_title">
+            Players
+        </div>
+
+        <p ng-if="currentUser.preferences.show_ui_tips">
+            Any player can add new players to the settlement by updating the
+            email address on any Survivor Sheet belonging to the settlement.
+        </p>
+
+        <div
+            ng-repeat="player in settlement.user_assets.players"
+            ng-if="!player.settlement_admin"
+            ng-click="ngShow('playerAdmin' + player._id.$oid)"
+            class="clickable kd worksheet_row"
+        >
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">
+                {a player.login a}
+            </div>
+        </div>
+
+        <p
+            ng-if="
+                currentUser.preferences.show_ui_tips &&
+                currentUser.friends.length > 0;
+            "
+        >
+            If you are already friends with another
+            user of the Manager, you may add them using the buttons below.
+        </p>
+
+        {a currentUser.friends a}
+
+        <div class="kd worksheet_block_title">
+            Administrators
+        </div>
+        <p ng-if="currentUser.preferences.show_ui_tips">
+            Settlement administrators may update the Settlement Sheet and have
+            the ability to manage all Survivor Sheets. They may also add other
+            administrators and remove players.
+        </p>
+
+        <div
+            ng-repeat="player in settlement.user_assets.players"
+            ng-if="player.settlement_admin"
+            class="clickable kd worksheet_row"
+            ng-click="ngShow('playerAdmin' + player._id.$oid)"
+        >
+            <div class="kd checkbox checked" ng-class="{'red': player.settlement_founder}"></div>
+            <div class="kd checkbox_desc" ng-class="{'red_text': player.settlement_founder}">
+                {a player.login a}
+            </div>
+        </div>
+
+        <!--
+
+            Player management modal 
+
+        -->
+        <div
+            class="hidden modal"
+            id="{a 'playerAdmin' + player._id.$oid a}"
+            ng-repeat="player in settlement.user_assets.players"
+            ng-if="ngVisible['playerAdmin' + player._id.$oid]"
+            ng-click="ngHide('playerAdmin' + player._id.$oid)"
+        >
+            <div class="modal-content" ng-click="$event.stopPropagation()">
+
+                <div
+                    class="corner_close_modal"
+                    ng-click="ngHide('playerAdmin' + player._id.$oid)"
+                >
+                </div>
+
+                <h3 class="kd title">{a player.login a}</h3>
+
+                <p ng-if="player.settlement_founder">
+                    {a player.login a} is the settlement's founder! Among other
+                    things, this means that they are always a settlement 
+                    administrator, no matter what.
+                </p>
+
+                <div class="kd worksheet_block" ng-if="!player.settlement_founder">
+
+                    <div class="kd worksheet_block_title">
+                        Permissions
+                    </div>
+
+                    <div
+                        class="clickable kd worksheet_row"
+                        ng-click="
+                            ngHide('playerAdmin' + player._id.$oid);
+                            ngShow('fullPageLoader');
+                            toggleArrayItem(settlement.sheet.admins, player.login);
+                            postJSONtoAPI(
+                                'settlement', 'set_admins', settlement.sheet._id.$oid,
+                                {'admins': settlement.sheet.admins},
+                                true, true, true
+                            );
+                        "
+                    >
+                        <div
+                            class="kd checkbox"
+                            ng-class="{'checked': player.settlement_admin}"
+                        >
+                        </div>
+                        <div class="kd checkbox_desc">Administrator</div>
+                    </div>
+                </div>
+
+                <div ng-if="!player.settlement_founder"> 
+                    <p ng-if="currentUser.preferences.show_ui_tips">
+                        Use the button below to remove {a player.login a} from the
+                        settlement. This <i>cannot be undone</i> and will cause all
+                        survivors they own to revert to the settlement's founder.
+                    </p>
+                    <button
+                        class="kd capsule pink"
+                        ng-click = "
+                            ngHide('playerAdmin' + player._id.$oid);
+                            ngShow('fullPageLoader');
+                            postJSONtoAPI(
+                                'settlement', 'rm_player', settlement.sheet._id.$oid,
+                                {'login': player.login},
+                                true, true, true
+                            );
+                        "
+                    >
+                        Remove player
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
     <!-- MACROS -->
     <div
         class="kd worksheet_block"
-        ng-if="settlementMacros"
+        ng-if="kingdomDeath.macros"
         ng-class="{
-            'disabled': {{current_user.subscriber.level}} === 0,
+            'disabled': currentUser.subscriber.level === 0,
         }"
-        ng-disabled="{{current_user.subscriber.level}} < 2"
+        ng-disabled="currentUser.subscriber.level < 2"
     >
 
         <div class="kd worksheet_block_title">
             Macros
         </div>
 
-        <p>
+        <p ng-if="currentUser.preferences.show_ui_tips">
             Settlement sheet macros allow you to perform complex settlement
             updates automatically! Tap or click a macro below to review the
             operations it performs.
         </p>
 
         <div
-            ng-repeat="macro in settlementMacros"
+            ng-repeat="macro in kingdomDeath.macros"
             ng-init="macroControlsId = macro.handle + 'ControlsDiv'"
         >
             <button
@@ -74,6 +217,7 @@
             <div
                 id="{a macroControlsId a}"
                 class="hidden modal"
+                ng-if="ngVisible[macroControlsId]"
                 ng-click="ngHide(macroControlsId)"
             >
 
@@ -109,20 +253,23 @@
                     </div>
 
                     <div
-                        class="kd rulebook_warning pink"
-                        ng-if="macro.new_settlement"
+                        class="kd rulebook_warning full_width pink"
+                        ng-if="macro.warning"
+                        ng-bind-html="macro.warning|trustedHTML"
                     >
-                        This macro was intended to be applied to new
-                        settlements at creation time! Apply this macro
-                        at your own risk...
                     </div>
 
                     <div class="modal_content_button_raft">
                         <button
                             class="kd capsule full_width blue"
                             ng-click="
+                                ngShow('fullPageLoader');
                                 ngHide(macroControlsId);
-                                applyMacro(macro.handle);
+                                postJSONtoAPI(
+                                    'settlement', 'apply_macro', settlement.sheet._id.$oid,
+                                    {'handle': macro.handle},
+                                    true, true, false
+                                );
                             "
                         >
                             Apply macro
@@ -135,11 +282,9 @@
                         </button>
                     </div>
 
-                </div>
-            </div>
-
-        </div>
-
+                </div> <!-- macro controls modal inner -->
+            </div><!-- macro controls modal outer -->
+        </div><!-- macro repeater -->
     </div> <!-- MACROS -->
 
 
@@ -155,7 +300,7 @@
         <p
             ng-if="settlement.sheet.abandoned !== undefined"
         >
-            Use the button below to remove the 'abandoned' status from
+            Use the button below to remove the 'Lost' status from
             <b>{a settlement.sheet.name a}</b>; this will cause it to appear
             on your dashboard and function normally again.
         </p>
@@ -163,20 +308,26 @@
             ng-if="settlement.sheet.abandoned === undefined"
         >
             Use the button below to mark <b>{a settlement.sheet.name a}</b>
-            as "Abandoned" and prevent it from showing up on your
-            KDM-Manager dashboard.
+            as "Lost".
         </p>
         <p
             ng-if="settlement.sheet.abandoned === undefined"
         >
-            Abandoning a settlement <i>does not</i> remove it from the
-            system. Abandoned settlements <i>may</i> be accessed and
-            updated normally.
+            Marking a settlement 'Lost' <i>does not</i> remove it from the
+            system. Lost settlements may be accessed and
+            updated normally. If they belong to a campaign, the settlement will
+            be included in the campaign's 'Lost Settlements'.
         </p>
 
         <button
             class="kd capsule full_width pink"
-            ng-click="abandonSettlement()"
+            ng-click="
+                postJSONtoAPI(
+                    'settlement', 'abandon', settlement.sheet._id.$oid,
+                    {},
+                    false, true, true
+                );
+            "
             ng-if="settlement.sheet.abandoned === undefined"
         >
             Abandon Settlement
@@ -184,8 +335,14 @@
 
         <button
             class="kd capsule full_width pink"
-            ng-click="abandonSettlement('UNSET')"
             ng-if="settlement.sheet.abandoned !== undefined"
+            ng-click="
+                postJSONtoAPI(
+                    'settlement', 'abandon', settlement.sheet._id.$oid,
+                    {'value': 'UNSET'},
+                    false, true, true
+                );
+            "
         >
             Un-abandon Settlement
         </button>
@@ -196,7 +353,7 @@
     <!-- REMOVE -->
     <div
         class="kd worksheet_block"
-        ng-if="'{{current_user.preferences.show_remove_button}}' == 'True'"
+        ng-if="currentUser.preferences.show_remove_button"
     >
         <div class="kd worksheet_block_title kd_red_text">
             Delete Settlement
@@ -215,23 +372,24 @@
             <b>This cannot be undone.</b>
         </p>
         <button
-            class="kd capsule full_width pink"
-            ng-click="showHide('removeSettlementConfirmation')"
+            class="kd capsule full_width red"
+            ng-click="ngShow('removeSettlementConfirmation')"
         >
-            Delete Settlement
+            DELETE
         </button>
     </div>
     <div
         id="removeSettlementConfirmation"
-        class="modal-black hidden"
+        class="hidden modal-black"
         ng-click="ngHide('removeSettlementConfirmation')"
+        ng-if="ngVisible['removeSettlementConfirmation']"
     >
         <div
             class="modal-content rm_asset_confirm_container kd_red"
             ng-click="$event.stopPropagation()"
         >
 
-            <h3>DELETE SETTLEMENT</h3>
+            <h3 class="kd title">DELETE SETTLEMENT</h3>
 
             <p>
                 This CANNOT BE UNDONE and is not the same as marking the
@@ -253,25 +411,28 @@
 
             <input
                 type="text"
-                class="confirm_remove"
+                class="kd capsule full_width font_large"
                 ng-model="scratch.confirmRemove"
                 placeholder="DELETE"
             />
 
             <button
-                class="ng_fade kd_kickstarter_button kd_pink"
+                class="ng_fade kd capsule red full_width"
                 ng-if="scratch.confirmRemove === 'DELETE'"
                 ng-click="
-                    showFullPageLoader();
-                    showHide('removeSettlementConfirmation');
-                    removeSettlement();
-                    postForm('change_view','dashboard');
+                    ngShow('fullPageLoader');
+                    postJSONtoAPI(
+                        'settlement', 'remove', settlement.sheet._id.$oid,
+                        {},
+                        false, true, true
+                    );
+                    loadUrl('/')
                 "
             >
-                Delete Settlement
+                DELETE SETTLEMENT
             </button>
             <button
-                class="ng_fade kd_kickstarter_button"
+                class="ng_fade kd capsule full_width"
                 ng-if="scratch.confirmRemove !== 'DELETE'"
                 ng-click="ngHide('removeSettlementConfirmation')"
             >

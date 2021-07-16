@@ -1153,6 +1153,7 @@ input[type="radio"].gear_lookup_attrib_toggle {
     display: flex;
     height: auto;
     left: 0;
+    max-width: 100vw; /* i.e. 100% of the viewport width */
     overflow: auto; 
     position: fixed;
     justify-content: center; 
@@ -1177,11 +1178,10 @@ input[type="radio"].gear_lookup_attrib_toggle {
     bottom: auto;
     box-shadow: var(--box-shadow-material-design);
     box-sizing: border-box;
-    margin: 1rem auto;
+    margin: 1rem auto 5rem auto;
     max-width: 95%; 
     height: min-content;
-    padding: 1rem;
-    padding-bottom: 2rem;
+    padding: 1rem 1rem 2rem 1rem;
 }
 .modal-content p {text-align: center; }
 .modal-content.warning {

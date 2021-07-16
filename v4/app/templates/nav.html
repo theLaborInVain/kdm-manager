@@ -34,13 +34,29 @@
         ];
     "
 >
-
     <div
         class="v4_nav_dir clickable"
         ng-click="loadURL('/dashboard')"
+        ng-if="VIEW !== 'settlement_sheet'"
     >
         &#8962;
     </div>
+
+    <div
+        class="v4_nav_dir clickable"
+        ng-if="VIEW === 'settlement_sheet'"
+        ng-click="
+            changeTab(0);
+            ngNavController.active = undefined;
+        "
+        ng-class="{
+            'disabled': !settlement,
+            'active': settlement && ngNavController.active === undefined && tabsObject.activeTab === 0,
+        }"
+    >
+        &#128463;
+    </div>
+
     <div
         ng-repeat="dir in navDirectories"
         ng-if="!dir.disabled"
@@ -81,21 +97,6 @@
     </div>
 
 -->
-<div
-    id="navCampaignSummaryDir"
-    ng-class="{'active': ngNavController.active === 'navCampaignSummaryDir'}"
-    class="v4_nav_directory"
->
-    <div
-        ng-if="VIEW !== campaign_summary"
-        class="v4_nav_folder clickable"
-        ng-click="loadURL('/campaign_summary/' + settlement.sheet._id.$oid)"
-    >
-        <div class="font_small">Campaign</div>
-        <div>&#9873;</div>
-        <div class="font_small">Summary</div>
-    </div>
-</div> <!-- navCampaignSummaryDir -->
 
 <div
     id="navSettlementSheetDir"
@@ -110,8 +111,7 @@
 		        {
         		    id: 0,
 		            name: 'Sheet',
-	                font: 'kdm_font_10',
-    	            icon: '&#9874;',
+    	            icon: '&#128463;',
 		        },
 		        {
 		            id: 1,
@@ -133,6 +133,7 @@
 		            id: 6,
 		            name: 'Admin',
                 	icon: '&#8943;',
+                    adminOnly: true,
 		        },
 			]
 		"
@@ -145,6 +146,7 @@
         ng-repeat="tab in tabsObject.tabs"
         id="{a 'settlementSheetTabButton-' + tab.id a}"
         ng-class="{
+            'hidden': tab.adminOnly && settlement.sheet.admins.indexOf(currentUser.login) < 0,
             'yellow_text': tabsObject.activeTab === tab.id,
         }"
         ng-click="
@@ -213,6 +215,7 @@
     </div>
     <div
         class="v4_nav_folder clickable"
+        ng-if="settlement.user_assets.survivors.length > 0"
         ng-click="
             ngNavController.active = undefined;
             $event.stopPropagation();
@@ -270,6 +273,14 @@
         <div class="font_small">New Settlement</div>
     </div>
 
+    <div
+        class="v4_nav_folder clickable"
+        ng-click="loadURL('/dashboard')"
+    >
+        <div>&#8962;</div>
+        <div class="font_small">Dashboard</div>
+    </div>
+
 </div> <!-- navControlsDir -->
 
 
@@ -278,7 +289,7 @@
 
 <!-- survivor templates -->
 {% include 'survivor_search.html' %}
-{% include 'survivor_sheet.html' %}
+{% include 'survivor_sheet/_base.html' %}
 {% include 'new_survivor.html' %}
 
 <!-- settlement templates -->

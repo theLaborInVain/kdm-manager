@@ -35,6 +35,7 @@ input[type=text], input[type=password]          {z-index: 50; }
 .modal                                      {z-index: 3005; }
 .modal-black                                {z-index: 3005; }
 .modal_control_overlay                      {z-index: 3006; }
+.modal.error                                {z-index: 3010; }
 .corner_loading_spinner                     {z-index: 5001; }
 .timeline_overlay_current_ly            {z-index: 10000; }
 

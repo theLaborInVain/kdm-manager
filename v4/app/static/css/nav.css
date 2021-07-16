@@ -22,7 +22,8 @@
     color: var(--color-kd-yellow); 
     background: var(--color-kd-death-grey);
 }
-.v4_nav_dir.disabled {
+.v4_nav_dir.disabled,
+    .v4_nav_folder.disabled {
     color: var(--color-kd-death-grey);
     cursor: not-allowed;
 }

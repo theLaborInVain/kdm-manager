@@ -29,6 +29,7 @@
                     name="body"
                     placeholder="Describe your issue here!"
                     ng-model="userErrorReportContent"
+                    ng-value="apiError.status + ' ' + apiError.response"
                 ></textarea>
                 <center
                     id="userErrorReportSubmitLoader"
@@ -39,7 +40,11 @@
                 </center>
                 <button
                     id="userErrorReportButton"
-                    class="kd capsule pink full_width"
+                    class="kd capsule full_width"
+                    ng-class="{
+                        'disabled': !userErrorReportContent,
+                        'pink': userErrorReportContent
+                    }"
                     ng-disabled="!userErrorReportContent"
                     ng-click="
                         ngHide('userErrorReportButton');
@@ -59,8 +64,7 @@
             ng-if="ngVisible['reportErrorConfirmation']"
         >
             <h3 class="kd title">Thank you</h3>
-            <p>Your report has been submitted successfully and you may close
-            this menu.</p>
+            <p>Your report has been submitted successfully.</p>
             <p>Thanks for using the Manager!</p>
         </div>
 
