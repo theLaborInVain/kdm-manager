@@ -18,6 +18,7 @@
         ng-repeat="jsonObj in [
             {'name': 'settlement', obj: settlement},
             {'name': 'kingdomDeath', obj: kingdomDeath},
+            {'name': 'currentUser', obj: currentUser},
         ]"
   	    ng-click="dumpJSONtoTab(jsonObj.obj)"
 	    ng-if="jsonObj.obj"

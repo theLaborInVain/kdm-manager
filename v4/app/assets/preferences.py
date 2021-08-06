@@ -62,6 +62,14 @@ OPTIONS = {
     },
 
     # interface
+    "show_dashboard_alerts": {
+        "type": "ui",
+        "desc": "Display webapp alerts on the Dashboard?",
+        "affirmative": "Show alerts",
+        "negative": "Hide alerts",
+        "subscriber_level": 2,
+        'default': True,
+    },
     "show_remove_button": {
         "type": "ui",
         "desc": "Show controls for removing Settlements and Survivors?",
@@ -75,13 +83,14 @@ OPTIONS = {
         "affirmative": "Show UI tips",
         "negative": "Hide UI tips",
         "subscriber_level": 2,
+        'default': True,
     },
-    "show_dashboard_alerts": {
+    "show_welcome_modal": {
         "type": "ui",
-        "desc": "Display webapp alerts on the Dashboard?",
-        "affirmative": "Show alerts",
-        "negative": "Hide alerts",
-        "subscriber_level": 2,
+        "desc": "Show the welcome modal on sign-in?",
+        "affirmative": "Show when I am not the creator of any settlements",
+        "negative": "Never show",
+        'default': True,
     },
 }
 

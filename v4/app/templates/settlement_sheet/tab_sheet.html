@@ -727,8 +727,8 @@
                 ng-disabled="!settlement.game_assets.locations_options"
                 ng_model="newLocation"
                 ng_change="
-                    settlement.game_assets.locations = undefined;
-                    settlement.sheet.innovations.push(newLocation);
+                    settlement.game_assets.locations_options = undefined;
+                    settlement.sheet.locations.push(newLocation);
                     postJSONtoAPI(
                         'settlement', 'add_location', settlement.sheet._id.$oid,
                         {'handle': newLocation},

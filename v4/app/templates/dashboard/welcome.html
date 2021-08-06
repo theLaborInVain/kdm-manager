@@ -1,6 +1,9 @@
 <span
     class="hidden"
-    ng-if="{{current_user.settlements_created}} === 0"
+    ng-if="
+        currentUser.settlements_created === 0 &&
+        currentUser.preferences.show_welcome_modal
+    "
     ng-init="ngShow('dashboardWelcomeModal')"
 >
 </span>
@@ -11,7 +14,7 @@
     ng-if="ngVisible['dashboardWelcomeModal']"
     ng-click="ngHide('dashboardWelcomeModal')"
 >
-    <div class="modal-content dashboard_welcome_modal">1
+    <div class="modal-content dashboard_welcome_modal">
         <p>
             Welcome to <b>{{APP_NAME}}</b>, {{APP_TAG}}
         </p>
@@ -50,12 +53,9 @@
             problems <b>will</b> occur! Please use the controls within the app
             to report errors/issues.
         </p>
-    </div>
 
-    <center>
-        <div class="kd pink rulebook_warning">
+        <div class="kd pink rulebook_warning full_width">
             Click or tap anywhere to get started!
         </div>
-    </center>
-
+    </div>
 </div>
