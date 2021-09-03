@@ -1,0 +1,73 @@
+<!-- locations -->
+<div
+    class="settlement_sheet_block_group"
+    title="Click or tap an item to remove it from this list."
+>
+
+    <h2 class="kd worksheet_page_title">Settlement Locations</h2>
+
+    <p>Locations in your settlement.</p>
+
+    <div
+        class="clickable kd worksheet_row lined hover_highlight_red"
+        ng-repeat="loc in settlement.sheet.locations"
+        ng-init="l_dict = kingdomDeath.locations[loc];"
+    >
+
+        <div class="kd checkbox checked"></div>
+
+        <div
+            class="kd checkbox_desc"
+            ng-click="
+                settlement.sheet.locations.splice($index, 1);
+                postJSONtoAPI(
+                    'settlement', 'rm_location', settlement.sheet._id.$oid,
+                    {'handle': l_dict.handle},
+                    false, true, true
+                );
+            "
+        >
+            {a l_dict.name a}
+        </div>
+
+        <span
+            ng-if="l_dict.levels !== undefined"
+            ng-init="locationLevel = (settlement.sheet.location_levels[loc]) || 1"
+            class="location_lvl_select"
+        >
+            <select
+                class="location_level"
+                ng-model="locationLevel"
+                ng-options="locationLevel as 'Lvl. '+ locationLevel for locationLevel in [1,2,3]"
+                ng-change="setLocationLevel(loc, locationLevel)"
+                ng-selected="locationLevel"
+            >
+            </select>
+        </span> <!-- optional levels controls -->
+
+    </div> <!-- line_item location_container: list/rm locations -->
+
+    <select
+        class="kd capsule full_width green"
+        ng-disabled="!settlement.game_assets.locations_options"
+        ng_model="newLocation"
+        ng_change="
+            settlement.game_assets.locations_options = undefined;
+            settlement.sheet.locations.push(newLocation);
+            postJSONtoAPI(
+                'settlement', 'add_location', settlement.sheet._id.$oid,
+                {'handle': newLocation},
+                true, true, false
+            );
+            newLocation = undefined;
+        "
+        ng-options="
+            loc.handle as loc.name disable
+            when settlement.sheet.locations.indexOf(loc.handle) !== -1
+            for loc in settlement.game_assets.locations_options
+        "
+    >
+        <option value="" disabled selected>Add Location</option>
+    </select>
+
+</div> <!-- settlement_sheet_block_group locations controller-->

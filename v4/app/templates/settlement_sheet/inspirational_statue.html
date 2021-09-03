@@ -1,0 +1,30 @@
+<!--
+
+    inspirational statue
+    
+-->
+
+<div
+    class="settlement_sheet_block_group"
+    ng-if="settlement.sheet.innovations.indexOf('sculpture') != -1"
+    title="Use these controls to manage your settlement's Inspirational Statue!"
+>
+    <h2 class="kd worksheet_page_title">Inspirational Statue</h2>
+
+    <p>A settlement can only have one Inspirational Statue.</p>
+
+    <select
+        class="kd capsule full_width"
+        ng-model="settlement.sheet.inspirational_statue"
+        ng-options="
+            fa_dict.handle as fa_dict.name
+            disable when fa_dict.select_disabled
+            for fa_dict in settlement.game_assets.inspirational_statue_options
+        "
+        ng-change="setInspirationalStatue()"
+        ng-selected="settlement.sheet.inspirational_statue"
+    >
+        <option disabled value="">Select a Fighting Art</option>
+    </select>
+
+</div>

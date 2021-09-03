@@ -1,0 +1,64 @@
+<!--
+
+    monster volumes 
+
+-->
+
+<div
+    class="settlement_sheet_block_group"
+    ng-if="settlement.sheet.innovations.indexOf('records') != -1"
+    title="Click or tap on an item to remove it from this list."
+>
+
+    <h2 class="kd worksheet_page_title">Monster Volumes</h2>
+
+    <p>There can be up to 3 volumes for each monster.</p>
+
+    <div
+        class="clickable kd worksheet_row lined hover_highlight_red"
+        ng-repeat="v in settlement.sheet.monster_volumes"
+    >
+
+        <div class="kd checkbox checked"></div>
+
+        <div
+            class="kd checkbox_desc"
+            ng-click="
+                settlement.sheet.monster_volumes.splice($index, 1);
+                settlement.game_assets.monster_volumes_options = undefined;
+                settlement.sheet.monster_volumes.push(newMonsterVolume);
+                postJSONtoAPI(
+                   'settlement', 'rm_monster_volume', settlement.sheet._id.$oid,
+                   {'name': v},
+                   true, true, false
+                );
+                newMonsterVolume = undefined;
+            "
+        >
+            {a v a}
+        </div>
+
+    </div>
+
+    <select
+        class="kd capsule full_width"
+        ng-disabled="!settlement.game_assets.monster_volumes_options"
+        ng-model="newMonsterVolume"
+        ng-options="m_string for m_string in settlement.game_assets.monster_volumes_options"
+        ng-change="
+            settlement.game_assets.monster_volumes_options = undefined;
+            settlement.sheet.monster_volumes.push(newMonsterVolume);
+            postJSONtoAPI(
+               'settlement', 'add_monster_volume', settlement.sheet._id.$oid,
+               {'name': newMonsterVolume},
+               true, true, false
+            );
+            newMonsterVolume = undefined;
+        "
+    >
+
+        <option disabled value="">Add a Monster Volume</option>
+
+    </select>
+
+</div>

@@ -81,30 +81,33 @@
 
     <div
         id="innovationDeckContainer"
-        class="innovation_deck kd_sheet_ui_border_box"
-        title="The current innovation deck for {a settlement.sheet.name a}. Tap or click to refresh!"
-        ng-if="settlement.sheet.innovations.length != 0"
-        ng-init="setInnovationDeck()"
+        class="kd_sheet_ui_border_box"
+        ng-if="
+            settlement.sheet.innovations.length > 0
+        "
     >
         <h3 class="kd title">Innovation Deck</h3>
 
         <div
-            id="innovationDeckSpinner"
-            class="ng_fade inline_spinner_container"
-            ng-if="ngVisible['innovationDeckSpinner']"
+            class="kd_sheet_ui_row_tip"
+            ng-if="currentUser.preferences.show_ui_tips"
+            ng-click="setInnovationDeck()"
         >
-            <img
-                src="/static/media/loading_io.gif"
-            />
-            <p>Refreshing Innovation Deck...</p>
+            Automatically updated when Innovations are added or removed.
+            Tap or click to refresh.
         </div>
 
         <ul
-            class="asset_deck clickable"
+            class="clickable settlement_sheet_innovation_deck"
             ng-click="setInnovationDeck()"
+            ng-if = "
+                settlement.game_assets.innovations_options !== undefined
+            "
+            ng-init="setInnovationDeck()"
         >
-            <li ng-repeat="(handle, dict) in innovation_deck"> {a dict['name'] a} </li>
+            <li ng-repeat="(handle, dict) in innovationDeck"> {a dict['name'] a} </li>
         </ul>
+
         <div
             class="innovation_quick_pick_container"
             ng-if="user.user.subscriber.level > 1"
@@ -112,7 +115,7 @@
             <button
                 id="innovationQuickPickLauncher"
                 class="kd_kickstarter_button kd_blue"
-                ng-if="innovation_deck != undefined"
+                ng-if="innovationDeck !== undefined"
                 ng-click="
                     ngShowHide('innovationQuickPickLauncher');
                     ngShowHide('innovationQuickPick')
@@ -126,9 +129,14 @@
                 id="innovationQuickPick"
                 class="innovation_quick_pick hidden"
             >
-                <div class="kd_sheet_ui_row_tip">
+
+                <div
+                    class="kd_sheet_ui_row_tip"
+                    ng-if="currentUser.preferences.show_ui_tips"
+                >
                     Click on an innovation below to add it to settlement innovations!
                 </div>
+
                 <div
                     class="clickable innovation_quick_pick_item card_gradient"
                     ng-repeat="h in innovationQuickPickOptions"
@@ -172,6 +180,16 @@
             </div>
         </div>
 
-    </div> <!-- innovation deck -->
+    </div> <!-- innovationDeckContainer -->
+
+    <div
+        class="ng_fade_in full_tab_spinner"
+        ng-if="!innovationDeck"
+    >
+        <img
+            src="/static/media/loading_io.gif"
+        />
+        <p>Refreshing Innovation Deck...</p>
+    </div>
 
 </div>

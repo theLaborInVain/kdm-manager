@@ -2511,8 +2511,11 @@ h3.new_survivor_sheet {
     margin: 3%; 
 }
 
+/*  Innovations controls */
 
-#innovationDeckContainer {margin-top: 10%; }
+#innovationDeckContainer {margin-top: 2rem; padding-bottom: 1rem; }
+.settlement_sheet_innovation_deck {columns: 2; }
+.settlement_sheet_innovation_deck li {list-style-type: square;}
 
 /*  principles */
 .settlement_sheet_principles_spinner_container {

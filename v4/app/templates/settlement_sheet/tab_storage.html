@@ -19,14 +19,17 @@
         <div
             class="storage_type_repeater"
             ng-repeat="s_type in settlementStorage"
-            ng-init="inventoryRollers = []"
+            ng-init="
+                storageInventoryRollers = [];
+                storageAssetRollers = []
+            "
         >
             <h3 class="font_large">
                 {a s_type.name a}<span ng-if="s_type.name==='Resource'">s</span>
                 <span
                     ng-if="s_type.total"
                 >
-                    ({a s_type.total a})
+                    - {a s_type.total a}
                 </span>
             </h3>
 
@@ -60,7 +63,7 @@
                 ng-repeat="loc in s_type.locations"
                 ng-init="
                     containerId = loc.handle + '_container';
-                    inventoryRollers.push(containerId)
+                    storageInventoryRollers.push(containerId)
                 "
                 ng-if="loc.collection.length > 0"
                 class="storage_modal_storage_location"
@@ -68,107 +71,161 @@
 
                 <!-- inventory section clickers -->
                 <div
-                    class="clickable kd worksheet_row"
+                    class="clickable kd worksheet_row principle lined"
                     ng-click="
-                        ngRoll(containerId, inventoryRollers);
+                        ngRoll(containerId, storageInventoryRollers);
                     "
                 >
-                    {a loc.name a}
-                    <span>
-                        ({a loc.inventory.length a})
+                    <span
+                        class="font_large silverado kd"
+                        ng-class="{
+                            'death_grey_text': loc.inventory.length === 0,
+                        }"
+                    >
+                        {a loc.name a}
+                    </span> 
+
+                    <span class="font_large silverado">
                     </span>
+
                     <span
                         class="roll_content_arrow"
                         ng-class="{'open': ngRolledUp[containerId] === false}"
                     >
                         &#x25BC;
                     </span>
+
                 </div>
 
-
+                <!-- roller for the location -->
                 <div
                     id="{a containerId a}"
                     class="roll_down_container rolled_up"
                     ng-class="{'rolled_down': ngRolledUp[containerId] === false}"
                 >
+
+                    <!-- repeater row for each asset, i.e. item/gear/etc. -->
                     <div
-                        class="inventory_row"
+                        class="kd"
                         ng-repeat="asset in loc.collection"
                         ng-init="
-                            detailId = asset.handle + '_detail';
-                            asset.flippers=false
+                            storageAssetRollerId = asset.handle + 'AssetRollerId';
+                            storageAssetRollers.push(storageAssetRollerId);
+                            flipperId = asset.handle + 'FlippersDiv';
+                            detailId = asset.handle + 'DetailDiv';
                         "
                         ng-class-even="'no_zebra'"
                         ng-class-odd="'zebra'"
                         ng-class="{
                             'zebra_pop': asset.quantity > 0,
-                            inventory_row_item_last:$last
+                            'yellow': ngRolledUp[storageAssetRollerId] === false,
+                            inventory_row_item_last: $last,
                         }"
                     >
+                        
+                        <!-- clicker -->
                         <div
-                            class="inventory_row_item_controls clickable"
                             ng-click="
-                                showHide(detailId);
-                                toggleFlippers(asset);
+                                ngRoll(storageAssetRollerId, storageAssetRollers);
                             "
+                            class="clickable kd worksheet_row justified"
                         >
                             <span class="name">
-                                {a asset.name a}
+                                &nbsp; {a asset.name a}
                             </span>
                             <span class="quantity">
-                                {a asset.quantity a}
+                                &nbsp; {a asset.quantity a}
                             </span>
-                        </div> <!-- controls -->
-
-
-                        <div
-                            class="flippers"
-                            ng-if="asset.flippers"
-                            ng-click="
-                                s_type.total = undefined;
-                                s_type.keywords = undefined;
-                            "
-                        >
-                            <button
-                                ng-click="
-                                    setStorage(asset, 1);
-                                    loc.inventory.push(asset.handle);
-                                "
-                            > + </button>
-                            <button
-                                ng-disabled="asset.quantity === 0"
-                                ng-click="
-                                    setStorage(asset, -1);
-                                    loc.inventory.splice(loc.inventory.indexOf(asset.handle), 1);
-                                "
-                            > - </button>
                         </div>
 
-                        <div id="{a detailId a}" class="hidden inventory_row_detail">
-                               &nbsp;
-                               <div class="inventory_row_detail_keywords">
-                                   <span ng-repeat="k in asset.keywords">
-                                       <i>{a k a}{a $last ? '' : ', ' a}</i>
-                                   </span>
-                               </div>
-                               <div class="inventory_row_detail_rules" ng-if="asset.rules.length >= 1">
-                                   <span ng-repeat="k in asset.rules track by $index">
-                                       <b>{a k a}</b>{a $last ? '' : ', ' a}
-                                   </span>
-                               </div>
-                               <span
-                                   ng-if="asset.desc != undefined"
-                                   class="inventory_row_detail_desc"
-                                   ng-bind-html="asset.desc|trustedHTML">
-                               </span>
-                           </div>
-                       </div>
-                   </div>
+                        <!-- detail roller -->
+                        <div
+                            id="{a storageAssetRollerId a}"
+                            class="roll_down_container rolled_up"
+                            ng-class="{
+                                'rolled_down': ngRolledUp[storageAssetRollerId] === false
+                            }"
+                        >
 
-               </div> <!-- storage_location -->
+                            <div class="dashboard_panel_card gear_card_gradient">
+                                &nbsp;
+                                <div class="inventory_row_detail_keywords">
+                                    <span ng-repeat="k in asset.keywords">
+                                        <i>{a k a}{a $last ? '' : ', ' a}</i>
+                                    </span>
+                                </div>
 
-           </div> <!-- storage_type -->
+                                <div class="inventory_row_detail_rules" ng-if="asset.rules.length >= 1">
+                                    <span ng-repeat="k in asset.rules track by $index">
+                                        <b>{a k a}</b>{a $last ? '' : ', ' a}
+                                    </span>
+                                </div>
 
-   </div> <!-- storage_modal container -->
+                                <span
+                                    ng-if="asset.desc != undefined"
+                                    class="inventory_row_detail_desc"
+                                    ng-bind-html="asset.desc|trustedHTML"
+                                >
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="kd worksheet_row"
+                                ng-click="
+                                    s_type.total = undefined;
+                                    s_type.keywords = undefined;
+                                "
+                            >
+
+                                <button
+                                    class="kd capsule blue"
+                                    ng-click="
+                                        loc.inventory.push(asset.handle);
+                                        asset.quantity = asset.quantity + 1;
+                                        postJSONtoAPI(
+                                            'settlement', 'set_storage', settlement.sheet._id.$oid,
+                                            {
+                                                'storage': [
+                                                    {'handle': asset.handle, 'value': asset.quantity},
+                                                ],
+                                            },
+                                            false, true, false
+                                        );
+                                    "
+                                > + </button>
+
+                                <button
+                                    class="kd capsule"
+                                    ng-disabled="asset.quantity === 0"
+                                    ng-class="{'pink': asset.quantity > 0}"
+                                    ng-click="
+                                        loc.inventory.splice(loc.inventory.indexOf(asset.handle), 1);
+                                        asset.quantity = asset.quantity - 1;
+                                        postJSONtoAPI(
+                                            'settlement', 'set_storage', settlement.sheet._id.$oid,
+                                            {
+                                                'storage': [
+                                                    {'handle': asset.handle, 'value': asset.quantity},
+                                                ],
+                                            },
+                                            false, true, false
+                                        );
+                                    "
+                                > - </button>
+
+                            </div>
+
+                        </div><!-- asset detail roller -->
+
+                    </div><!-- asset repeater -->
+
+                </div> <!-- location roller -->
+
+            </div> <!-- storage_location -->
+
+        </div> <!-- storage_type -->
+
+    </div> <!-- #editStorage ; storage_modal container -->
 
 </div> <!-- settlement sheet Storage tab ENDS here -->

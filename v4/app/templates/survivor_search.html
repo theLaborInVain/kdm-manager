@@ -1,7 +1,14 @@
+<!--
+
+    Survivor Search; new in v4 (based on/inspired by legacy)
+
+-->
+
 <div
     class="modal hidden"
     id="survivorSearch"
     ng-if="ngVisible['survivorSearch']"
+    ng-click="ngHide('survivorSearch')"
 >
     <div class="modal-content">
 
@@ -9,6 +16,7 @@
             ng-repeat="survivor in settlement.user_assets.survivors"
             class="clickable kd worksheet_block"
             ng-click="
+                $event.stopPropagation();
                 settlement.viewSurvivor = survivor;
                 ngHide('survivorSearch');
                 ngShow('survivorSheet');
@@ -21,6 +29,7 @@
                 <div class="name">
                     {a survivor.sheet.name a}
                 </div>
+
                 <div class="sex">
                     <div
                         class="repeater"
@@ -34,12 +43,48 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="horizontal_rule"></div>
+
                 <div
                     class="font_small"
                     ng-if="settlement.user_assets.players.length > 1"
                 >
                     {a survivor.sheet.email a}
                 </div>
+
+                <!-- stats repeater -->
+                <div class="font_small kd worksheet_row spaced">
+                    <span
+                        ng-repeat="
+                            attrib in [
+                                {'label': 'Hunt XP', 'key': 'hunt_xp'},
+                                {'label': 'Courage', 'key': 'Courage'},
+                                {'label': 'Understanding', 'key': 'Understanding'},
+                            ]
+                        "
+                    >
+                        <b>{a attrib.label a}:</b> {a survivor.sheet[attrib.key] a}
+                    </span>
+                </div>
+
+                <div class="kd worksheet_row spaced">
+                    <span
+                        ng-repeat="attr in [
+                        {short: 'MOV', long: 'Movement'},
+                        {short: 'ACC', long: 'Accuracy'},
+                        {short: 'STR', long: 'Strength'},
+                        {short: 'EVA', long: 'Evasion'},
+                        {short: 'LUCK', long: 'Luck'},
+                        {short: 'SPD', long: 'Speed'},
+                    ]"
+                        class="survivor_search_attrib_container {a attr.long a}"
+                    >
+                        <span>{a survivor.sheet[attr.long] a}</span>
+                        <b class="font_small">{a attr.short a}</b>
+                    </span>
+                </div>
+
             </div><!-- name_and_sex_container -->
 
         </div>

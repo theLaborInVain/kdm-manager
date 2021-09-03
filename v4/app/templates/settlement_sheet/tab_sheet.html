@@ -432,7 +432,7 @@
 
 
         <!-- PRINCIPLES -->
-        <div>
+        <div class="settlement_sheet_block_group">
 
             <h2 class="kd worksheet_page_title">Principles</h2>
 
@@ -599,69 +599,8 @@
             </div> <!-- sheet ui outer ring -->
         </div><!-- principles editor-->
 
-        <!-- inspirational statue -->
-        <div
-            class="settlement_sheet_block_group"
-            ng-if="settlement.sheet.innovations.indexOf('sculpture') != -1"
-            title="Use these controls to manage your settlement's Inspirational Statue!"
-        >
-            <h2>Inspirational Statue</h2>
-            <p>A settlement can only have one Inspirational Statue.</p>
-
-            <div class="line_item">
-                <span class="empty_bullet" ng-if="settlement.sheet.inspirational_statue == undefined"/></span>
-                <span class="bullet" ng-if="settlement.sheet.inspirational_statue != undefined"/></span>
-                <select
-                    class="kd capsule full_width"
-                    ng-model="settlement.sheet.inspirational_statue"
-                    ng-options="
-                        fa_dict.handle as fa_dict.name disable when fa_dict.select_disabled for fa_dict in settlement.game_assets.inspirational_statue_options
-                    "
-                    ng-change="setInspirationalStatue()"
-                    ng-selected="settlement.sheet.inspirational_statue"
-                >
-                    <option disabled value="">Select a Fighting Art</option>
-                </select>
-            </div> <!-- line_item -->
-        </div>
-
-        <!-- monster volumes -->
-        <div
-            class="settlement_sheet_block_group"
-            ng-if="settlement.sheet.innovations.indexOf('records') != -1"
-            title="Click or tap on an item to remove it from this list."
-        >
-
-            <h2>Monster Volumes</h2>
-            <p>There can be up to 3 volumes for each monster.</p>
-
-            <div
-                class="line_item location_container"
-                ng-repeat="v in settlement.sheet.monster_volumes"
-            >
-                <span class="bullet"></span>
-                <span
-                    class="item"
-                    ng-click="rmMonsterVolume($index, v)"
-                >
-                    {a v a}
-                </span>
-            </div> <!-- line_item -->
-
-            <div class="line_item">
-                <span class="empty_bullet"></span>
-                <select
-                    class="kd capsule full_width"
-                    ng-model="scratch.monster_volume"
-                    ng-options="m_string for m_string in settlement.game_assets.monster_volumes_options"
-                    ng-change="addMonsterVolume()"
-                >
-                    <option disabled value="">Add a Monster Volume</option>
-                </select>
-            </div> <!-- line_item -->
-
-        </div>
-
+        {% include '/settlement_sheet/inspirational_statue.html' %}
+        {% include '/settlement_sheet/monster_volumes.html' %}
 
     </div> <!-- asset_management_left_pane/left column -->
 
@@ -671,82 +610,7 @@
 
     <div id="settlementSheetMiddleColumn">
 
-        <!-- locations -->
-        <div
-            title="Click or tap an item to remove it from this list."
-        >
-
-            <h2 class="kd worksheet_page_title">Settlement Locations</h2>
-
-            <p>Locations in your settlement.</p>
-
-            <div
-                class="clickable kd worksheet_row lined hover_highlight_red"
-                ng-repeat="loc in settlement.sheet.locations"
-                ng-init="
-                    l_dict = kingdomDeath.locations[loc];
-                    l_index = settlement.sheet.locations.indexOf(loc);
-                "
-            >
-
-                <div class="kd checkbox checked"></div>
-
-                <div
-                    class="kd checkbox_desc hover_highlight_red"
-                    ng-click="
-                        settlement.sheet.locations.splice(l_index, 1);
-                        postJSONtoAPI(
-                            'settlement', 'rm_location', settlement.sheet._id.$oid,
-                            {'handle': l_dict.handle},
-                            false, true, true
-                        );
-                    "
-                >
-                    {a l_dict.name a}
-                </div>
-
-                <span
-                    ng-if="l_dict.levels !== undefined"
-                    ng-init="locationLevel = (settlement.sheet.location_levels[loc]) || 1"
-                    class="location_lvl_select"
-                >
-                    <select
-                        class="location_level"
-                        ng-model="locationLevel"
-                        ng-options="locationLevel as 'Lvl. '+ locationLevel for locationLevel in [1,2,3]"
-                        ng-change="setLocationLevel(loc, locationLevel)"
-                        ng-selected="locationLevel"
-                    >
-                    </select>
-                </span> <!-- optional levels controls -->
-
-            </div> <!-- line_item location_container: list/rm locations -->
-
-            <select
-                class="kd capsule full_width green"
-                ng-disabled="!settlement.game_assets.locations_options"
-                ng_model="newLocation"
-                ng_change="
-                    settlement.game_assets.locations_options = undefined;
-                    settlement.sheet.locations.push(newLocation);
-                    postJSONtoAPI(
-                        'settlement', 'add_location', settlement.sheet._id.$oid,
-                        {'handle': newLocation},
-                        true, true, false
-                    );
-                    newLocation = undefined;
-                "
-                ng-options="
-                    loc.handle as loc.name disable
-                    when settlement.sheet.locations.indexOf(loc.handle) !== -1
-                    for loc in settlement.game_assets.locations_options
-                "
-            >
-                <option value="" disabled selected>Add Location</option>
-            </select>
-
-        </div> <!-- settlement_sheet_block_group locations controller-->
-
+        {% include '/settlement_sheet/locations.html' %}
         {% include '/settlement_sheet/innovations.html' %}
 
     </div> <!-- settlementSheetMiddleColumn -->
