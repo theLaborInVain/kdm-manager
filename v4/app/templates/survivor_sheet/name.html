@@ -1,0 +1,85 @@
+<!--
+
+    survivor sheet name controls
+
+-->
+
+<div
+    class="clickable name"
+    ng-click="ngShow('survivorNameControls')"
+>
+    {a survivor.sheet.name a}
+</div>
+
+
+<div
+    id="survivorNameControls"
+    class="modal hidden"
+    ng-if="ngVisible['survivorNameControls']"
+    ng-click="ngHide('survivorNameControls')"
+    ng-init="scratch.survivorOriginalName = survivor.sheet.name"
+>
+    <div
+        class="modal-content" ng-click="$event.stopPropagation()"
+    >
+    
+        <div
+            class="corner_close_modal"
+            ng-click="ngHide('survivorNameControls')"
+        >
+        </div>
+
+        <h3 class="kd title">Survivor Name</h3>
+
+
+        <h3
+            contentEditable="true"
+            class="kd worksheet_block_title"
+            ng-model="survivor.sheet.name"
+        >
+        </h3>
+
+        <div class="horizontal_rule"></div>
+
+        <div
+            class="kd worksheet_block borderless"
+            ng-class="{
+                'disabled': currentUser.subscriber.level === 0,
+            }"
+            ng-disabled="currentUser.subscriber.level === 0"
+        >
+
+            <button
+                class="kd capsule {a button.class a}"
+                ng-repeat="
+                    button in [
+                        {'title': 'Random name', 'class': 'yellow', 'method': randomSurvivorName},
+                        {'title': 'Random surname', 'class': 'yellow', 'method': randomSurvivorSurname},
+                        {'title': 'Undo changes', 'method': revertSurvivorName},
+
+                    ]
+                "
+                ng-click="button.method()"
+            >
+                {a button.title a}
+            </button>
+
+        </div>
+
+
+        <button
+            class="kd capsule blue"
+            ng-click="
+                postJSONtoAPI(
+                    'survivor', 'set_name', survivor.sheet._id.$oid,
+                    {'name': survivor.sheet.name},
+                    true, true, false
+                );
+            "
+        >
+            Save
+        </button>
+
+    </div> <!-- modal inner -->
+
+</div> <!-- modal outer -->

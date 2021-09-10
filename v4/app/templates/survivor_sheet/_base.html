@@ -2,6 +2,7 @@
     class="modal hidden"
     id="survivorSheet"
     ng-if="ngVisible['survivorSheet']"
+    ng-controller="survivorSheetController"
     ng-init="survivor = settlement.viewSurvivor"
     ng-click="ngHide('survivorSheet')"
 >
@@ -35,6 +36,13 @@
                 "
             >
                 Save
+            </button>
+            <button
+                class="kd capsule"
+                ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"
+                ng-click="survivor.sheet.email = scratch.survivorOriginalEmail"
+            >
+                Cancel
             </button>
         </div>
 

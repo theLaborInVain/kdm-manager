@@ -1,15 +1,25 @@
-<!-- left column -->
+<!--
+
+    survivor sheet left column
+    
+-->
+
 <div class="kd worksheet_column">
+
     <div
         class="kd survivor_sheet name_and_sex_container"
     >
-        <div class="name">
-            {a survivor.sheet.name a}
-        </div>
-        <div class="sex">
+
+        {% include 'survivor_sheet/name.html' %}
+
+        <div class="clickable sex">
             <div
                 class="repeater"
                 ng-repeat="sex in ['M','F']"
+                ng-click="
+                    survivor.sheet.sex === 'M' && survivor.sheet.sex = 'F' ||
+                    survivor.sheet.sex === 'F' && survivor.sheet.sex = 'M'
+                "
             >
                 <div>{a sex a}</div>
                 <div
@@ -23,6 +33,7 @@
         <div class="font_small caption">
             When you name your survivor, gain <b>+1 survival</b>
         </div>
+
     </div><!-- name_and_sex_container -->
 
     <div
