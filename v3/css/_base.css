@@ -83,6 +83,16 @@ input[type="number"]::-webkit-outer-spin-button,
 p {margin: 3%; }
 
 
+/* in order to get line-wrapping, we use contenteditable divs instead of
+normal text inputs */
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+  border:none;
+  outline:none;
+}
+
+
 /*  abstract fonts - new in version 4  */
 .font_tiny {font-size: var(--font-tiny); }
 .font_small {font-size: var(--font-small); }
@@ -1626,10 +1636,8 @@ h3.new_survivor_sheet {
     font-size: 2em;
     margin: 2% auto;
     margin-bottom: 1%;
-    border: 0;
     text-align: center;
     font-weight: bold;
-    outline: none;
     padding: 1%;
     padding-top: 0;
 }
