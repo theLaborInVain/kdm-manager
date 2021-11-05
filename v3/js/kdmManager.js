@@ -425,18 +425,18 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
 
 	$rootScope.showAPIerrorModal = function(msg, request, isFatal) {
 
-
 		$rootScope.ngShow('apiErrorModal');
+        console.error("Displaying error message to user: '" + msg + "'");
 
-		if ($rootScope.ngVisible['apiErrorModal']) {
-		    r = document.getElementById('apiErrorModalMsgRequest');
-		    $rootScope.apiErrorModalMsgRequest = request;
-            $rootScope.apiErrorModalMsgIsFatal = isFatal;
-		    if (msg === null) {
-		        msg = 'API response is NULL. Possible preflight/CORS error!'
-		    };
-		    $rootScope.apiErrorModalMsg = msg;
-		};
+        $rootScope.apiErrorModalMsgRequest = request;
+        $rootScope.apiErrorModalMsgIsFatal = isFatal;
+
+	    if (msg === null) {
+		    msg = 'API response is NULL. Possible preflight/CORS error!'
+        };
+
+	    $rootScope.apiErrorModalMsg = msg;
+
 	};
 
     $scope.ngSetFocus = function(e, clear) {
@@ -585,7 +585,7 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
 
         var a_input = document.createElement("input");
         a_input.name = 'remove_session';
-        a_input.value =  $scope.current_session;
+        a_input.value =  $rootScope.current_session;
         a_input.classList.add('hidden');
         form.appendChild(a_input);
 

@@ -129,7 +129,7 @@ class meta:
             id="apiErrorModalMsg"
             class="kd_alert_no_exclaim api_error_modal_msg"
         >
-            {{apiErrorModalMsg}}
+            {{apiErrorModalMsg||'A major application error has occurred!'}}
         </p>
         <button
             ng-if="!apiErrorModalMsgIsFatal"

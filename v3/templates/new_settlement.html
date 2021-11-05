@@ -1,7 +1,10 @@
 <!-- top nav - DEPRECATED -->
 <div id="topNavBar" class="settlement_sheet_gradient"></div>
 
-<script src="/js/newSettlement.js?v=$application_version"></script>
+<script
+    src="/js/newSettlement.js?v=$application_version"
+    ng-init="setSessionVars('$user_login','$current_session');"
+></script>
 
 <div
     class="kd_sheet_ui_outer_ring_container new_settlement_form"
@@ -175,7 +178,12 @@
         id="createNewSettlementButton"
         class="kd_kickstarter_button ng_fade kd_blue"
         ng-if="new_settlement_assets !== undefined"
-        ng-click="createSettlement();"
+        ng-disabled="scratch.disableCreateNewSettlementButton"
+        ng-click="
+            scratch.disableCreateNewSettlementButton;
+            ngShow('createNewSettlementButtonLoader');
+            createSettlement();
+        "
     >   
         Create {{newSettlement.name}}
     </button>

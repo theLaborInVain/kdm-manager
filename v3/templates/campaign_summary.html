@@ -1624,13 +1624,16 @@
                     <div
                         ng-repeat="e_handle in i.endeavors"
                         ng-init="e = settlement.game_assets.endeavors[e_handle]"
+                        ng-class="{'error': !e, }"
                         class="campaign_summary_endeavor_container {{e.class}}"
                     >
                         <div class="endeavor_cost {{e.class}} kdm_font_10">
                             <span ng-repeat="c in range(e.cost)">d</span>
+                            <span ng-if="!e.cost">???</span>
                         </div>
 
                         <div class="endeavor_text">
+                            <span ng-if="!e">'{{e_handle}}' asset info unavailable!</span>
                             <b ng-if="e.name != undefined">{{e.name}}</b>
                             <span ng-if="e.name != undefined && e.desc != undefined"> - </span>
                             <span ng-bind-html="e.desc|trustedHTML"></span>

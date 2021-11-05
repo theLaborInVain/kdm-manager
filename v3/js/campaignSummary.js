@@ -117,7 +117,12 @@ app.controller("manageDepartingSurvivorsController", function($scope, $rootScope
             target_ly[event_type].push({name: q})
         };
 
-        $scope.postJSONtoAPI('settlement','replace_lantern_year', {'ly': target_ly}, false );
+        $scope.postJSONtoAPI(
+            'settlement',
+            'set_lantern_year',
+            {'ly': target_ly},
+            false
+        );
 
         showHide('addCurrentQuarryToTimeline');
     };

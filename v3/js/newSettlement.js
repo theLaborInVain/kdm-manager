@@ -1,4 +1,4 @@
-app.controller('newSettlementController', function($scope, $http) {
+app.controller('newSettlementController', function($scope, $rootScope, $http) {
 
     // this controller is basically a parody/travesty of an old-time HTML
     // form. we initialize a dict in $scope, the HTML elements on the view
@@ -55,11 +55,15 @@ app.controller('newSettlementController', function($scope, $http) {
 
         // do UI stuff
         $scope.showFullPageLoader();
-        showHide('createNewSettlementButton');
-        showHide('createNewSettlementButtonLoader');
 
         // get auth header
-        var config = {"headers": {"Authorization": $scope.jwt}};
+        //var config = {"headers": {"Authorization": $scope.jwt}};
+        var config = {
+            "headers": {
+                "Authorization": $scope.jwt,
+                'API-Key': $scope.api_key
+            }
+        };
 
         // create the URL and do the POST
         var url = $scope.api_url + "new/settlement";
@@ -71,11 +75,10 @@ app.controller('newSettlementController', function($scope, $http) {
             console.timeEnd('createSettlement()');
         });
         creationPromise.error(function(data, status, headers, config) {
-            errorAlert();
             console.error('New settlement creation failed!');
-            console.error(data);
-            showAPIerrorModal(data, config.url);
+            $rootScope.showAPIerrorModal(data, config.url, true);
             console.timeEnd('createSettlement()');
+            console.error(data);
         });
     };
 });
