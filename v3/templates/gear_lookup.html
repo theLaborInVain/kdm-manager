@@ -245,7 +245,10 @@
                                         ></span>{{$last ? '' : ', '}}
                                     </span>
                                 </div>
-                                <div class="gear_card_detail_bottom_desc" ng-bind-html="gear.desc|trustedHTML">
+                                <div
+                                    class="gear_card_detail_bottom_desc"
+                                    ng-bind-html="ngString(gear.desc)|trustedHTML"
+                                >
                                 </div>
                                 <div class="gear_card_detail_bottom_affinity_bonus" ng-if="gear.affinity_bonus != undefined">
                                     <div
@@ -292,7 +295,7 @@
                                     </div>
                                     <div
                                         class="affinity_bonus_text"
-                                        ng-bind-html="gear.affinity_bonus.desc|trustedHTML"
+                                        ng-bind-html="ngString(gear.affinity_bonus.desc)|trustedHTML"
                                     ></div>
                                 </div>
                                 

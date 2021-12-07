@@ -161,6 +161,7 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
 
     // initialize rootScope elements here; these are set on every view
     $rootScope.objectKeys = Object.keys;
+    $rootScope.ngString = String;
 
 
 

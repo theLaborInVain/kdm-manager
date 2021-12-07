@@ -21,10 +21,6 @@
         </p>
         <select
             class="kd capsule yellow full_width"
-            ng-disabled="
-                currentUser.subscriber.level < 2
-                && currentUser.preferences.beta !== 'True'
-            "
             ng-model="settlement.sheet.version"
             ng-options="
                 version.handle as version.version + ' - ' + version.released_summary for version in settlement.game_assets.versions
@@ -33,7 +29,7 @@
                 postJSONtoAPI(
                     'settlement', 'set_version', settlement.sheet._id.$oid,
                     {'version': settlement.sheet.version},
-                    false, true, false
+                    true, true, false
                 );
             "
             ng-selected="settlement.sheet.version"

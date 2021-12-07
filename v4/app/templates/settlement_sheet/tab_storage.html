@@ -8,14 +8,13 @@
     <div
         class="ng_fade full_tab_spinner"
         ng-if="settlementStorage === undefined"
-        ng-init="loadStorage()"
+        ng-init="loadStorage();"
     >
         <img src="/static/media/loading_io.gif">
         <p>Retrieving Settlement Storage...</p>
     </div>
 
     <div id="editStorage">
-
         <div
             class="storage_type_repeater"
             ng-repeat="s_type in settlementStorage"
@@ -162,9 +161,9 @@
                                 </div>
 
                                 <span
-                                    ng-if="asset.desc != undefined"
+                                    ng-if="asset.desc !== undefined"
                                     class="inventory_row_detail_desc"
-                                    ng-bind-html="asset.desc|trustedHTML"
+                                    ng-bind-html="ngString(asset.desc)|trustedHTML"
                                 >
                                 </span>
 

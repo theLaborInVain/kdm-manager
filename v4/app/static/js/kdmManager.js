@@ -945,5 +945,6 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     $rootScope.objectKeys = Object.keys;
     $rootScope.ngCopy = angular.copy;
     $rootScope.ngEquals = angular.equals;
+    $rootScope.ngString = String;
 
 });

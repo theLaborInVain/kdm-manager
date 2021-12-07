@@ -1384,7 +1384,7 @@
                     <h4
                         class="clickable"
                         ng-click="
-                            showHide(loc.handle + '_container');
+                            ngShowHide(loc.handle + '_container');
                             flipArrow(loc);
                         "
                     >
@@ -1419,7 +1419,7 @@
                             <div
                                 class="inventory_row_item_controls clickable"
                                 ng-click="
-                                    showHide(detailId);
+                                    ngShowHide(detailId);
                                     toggleFlippers(asset);
                                 "
                             >
@@ -1469,7 +1469,7 @@
                                    <span
                                        ng-if="asset.desc != undefined"
                                        class="inventory_row_detail_desc"
-                                       ng-bind-html="asset.desc|trustedHTML">
+                                       ng-bind-html="ngString(asset.desc)|trustedHTML">
                                    </span>
                                </div>
                            </div>
@@ -1516,10 +1516,6 @@
             </p>
             <select
                 class="kd_kickstarter_select"
-                ng-disabled="
-                    user.user.subscriber.level < 2
-                    && user.user.preferences.beta !== true
-                "
                 ng-model="settlement.sheet.version"
                 ng-options="
                     version.handle as version.version + ' - ' + version.released_summary for version in settlement.game_assets.versions

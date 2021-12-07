@@ -105,7 +105,9 @@
             "
             ng-init="setInnovationDeck()"
         >
-            <li ng-repeat="(handle, dict) in innovationDeck"> {a dict['name'] a} </li>
+            <li ng-repeat="(handle, dict) in innovationDeck">
+                {a dict['name'] a}
+            </li>
         </ul>
 
         <div
@@ -184,7 +186,9 @@
 
     <div
         class="ng_fade_in full_tab_spinner"
-        ng-if="!innovationDeck"
+        ng-if="
+            settlement.sheet.innovations.length > 0 && !innovationDeck
+        "
     >
         <img
             src="/static/media/loading_io.gif"
