@@ -29,7 +29,8 @@ HELP = {
             'question': 'What devices does the Manager support?',
             'answer': (
                 '<p>The Manager is developed to support the current version of '
-                'Chrome on Windows 10. <a href="https://blog.kdm-manager.com" '
+                '<b>Edge</b> on Windows 10. '
+                '<a href="https://blog.kdm-manager.com" '
                 'target="top">Check the development blog</a> for more '
                 'information about supported devices.</p>'
             ),
@@ -84,6 +85,35 @@ HELP = {
                 '"Delete" button (check the "System" panel on the dashboard) '
                 'and then, from the Settlement Sheet, permanently delete the '
                 'settlement.</p>'
+            ),
+        },
+    ],
+    'Pattern System': [
+        {
+            'question': 'How do I add Patterns to my Settlement Sheet?',
+            'answer': (
+                '<p>Use the navigation bar controls to add an expansion that '
+                'includes <i>Pattern</i> gear and then reload/refresh your '
+                'settlement.</p>'
+                '<p>The Settlement Sheet should now include a section for '
+                'managing Patterns.</p>'
+                '<p><b>Important!</b> Support for the <i>Pattern System</i> '
+                'was added to the Manager in December 2021 (v1.02) and does '
+                'NOT enforce rules or business logic (e.g. Arc, Requirements, '
+                'etc) which, as of v1.02, is not fully implemented.</p>'
+            )
+        },
+        {
+            'question': (
+                'Help! The controls for adding/removing Patterns disappeared '
+                'from my Settlement Sheet!',
+            ),
+            'answer': (
+                '<p>Settlement Sheet controls for managing Patterns only '
+                'appear on the Settlement Sheet for settlements where '
+                'expansion content that includes Pattern gear is in use.</p>'
+                '<p>Check your expansion content and re-enable any expansions '
+                'you might have recently removed.</p>.'
             ),
         },
     ],

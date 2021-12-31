@@ -1,7 +1,7 @@
 <div
 	id="settlementSheetAdminTab"
     class="view_tab"
-    ng-show='tabsObject.activeTab === 6'
+    ng-show='tabsObject.activeTab === 666'
     ng-init="
         loadSettlementMacros();
     "
@@ -52,10 +52,21 @@
         </p>
 
         <div
+            ng-if="settlement.user_assets.players.length < 2"
+            class="disabled kd worksheet_row"
+        >
+            <div class="kd checkbox"></div>
+            <div class="kd checkbox_desc">
+                Edit survivor sheets to add players!
+            </div>
+        </div>
+
+        <div
             ng-repeat="player in settlement.user_assets.players"
             ng-if="!player.settlement_admin"
             ng-click="ngShow('playerAdmin' + player._id.$oid)"
             class="clickable kd worksheet_row"
+            ng-class="{'lined': !$last}"
         >
             <div class="kd checkbox checked"></div>
             <div class="kd checkbox_desc">

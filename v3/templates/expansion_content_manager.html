@@ -44,7 +44,7 @@
                             class="clickable kd worksheet_block expansion_toggle_repeater"
                             ng-repeat="x in new_settlement_assets.expansions"
                             ng-if="x.ui.pretty_category == category"
-                                ng-class="{
+                            ng-class="{
                                 enabled: settlement.sheet.expansions.indexOf(x.handle) != -1,
                                 mandatory_expansion: x.mandatory === true,
                             }"
@@ -56,7 +56,7 @@
                                 ng-if="settlement.game_assets.campaign.settlement_sheet_init.expansions != undefined"
                                 ng-init="
                                     x.mandatory = settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(x.handle) != -1;
-                            "
+                                "
                             >
                                 HACK CITY!!!
                             </span>
@@ -68,6 +68,7 @@
                                     class="kd checkbox"
                                     ng-class="{
                                         checked: settlement.sheet.expansions.indexOf(x.handle) != -1,
+                                        'kd_red_box': x.mandatory,
                                     }"
                                 ></div>
                                 <div

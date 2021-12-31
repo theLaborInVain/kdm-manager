@@ -1,0 +1,54 @@
+<div
+    class="kd card resource container"
+    title="{a resource.name a} ({a resource.sub_type_pretty a})"
+>
+
+    <div
+        class="kd card face"
+        ng-init="expansion = kingdomDeath.expansions[resource.expansion]"
+    >
+
+        <div
+            ng-if="resource.expansion"
+            class="kd card expansion_flair"
+            style="
+                background: #{a expansion.flair.bgcolor a};
+                border-color: #{a expansion.flair.border_color a};
+                color: #{a expansion.flair.color a};
+            "
+        >
+            {a expansion.name.substring(0,1) a}
+        </div>
+
+        <div
+            class="kd card face resource header"
+            ng-class="{'expansion': expansion !== undefined, }"
+        >
+            <div
+                class="kd card resource title_bar" 
+                ng-class="{'expansion': expansion !== undefined, }"
+            >
+                <div class="font_large">
+                    {a resource.name a}
+                </div>
+                <div>
+                    <span ng-repeat="k in asset.keywords">
+                        <i>{a k a}{a $last ? '' : ', ' a}</i>
+                    </span>
+                </div>
+            </div><!-- header -->
+        </div><!-- header -->
+
+        <div class="kd card resource face footer">
+            <div
+                ng-if="asset[text_type]"
+                ng-repeat="text_type in ['desc', 'flavor_text']"
+                class="kd card resource text {a text_type a}"
+                ng-bind-html="ngString(asset[text_type])|trustedHTML"
+            >
+            </div>
+        </div>
+
+    </div><!-- face-->
+
+</div> <!-- resource card container -->

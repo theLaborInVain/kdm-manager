@@ -883,6 +883,27 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         return output;
     };
 
+    $rootScope.sortObjectsByDate = function(list, dateKey) {
+        if (typeof list === 'object') {
+            console.warn('Object list is an object! Attempting to fix...');
+            var objectKeys = Object.keys(list);
+
+            // now make list from scratch;
+            var newList = [];
+            for (var i = 0; i < objectKeys.length; i++) {
+                var objectKey = objectKeys[i]
+                newList.push(list[objectKey]);
+            };
+            console.warn('Created list of ' + newList.length + ' objects...');
+            list = newList;
+        };
+        return list.sort(
+            function(a, b) {
+                return b[dateKey].$date - a[dateKey].$date;
+            }
+        ).reverse();
+    }
+
     $rootScope.toTitle = function(str) {
         // converts a string to a KD-style title; useful for handles, etc.
         str = str.replace(/_/g, ' ');
@@ -926,7 +947,6 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     $rootScope.toggleArrayItem = function(list, item) {
         // pushes 'item' onto 'list' if not present; splices it out if
         // present
-
         var index = list.indexOf(item);
         var result = null;
         if (index === -1) {

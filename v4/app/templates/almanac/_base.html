@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+{% set VIEW = 'almanac' %}
+
+{% block head %}
+
+
+    <!-- <script src="/static/js/almanac.js?v={{VERSION}}"></script> -->
+
+{% endblock %}
+
+{% block body %}
+
+<body
+    ng-if="apiStat"
+>
+
+    <h1 class="kd title">Almanac</h1>
+
+    <p>The Almanac collects information about expansion content and the world of
+    Kingdom Death.</p>
+
+    {% include '/almanac/timeline.html' %}
+
+</body>
+
+{% endblock %}

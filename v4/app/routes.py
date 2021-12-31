@@ -199,6 +199,14 @@ def api_get_asset(asset_module):
 #
 #   views!  (at least, that's what we used to call them)
 #
+@app.route('/almanac')
+@flask_login.login_required
+def almanac():
+    """ A private webapp endpoint that acts as a hub for lore/release info. """
+    return flask.render_template(
+        'almanac/_base.html',
+        **app.config
+    )
 
 @app.route('/dashboard')
 @flask_login.login_required

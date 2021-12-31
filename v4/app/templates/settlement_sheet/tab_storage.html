@@ -15,34 +15,37 @@
     </div>
 
     <div id="editStorage">
+
         <div
-            class="storage_type_repeater"
+            class="kd worksheet_block lined"
             ng-repeat="s_type in settlementStorage"
             ng-init="
                 storageInventoryRollers = [];
                 storageAssetRollers = []
             "
         >
-            <h3 class="font_large">
+            <div class="kd worksheet_block_title">
                 {a s_type.name a}<span ng-if="s_type.name==='Resource'">s</span>
                 <span
                     ng-if="s_type.total"
                 >
                     - {a s_type.total a}
                 </span>
-            </h3>
+            </div>
 
             <div
-                class="storage_location_keywords_rollup"
+                class="font_small kd worksheet_block_subtitle storage_location_keywords_rollup"
                 ng-click="refreshRollups()"
             >
-                <span
-                    class="storage_location_keywords_rollup_item"
+
+                <div
+                    class="kd capsule yellow floating_storage_refresh_button"
                     ng-if="s_type.keywords === undefined"
                     ng-click="s_type.keywords = 'loading'"
                 >
                     Tap or click here to recalculate keyword counts!
-                </span>
+                </div>
+
                 <span
                     class="storage_location_keywords_rollup_item"
                     ng-if="s_type.keywords === 'loading'"
@@ -70,7 +73,7 @@
 
                 <!-- inventory section clickers -->
                 <div
-                    class="clickable kd worksheet_row principle lined"
+                    class="clickable kd worksheet_row principle"
                     ng-click="
                         ngRoll(containerId, storageInventoryRollers);
                     "
@@ -146,29 +149,22 @@
                             }"
                         >
 
-                            <div class="dashboard_panel_card gear_card_gradient">
-                                &nbsp;
-                                <div class="inventory_row_detail_keywords">
-                                    <span ng-repeat="k in asset.keywords">
-                                        <i>{a k a}{a $last ? '' : ', ' a}</i>
-                                    </span>
-                                </div>
-
-                                <div class="inventory_row_detail_rules" ng-if="asset.rules.length >= 1">
-                                    <span ng-repeat="k in asset.rules track by $index">
-                                        <b>{a k a}</b>{a $last ? '' : ', ' a}
-                                    </span>
-                                </div>
-
-                                <span
-                                    ng-if="asset.desc !== undefined"
-                                    class="inventory_row_detail_desc"
-                                    ng-bind-html="ngString(asset.desc)|trustedHTML"
-                                >
-                                </span>
-
+                            <!-- resource or gear card from sub template -->
+                            <div
+                                ng-if="asset.type !== 'gear' && ngRolledUp[storageAssetRollerId] === false"
+                                ng-init="resource = asset"
+                            >
+                                {% include 'resource_card.html' %}
                             </div>
 
+                            <div
+                                ng-if="asset.type === 'gear' && ngRolledUp[storageAssetRollerId] === false"
+                                ng-init="gear = asset"
+                            >
+                                {% include 'gear_card.html' %}
+                            </div>
+
+                            <!-- add/remove resource/gear from storage -->
                             <div
                                 class="kd worksheet_row"
                                 ng-click="

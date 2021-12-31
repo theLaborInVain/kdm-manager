@@ -1,0 +1,72 @@
+<!-- about -->
+<div>
+
+    <h2 class="kd title">Expansions Timeline</h2>
+
+    <div
+        class="kd worksheet_block"
+        ng-repeat="version in kingdomDeath.versions"
+        ng-init-"version.expansionsCount = 0"
+        title="
+            {a version.released.$date|date: 'yyyy-MM' a} -
+            {a version.eol.$date|date: 'yyyy-MM' a}
+        "
+    >
+        <div
+            class="kd worksheet_block_title"
+            ng-init="sortedExpansions = sortObjectsByDate(kingdomDeath.expansions, 'released')"
+        >
+            Monster {a version.version_string a}
+        </div>
+
+        <div class="kd worksheet_row lined">
+            {a version.released_summary a}: {a version.desc a}
+        </div>
+
+        <div
+            ng-repeat="expansion in sortedExpansions"
+            ng-init="version.expansionsCount = versions.expansionsCount + 1"
+            class="kd worksheet_row lined"
+            ng-if="
+                expansion.sub_type !== 'pseudo' &&
+                expansion.released.$date > version.released.$date &&
+                expansion.released.$date < version.eol.$date 
+            "
+        >
+            <div
+                class="kd checkbox"
+                ng-class="{
+                    'checked': expansion.ui.pretty_category === 'Quarry',
+                    'red': expansion.ui.pretty_category === 'Nemesis',
+                }"
+            >
+            </div>
+            <div class="font_small">
+                {a expansion.released.$date|date: "yyyy-MM" a}
+            </div>
+            <div class="font_small kd checkbox_desc">
+                <b>{a expansion.name a}</b> - {a expansion.ui.pretty_category a}
+
+                <div>
+                    <span
+                        ng-if="expansion.pattern_gear.length > 0"
+                    >
+                        <font class="kdm_font_2">p</font>: {a expansion.pattern_gear.length a}
+                    </span>
+                    
+                    <!-- strain milestones -->
+                    <span
+                        ng-if="expansion.strain_milestones.length > 0"
+                    >
+                        &#128917;: {a expansion.strain_milestones.length a}
+                    </span>
+                </div>
+
+            </div> <!-- desc -->
+
+        </div> <!-- expansion repeater -->
+
+
+    </div> <!-- worksheet block -->
+
+</div> <!-- almanac timeline -->

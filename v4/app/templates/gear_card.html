@@ -1,0 +1,206 @@
+<div
+    class="kd card gear container"
+    title="{a gear.name a} ({a gear.sub_type_pretty a})"
+>
+
+        <!-- top row -->
+        <div></div>
+        <div class="kd card gear bleed affinity outer top affinity_{a gear.affinities.top a}">
+            <div ng-if="gear.affinities.top" class="kd card gear bleed affinity inner top affinity_{a gear.affinities.top a}">
+            </div>
+        </div>
+        <div></div>
+
+        <!-- middle row -->
+        <div class="kd card gear bleed affinity outer left affinity_{a gear.affinities.left a}">
+            <div
+                ng-if="gear.affinities.left && gear.affinities.left !== 'paired'"
+                class="kd card gear bleed affinity inner left affinity_{a gear.affinities.left a}"
+            >
+            </div>
+        </div>
+
+        <div class="kd card gear face">
+            <!-- top half -->
+            <div class="kd card gear face header">
+                <!-- armor stat info-->
+                <div
+                    ng-if="gear.location"
+                    class="kd card gear armor_stats"
+                >
+                    <div class="kd card gear shield">
+                        {a gear.armor a}
+                    </div>
+                    <div
+                        class="kd card gear location_glyph"
+                        ng-repeat="
+                            (armorLocation, glyph) in {
+                                'head': 'b',
+                                'body': 'c',
+                                'arms': 'd',
+                                'waist': 'e',
+                                'legs': 'f'
+                            }
+                        "
+                        ng-if="gear.location === armorLocation"
+                    >
+                        {a glyph a}
+                        <span ng-if="gear.aux_location == 'body'">c</span>
+                        <span ng-if="gear.aux_location == 'waist'">e</span>
+                    </div>
+                </div>
+                <!-- attack stat column -->
+                <div
+                    ng-if="gear.strength"
+                    class="kd card gear weapon_stats"
+                >
+                   <div
+                       class="gear_card_combat_stat_activation"
+                   >
+                       <div class="kd card gear activation_icon">a</div>
+
+                       <hr class="three_dee" />
+
+                       {a gear.speed a}
+
+                       <div
+                           class="gear_card_combat_stat_activation_detail"
+                       >
+                           <span class="gear_card_accuracy_detail">
+                               {a gear.accuracy a}
+                           </span>
+                           <hr/>
+                           {a gear.strength a}
+                       </div>
+                   </div>
+
+                   <div
+                       class="gear_card_combat_stat_footnote"
+                       ng-if="gear.footnote"
+                   >
+                       {a gear.footnote.char  a}
+                   </div>
+                </div>
+
+                <!-- title -->
+                <div class="kd card gear title_bar">
+                    <div class="font_large silverado">
+                        {a gear.name a}
+                    </div>
+                    <div>
+                        <span ng-repeat="k in gear.keywords">
+                            <i>{a k a}{a $last ? '' : ', ' a}</i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- bottom half -->
+            <div class="kd card gear face footer">
+                <!-- additional affinity -->
+
+                 <div
+                    class="
+                        kd card gear add_affinity
+                        affinity_{a affinity_color a}
+                    "
+                    ng-repeat="affinity_color in gear.add_affinity"
+                 >
+                    <div></div>
+                </div>
+                <!-- rules -->
+                <div>
+                    <span
+                        ng-repeat="rule in gear.rules"
+                    >
+                        <b
+                            ng-bind-html="rule|trustedHTML"
+                        ></b>{a $last ? '' : ', ' a}
+                    </span>
+                </div>
+                <!-- description -->
+                <div
+                    class="kd card gear desc"
+                    ng-bind-html="ngString(gear.desc)|trustedHTML"
+                >
+                </div>
+                <!-- affinity bonus -->
+                <div
+                    ng-if="gear.affinity_bonus"
+                    class="kd card gear affinity_bonus {a gear.affinity_bonus.alignment a}"
+                >
+                    <span
+                        class="hidden"
+                        ng-if="gear.affinity_bonus.total_required < 5"
+                        ng-init="gear.affinity_bonus.alignment = 'horizontal'"
+                    ></span>
+                    <span
+                        class="hidden"
+                        ng-if="gear.affinity_bonus.total_required > 4";
+                        ng-init="gear.affinity_bonus.alignment = 'vertical'"
+                    ></span>
+
+                    <div class="kd card gear affinity_bonus_requirements {a gear.affinity_bonus.alignment a}">
+                        <span ng-repeat="affinity_type in ['puzzle', 'complete']">
+                            <span ng-repeat="affinity_color in ['blue','green','red']">
+                                <span
+                                    ng-repeat="item in range(gear.affinity_bonus.requires[affinity_type][affinity_color])"
+                                    class="font_medium kdm_font_2 affinity_{a affinity_color a}_text"
+                                >
+                                    <font
+                                        ng-if="affinity_type === 'puzzle'"
+                                    >g</font>    
+                                    <font
+                                        ng-if="affinity_type === 'complete'"
+                                    >h</font>    
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                    <div
+                        class="kd card gear affinity_bonus_desc {a gear.affinity_bonus.alignment a}"
+                        ng-bind-html="ngString(gear.affinity_bonus.desc)|trustedHTML"
+                    >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kd card gear bleed affinity outer right affinity_{a gear.affinities.right a}">
+            <div
+                ng-if="gear.affinities.right && gear.affinities.right !== 'paired'"
+                class="kd card gear bleed affinity inner right affinity_{a gear.affinities.right a}"
+            >
+            </div>
+        </div>
+
+        <!-- bottom row -->
+        <div></div>
+        <div class="kd card gear bleed affinity outer bottom affinity_{a gear.affinities.bottom a}">
+            <div
+                ng-if="gear.affinities.bottom && gear.affinities.bottom !== 'paired'"
+                class="kd card gear bleed affinity inner bottom affinity_{a gear.affinities.bottom a}"
+            >
+            </div>
+        </div>
+        <div></div>
+
+</div> <!-- card gear container -->
+
+<!-- footnote -->
+<div
+    class="kd card gear footnote"
+    ng-if="gear.footnote"
+>
+
+    <div
+        class="gear_card_footnote_character"
+    >
+       {a gear.footnote.char a}
+    </div>
+
+    <div
+        class="gear_card_footnote_description"
+        ng-bind-html="gear.footnote.desc|trustedHTML"
+    >
+    </div>
+
+</div><!-- footnote -->

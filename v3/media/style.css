@@ -129,7 +129,6 @@ fieldset {padding: 0; margin: 0 auto;}
 
 label:hover {font-weight: bold; }
 .zebra_True {background-color: #ddd;}
-font.inline_shield {background-color: #000; color: #fff; padding-left: 0.3em; padding-right: 0.3em; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px; }
 
 label#survivorAvatarMobile {display: block; position: relative; float: right; }
 
@@ -408,29 +407,6 @@ pre { white-space: pre-wrap; }
     width: 80%;
 }
 
-/* paired arrows - mobile */
-.gear_card_affinity_outer.left_affinity.affinity_paired_left,
-    .gear_card_affinity_outer.right_affinity.affinity_paired_right {
-    border-bottom: 1rem solid transparent;
-    border-top: 1rem solid transparent;
-    height:0;
-    width:0;
-    padding-bottom: 0;
-    padding-top: 0;
-}
-.gear_card_affinity_outer.left_affinity.affinity_paired_left {
-    border-right: 1rem solid;
-}
-.gear_card_affinity_outer.right_affinity.affinity_paired_right {
-    border-left: 1rem solid;
-}
-.gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {
-    width: 0;
-    height: 0;
-    border-left: 1rem solid transparent;
-    border-right: 1rem solid transparent;
-    border-top: 1rem solid;
-}
 
 /* event log styles - mobile */
 .event_log .kd_sheet_ui_row_tip {margin: 0 auto; width: 93%; margin-bottom: 3%; margin-top: 3%; }

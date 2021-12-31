@@ -411,7 +411,13 @@ button:active,
     border-bottom-right-radius: 0.75rem;
 }
 
-
+font.inline_shield {
+    background-color: #000;
+    border-radius: 0 0 5rem 5rem;
+    color: #fff;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
 .vignette_survivor_expansion_container {
     display: flex;
     flex-wrap: wrap;
@@ -610,6 +616,30 @@ input[type="radio"].gear_lookup_attrib_toggle {
     }
     .gear_card_affinity_inner.right_affinity {
         border-right: 0;
+    }
+
+    /* paired arrows */
+    .gear_card_affinity_outer.left_affinity.affinity_paired_left,
+        .gear_card_affinity_outer.right_affinity.affinity_paired_right {
+        border-bottom: 1rem solid transparent;
+        border-top: 1rem solid transparent;
+        height:0;
+        padding: 0;
+        width:0;
+    }
+    .gear_card_affinity_outer.left_affinity.affinity_paired_left {
+        border-right: 1rem solid;
+    }
+    .gear_card_affinity_outer.right_affinity.affinity_paired_right {
+        border-left: 1rem solid;
+    }
+    .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {
+        width: 0;
+        height: 0;
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid transparent;
+        border-top: 1rem solid;
+        padding: 0;
     }
 
 
@@ -2418,6 +2448,13 @@ h3.new_survivor_sheet {
 /*  storage - mobile    */
 #editStorage {
     width: 100%; 
+}
+.floating_storage_refresh_button {
+    bottom: 5rem;    
+    left: 0;
+    position: fixed;
+    right: auto;
+    transform: translate(50%, 0);
 }
 .storage_type_repeater {
     margin: 3%; 

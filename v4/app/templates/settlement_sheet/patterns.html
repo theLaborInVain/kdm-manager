@@ -1,0 +1,69 @@
+<!--
+
+    Pattern System aka the absolute wackness
+
+-->
+
+<div
+    ng-if="
+        settlement.game_assets.patterns_options.length > 0 || 
+        settlement.sheet.patterns.length > 0
+    "
+    class="settlement_sheet_block_group"
+>
+
+    <h3 class="kd worksheet_page_title">
+        Pattern System
+    </h3>
+
+    <p>Pattern cards represent the ingenuity of survivors.</p>
+
+    <div
+        class="clickable ng_fade kd worksheet_row lined"
+        ng-class="{'lined': !$last}"
+        ng-repeat="gear_handle in settlement.sheet.patterns"
+        ng-init="gear = settlement.game_assets.gear[gear_handle]"
+        ng-click="
+            settlement.sheet.patterns.splice($index, 1);
+            settlement.game_assets.patterns_options = undefined;
+            postJSONtoAPI(
+                'settlement', 'set_patterns', settlement.sheet._id.$oid,
+                {'patterns': settlement.sheet.patterns},
+                true, true, false
+            );
+        "
+    >
+        <div>
+            <font class="kdm_font_2">p</font>
+        </div>
+        <div class="kd checkbox_desc">
+            {a gear.name a}
+            (<span ng-repeat="keyword in gear.keywords">{a keyword a}{a $last ? '' : ', ' a}</span>)
+        </div>
+    </div>
+
+    <select
+        class="kd capsule yellow full_width"
+        ng-disabled="!settlement.game_assets.patterns_options"
+        ng_model="newPattern"
+        ng_change="
+            settlement.game_assets.patterns_options = undefined;
+            settlement.sheet.patterns.push(newPattern);
+            postJSONtoAPI(
+                'settlement', 'set_patterns', settlement.sheet._id.$oid,
+                {'patterns': settlement.sheet.patterns},
+                true, true, false
+            );
+            newPattern = undefined;
+        "
+        ng-options="
+            gear.handle as gear.name disable
+            when settlement.sheet.patterns.indexOf(gear.handle) !== -1
+            for gear in settlement.game_assets.patterns_options
+        "
+    >
+        <option value="" disabled selected>Add Pattern</option>
+    </select>
+
+
+</div><!-- settlement_sheet_block_group -->

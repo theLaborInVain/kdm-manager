@@ -104,6 +104,7 @@
     class="v4_nav_directory"
 >
 
+    <!-- hack city!!! initialize tabs in HTML instead of JS -->
 	<span
 		class="hidden"
 		ng-init="
@@ -130,7 +131,13 @@
 					icon: 'g',
 		        },
 		        {
-		            id: 6,
+		            id: 665,
+		            name: 'Expansions',
+                    font: 'silverado',
+					icon: 'E',
+		        },
+		        {
+		            id: 666,
 		            name: 'Admin',
                 	icon: '&#8943;',
                     adminOnly: true,
@@ -140,6 +147,7 @@
 	>
 	</span>
 
+    <!-- tabs repeater for settlement sheet updates -->
     <div
         class="kd v4_nav_folder clickable"
         ng-if="VIEW === 'settlement_sheet'"
@@ -158,17 +166,7 @@
         <div class="font_small">{a tab.name a}</div>
     </div>
 
-    <div
-        class="v4_nav_folder clickable"
-        ng-click="
-            ngShow('expansionContentControls');
-            ngNavController.active = undefined;
-        "
-    >
-        <div class="silverado">E</div>
-        <div class="font_small">Expansions</div>
-    </div>
-
+    <!-- hard-coded refresh button for the settlement sheet -->
     <div
         class="v4_nav_folder clickable"
         ng-click="
@@ -181,6 +179,7 @@
     </div>
 
 </div> <!-- navSettlementSheetDir -->
+
 
 <div
     id="survivorsSummaryDir"
@@ -293,7 +292,6 @@
 {% include 'new_survivor.html' %}
 
 <!-- settlement templates -->
-{% include 'expansion_content_controls.html' %}
 
 <!-- control templates -->
 {%  include 'errors/report_error.html' %}
