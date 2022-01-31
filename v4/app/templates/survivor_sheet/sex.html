@@ -1,0 +1,43 @@
+<div class="clickable sex">
+
+    <div
+        class="repeater"
+        ng-if="survivor.sheet.sex === survivor.sheet.effective_sex"
+        ng-repeat="sex in ['M','F']"
+        ng-click="
+            toggleSurvivorSex(survivor);
+            postJSONtoAPI(
+                'survivor', 'set_sex', survivor.sheet._id.$oid,
+                {'sex': survivor.sheet.sex},
+                false, true, true
+            );
+        "
+    >
+        <div>{a sex a}</div>
+        <div
+            class="kd checkbox"
+            ng-class="{'checked': sex === survivor.sheet.sex}"
+        >
+        </div>
+    </div>
+
+    <div
+        class="repeater"
+        ng-if="survivor.sheet.sex !== survivor.sheet.effective_sex"
+        ng-repeat="sex in ['M','F']"
+    >
+        <div>{a sex a}</div>
+        <div
+            class="kd checkbox red"
+            ng-class="{'checked': sex === survivor.sheet.effective_sex}"
+        >
+        </div>
+    </div>
+
+</div>
+
+<div class="horizontal_rule"></div>
+
+<div class="font_small caption">
+    When you name your survivor, gain <b>+1 survival</b>
+</div>

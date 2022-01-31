@@ -41,9 +41,6 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .view_tab .worksheet_block {
-        width: 45%; 
-    }
     .tab_nav_warning_arrow {
         font-size: 10vh;
         height: 10vh;
@@ -349,6 +346,11 @@
     #settlementSheetAdminTab .kd_sheet_ui_border_box {
         margin: inherit;
         width: 48%;
+    }
+
+
+    #settlementSheetAdminTab .kd.worksheet_block {
+        width: 45;
     }
 
 

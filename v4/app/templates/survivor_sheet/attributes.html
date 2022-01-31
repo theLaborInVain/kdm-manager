@@ -1,0 +1,27 @@
+<div
+    class="kd survivor_sheet border_box survivor_attributes_container"
+>
+    <div
+        class="kd survivor_sheet border_box_inset"
+        ng-repeat="attribute in [
+            'Movement',
+            'Accuracy',
+            'Strength',
+            'Evasion',
+            'Luck',
+            'Speed'
+        ]"
+    >
+        <div
+            class="number_container"
+            ng-class="{
+                'borderless': attribute === 'Movement',
+                'font_large': attribute === 'Movement',
+            }"
+        >
+            {a survivor.sheet[attribute] a}
+        </div>
+        <center class="font_tiny">{a attribute a}</center>
+    </div>
+
+</div>

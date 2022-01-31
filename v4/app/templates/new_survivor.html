@@ -4,7 +4,7 @@
     ng-if="ngVisible['newSurvivorModal']"
     ng-init="
         ngShow('newSurvivorCreationControls');
-        newSurvivorObject = {};
+        newSurvivorObject = {newSurvivorEmail: currentUser.login};
     "
 >
 
@@ -221,7 +221,6 @@
                 ng-model="newSurvivorObject.newSurvivorEmail"
                 placeholder="email"
                 onclick="this.select()"
-                ng-value="currentUser.login"
             />
 
             <p
@@ -248,7 +247,6 @@
                     Public
                 </div>
             </div>
-
 
             <button
                 class="kd capsule blue full_width"

@@ -3,6 +3,17 @@
 
     <h2 class="kd title">Expansions Timeline</h2>
 
+    <p>
+    Expansions are organized according to the version of <i>Monster</i> that
+    was current when they were initially released. Within a version, content
+    is organized in chronological order according to the date it was released.
+    </p>
+
+    <p>
+    Expansion content with a checked box includes a quarry monster; if the
+    checked box is red, it includes a nemesis monster.
+    </p>
+
     <div
         class="kd worksheet_block"
         ng-repeat="version in kingdomDeath.versions"
@@ -26,7 +37,7 @@
         <div
             ng-repeat="expansion in sortedExpansions"
             ng-init="version.expansionsCount = versions.expansionsCount + 1"
-            class="kd worksheet_row lined"
+            class="clickable kd worksheet_row lined"
             ng-if="
                 expansion.sub_type !== 'pseudo' &&
                 expansion.released.$date > version.released.$date &&

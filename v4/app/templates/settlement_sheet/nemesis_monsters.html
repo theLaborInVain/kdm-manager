@@ -28,7 +28,7 @@
         </p>
 
         <div
-            class="ng_fade clickable kd worksheet_row lined principle"
+            class="ng_fade clickable kd worksheet_row  lined"
             ng-repeat="n in settlement.sheet.nemesis_monsters"
             ng-click="
                 settlement.sheet.nemesis_monsters.splice($index, 1);
@@ -41,11 +41,17 @@
             "
         >
             <div class="kd checkbox checked"></div>
-            <div> {a settlement.game_assets.monsters[n].name a} </div>
 
-            <div ng-click="$event.stopPropagation()">
+            <div class="kd checkbox_desc nemesis">
+                {a settlement.game_assets.monsters[n].name a}
+            </div>
+
+            <div
+                class="kd checkbox_desc inset_checkbox_container"
+                ng-click="$event.stopPropagation()"
+            >
                 <div
-                    class="nemesis_level_clicker"
+                    class="clickable nemesis_level_clicker"
                     ng-repeat="lvl in range(settlement.game_assets.monsters[n].levels)"
                     ng-click="
                         toggleArrayItem(settlement.sheet.nemesis_encounters[n], lvl);

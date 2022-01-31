@@ -264,6 +264,16 @@
         <div class="font_small">Help</div>
     </div>
 
+    {% if VIEW != 'almanac' %}
+    <div
+        class="v4_nav_folder clickable"
+        ng-click="loadUrl('/almanac')"
+    >
+        <div class="kdm_font_2">a</div>
+        <div class="font_small">Almanac</div>
+    </div>
+    {% endif %}
+
     <div
         class="v4_nav_folder clickable"
         ng-click="loadURL('/new')"

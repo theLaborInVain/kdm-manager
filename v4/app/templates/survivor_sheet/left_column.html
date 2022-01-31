@@ -11,65 +11,15 @@
     >
 
         {% include 'survivor_sheet/name.html' %}
-
-        <div class="clickable sex">
-            <div
-                class="repeater"
-                ng-repeat="sex in ['M','F']"
-                ng-click="
-                    survivor.sheet.sex === 'M' && survivor.sheet.sex = 'F' ||
-                    survivor.sheet.sex === 'F' && survivor.sheet.sex = 'M'
-                "
-            >
-                <div>{a sex a}</div>
-                <div
-                    class="kd checkbox"
-                    ng-class="{'checked': sex === survivor.sheet.sex }"
-                >
-                </div>
-            </div>
-        </div>
-        <div class="horizontal_rule"></div>
-        <div class="font_small caption">
-            When you name your survivor, gain <b>+1 survival</b>
-        </div>
+        {% include 'survivor_sheet/sex.html' %}
 
     </div><!-- name_and_sex_container -->
 
-    <div
-        class="kd survivor_sheet border_box survival_container"
-    >
-        Survival: {a survivor.sheet.survival a}
-        {a survivor.sheet.cannot_spend_survival a}
-    </div>
 
-    <div
-        class="kd survivor_sheet border_box survivor_attributes_container"
-    >
-        <div
-            class="kd survivor_sheet border_box_inset"
-            ng-repeat="attribute in [
-                'Movement',
-                'Accuracy',
-                'Strength',
-                'Evasion',
-                'Luck',
-                'Speed'
-            ]"
-        >
-            <div
-                class="number_container"
-                ng-class="{
-                    'borderless': attribute === 'Movement',
-                    'font_large': attribute === 'Movement',
-                }"
-            >
-                {a survivor.sheet[attribute] a}
-            </div>
-            <center class="font_tiny">{a attribute a}</center>
-        </div>
+    {% include '/survivor_sheet/survival.html' %}
 
-    </div>
+    {% include '/survivor_sheet/attributes.html' %}
+
 
     <div
         class="kd survivor_sheet border_box insanity_container"
@@ -103,7 +53,7 @@
     </div>
 
     <div
-        class="kd survivor_sheet border_box borderless"
+        class="kd survivor_sheet border_box lined borderless"
         ng-repeat="location in [
             {name: 'Head', glyph: 'b', dmg: ['heavy']},
             {name: 'Arms', glyph: 'd', dmg: ['light', 'heavy']},

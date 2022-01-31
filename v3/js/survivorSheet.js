@@ -498,6 +498,11 @@ app.controller("survivorSheetController", function($scope) {
         $scope.postJSONtoAPI('survivor', 'add_game_asset', js_obj);
     };
 
+    $scope.setWeakSpot = function() {
+        // sets the survivor's weak spot
+        js_obj = {'weak_spot': $scope.survivor.sheet.weak_spot };
+        $scope.postJSONtoAPI('survivor', 'set_weak_spot', js_obj);
+    };
 });
 
 

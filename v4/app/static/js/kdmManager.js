@@ -509,6 +509,12 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                 console.error('createSettlement() failed!');
                 if (response.data) {
                     console.error(response.data);
+                    $rootScope.ngHide('fullPageLoader');
+                    $rootScope.ngShow('apiErrorModal');
+                    $rootScope.apiError = {
+                        'status': response.status,
+                        'response': response.data,
+                    };
                 } else {
                     console.error(response);
                 };
@@ -516,6 +522,22 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 			}	
 		);
     };
+
+
+    $scope.updateSurvivorSheet = function(newSheet) {
+        // overwrites a survivor sheet in the current scope with 'newSheet'
+        var survivors = $scope.settlement.user_assets.survivors;
+        for (var i = 0; i < survivors.length; i++) {
+            var survivor = survivors[i];
+            if (survivor.sheet._id.$oid === newSheet._id.$oid) {
+                survivors[i].sheet = newSheet;
+                console.info('Survivor sheet updated successfully!');
+                return true;
+            };
+            console.error('Survivor sheet could not be updated!');
+        };
+    };
+
 
     $rootScope.postJSONtoAPI = function(
 			collection, action, objectOid,
@@ -572,7 +594,13 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 //                console.warn('reinit: ' + reinit + ', showAlert: ' + showAlert + ', updateSheet: ' + updateSheet);
                 if (reinit) { $rootScope.initializeSettlement($scope.settlement.sheet._id.$oid) };
 				if (showAlert) { $rootScope.flashCapsuleAlert('Saved') };
-                if (updateSheet) { $scope.settlement.sheet = response.data.sheet };
+                if (updateSheet) { 
+                    if (collection == 'settlement') {
+                        $scope.settlement.sheet = response.data.sheet;
+                    } else if (collection == 'survivor') {
+                        $scope.updateSurvivorSheet(response.data.sheet);
+                    };
+                };
 				console.timeEnd(endpoint);
 			},
 			function errorCallback(response) {

@@ -217,7 +217,7 @@
         >
             <div class="kd_sheet_ui_roll_down_controls">
                 <div class="kd_sheet_ui_row_tip">
-                    {{survivor.sheet.name}}'s base sex attribute is <b>{{survivor.sheet.sex}}</b>, but their sex haschanged to <b>{{survivor.sheet.effective_sex}}</b> due the effects of a cursed item!</br>
+                    {{survivor.sheet.name}}'s base sex attribute is <b>{{survivor.sheet.sex}}</b>, but their sex has changed to <b>{{survivor.sheet.effective_sex}}</b> due the effects of a cursed item!</br>
                     In order to edit this survivor's sex, you must first remove the cursed item that changed their sex to <b>{{survivor.sheet.effective_sex}}</b>.<br/>
                     <i>Click or tap here to hide this notification.</i>
                 </div>
@@ -657,6 +657,7 @@
             ]"
             ng-init="ctrlBoxID = location.name.toLowerCase() + 'Box' + sheetOID;"
         >
+
             <div
                 class="hitbox_container"
             >
@@ -704,6 +705,11 @@
 
 			</div> <!-- hitbox container -->
 
+            <div class="font_small kd capsule pink full_width" ng-if="location.name === survivor.sheet.weak_spot">
+                <b>Weak Spot:</b>
+                You cannot <b>depart</b> unless you have armor at this location.
+            </div>
+
             <div
                 id="{{ctrlBoxID}}"
                 class="kd_sheet_ui_roll_down rolled_up"
@@ -745,6 +751,40 @@
 <!-- middle column starts! -->
 
     <div id="survivorSheetMiddleColumn" ng-if="survivor != undefined">
+
+        <!-- weak spot -->
+        <div
+            class="kd worksheet_block"
+            ng-if="survivor.sheet.disorders.indexOf('weak_spot') > -1"
+        >
+            <h3 class="kd title">Weak Spot</h3>
+
+            <p
+                class="ng_fade"
+                ng-if="!survivor.sheet.weak_spot"
+            >
+                When you gain this disorder, roll a random hit location and record it.
+                You cannot <b>depart</b> unless you have armor at this location.
+            </p>
+
+            <select
+                class="kd capsule full_width"
+                ng-change="setWeakSpot()"
+                ng-model="survivor.sheet.weak_spot"
+                ng-selected="survivor.sheet.weak_spot"
+                ng-options="option.name as option.name for option in [
+                    {'name': 'Head'},
+                    {'name': 'Arms'},
+                    {'name': 'Body'},
+                    {'name': 'Waist'},
+                    {'name': 'Legs'},
+                    {'name': 'UNSET'},
+                ]"
+            >
+                <option value="" disabled selected>Location</option>
+            </select>
+
+        </div>
 
         <!-- favorite / retired / dead -->
         <div

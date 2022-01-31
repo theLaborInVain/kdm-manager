@@ -17,7 +17,6 @@
         scratch.settlementLimitReached = false;
     "
 >
-
     <div
         class="full_page_loading_spinner"
         ng-if="!kingdomDeath"
@@ -29,8 +28,8 @@
     <div
         class="http_error_container"
         ng-if="
-            {{current_user.settlements_created}} >= apiStat.meta.api.limits.nonsubscriber_settlements &&
-            {{current_user.subscriber.level}} === 0
+            currentUser.settlements_created >= apiStat.meta.api.limits.nonsubscriber_settlements &&
+            currentUser.subscriber.level === 0
         "
         ng-init="scratch.settlementLimitReached = true;"
     >

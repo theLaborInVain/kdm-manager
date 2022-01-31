@@ -821,7 +821,13 @@
                          </div> 
                     </div>
 
+
                 </div> <!-- hitbox_container -->
+
+                <div class="font_small kd capsule pink full_width" ng-if="location.name === s.sheet.weak_spot">
+                    <b>Weak Spot:</b>
+                    You cannot <b>depart</b> unless you have armor at this location.
+                </div>
 
                 <div
                     id="{{ctrlBoxID}}"

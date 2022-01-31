@@ -71,8 +71,7 @@ HELP = {
             'question': 'Why can\'t I create a new settlement?',
             'answer': (
                 '<p>Nonsubscriber users of the Manager may only create a '
-                'total of <b>'
-                '{a apiStat.meta.api.limits.nonsubscriber_settlements a}'
+                'total of <b>three (3)'
                 '</b> settlements.</p>'
                 '<p>"Abandoned" settlements count towards this total.</p>'
                 '<p>If you '

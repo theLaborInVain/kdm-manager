@@ -1,0 +1,108 @@
+<div
+    class="survivor_sheet border_box survival_container"
+    ng-init="survivalControlsId = 'survivalControls' + survivor.sheet._id.$oid"
+>
+    <div
+        class="clickable survivor_sheet survival_column"
+        ng-click="ngRoll(survivalControlsId)"
+    >
+        <div class="survival_box">
+            <div
+                class="font_title number_container"
+            >
+                {a survivor.sheet.survival a}
+            </div>
+        </div>
+    </div> <!-- survival value -->
+
+    <div class="survivor_sheet caption_column">
+        <div class="silverado">
+            Survival
+        </div>
+        <div
+            class="clickable font_small cannot_spend_survival_caption"
+            ng-click="
+                survivor.sheet.cannot_spend_survival = !survivor.sheet.cannot_spend_survival;
+                postJSONtoAPI(
+                    'survivor', 'set_status_flag', survivor.sheet._id.$oid,
+                    {'flag': 'cannot_spend_survival', 'value': survivor.sheet.cannot_spend_survival},
+                    false, true, false
+                );
+            "
+        >
+            <div
+                class="kd checkbox tiny"
+                ng-class="{'checked': survivor.sheet.cannot_spend_survival}"
+            >
+            </div>
+            &#x1f512;
+            Cannot spend survival
+        </div>
+    </div> <!-- caption -->
+
+
+    <div class="survivor_sheet actions_column">
+        <div
+            class="font_small survivor_sheet survival_action_repeater"
+            ng-repeat="action in survivor.survival_actions"
+        >
+            <div
+                class="kd checkbox tiny"
+                ng-class="{'checked': action.available}"
+            >
+            </div>
+            <div class="kd checkbox_desc">
+                {a action.name a}
+            </div>
+        </div>
+    </div> <!-- actions -->
+
+    <!-- survival control roller starts here -->
+    <div
+        id="{a survivalControlsId a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[survivalControlsId] === false}"
+    >
+
+        <center
+            class="font_small kd_sheet_ui_row_tip"
+            ng-if="settlement.sheet.enforce_survival_limit"
+        >
+            Settlement survival limit is {a settlement.sheet.survival_limit a}.
+        </center>
+
+        <button
+            class="kd capsule"
+            ng-click="survivor.sheet.survival = survivor.sheet.survival + 1"
+            ng-disabled="
+                survivor.sheet.can_gain_survival === false ||
+                settlement.sheet.enforce_survival_limit && survivor.sheet.survival == settlement.sheet.survival_limit
+            "
+        >
+            &#x25B2;
+        </button>
+
+        <button
+            class="kd capsule"
+            ng-click="survivor.sheet.survival = survivor.sheet.survival - 1"
+            ng-disabled="survivor.sheet.survival === 0"
+        >
+            &#x25BC;
+        </button>
+
+        <button
+            class="kd capsule blue"
+            ng-click="
+                postJSONtoAPI(
+                    'survivor', 'set_survival', survivor.sheet._id.$oid,
+                    {'value': survivor.sheet.survival},
+                    false, true, true
+                );
+                ngRoll(survivalControlsId)
+            "
+        >
+            Save changes
+        </button>
+
+    </div>
+</div>

@@ -67,6 +67,18 @@ app.controller("survivorSheetController", function($scope, $rootScope, $http) {
     };
 
 
+    $scope.toggleSurvivorSex = function(survivor) {
+        // toggles survivor sex to the opposite of whatever it is
+        if (survivor.sheet.sex === 'M') {
+            survivor.sheet.sex = 'F';
+            survivor.sheet.effective_sex = 'F';
+        } else {
+            survivor.sheet.sex = 'M'
+            survivor.sheet.effective_sex = 'M';
+        };
+    };
+
+
     // helpers and backgrounders
 
     $scope.setRandomNames = function() {
