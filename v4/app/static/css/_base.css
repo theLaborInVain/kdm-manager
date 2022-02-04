@@ -1,1 +1,3462 @@
-/home/toconnell/kdm-manager/v3/css/_base.css
+/*                                                        */
+/*  DO NOT EDIT Z-INDEX VALUES OR COLORS IN THIS FILE!!!  */
+/*                                                        */
+
+/*  top nav - DEPRECATED 2019-12-17 */
+#topNavBar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 8vh;
+    margin-top: -1px; /* seriously? the fuck? */
+}
+.circular_button,
+    #floating_dashboard_button {
+    align-items: center; 
+    border: 0.1rem solid;
+    border-radius: 100%; 
+    box-shadow: var(--box-shadow-default);
+    display: flex;
+    height: 3rem;
+    line-height: 0; 
+    justify-content: center;
+    margin: 0;
+    position: fixed;
+    top: 0.75vh;
+    width: 3rem;
+}
+#floating_dashboard_button {
+    left: 0.3rem; 
+}
+#floatingRefreshButton {
+    right: 0.3rem; 
+}
+
+:root {
+    --font-tiny: 0.4rem;
+    --font-small: 0.6rem;
+    --font-medium: 1rem;
+    --font-large: 1.5rem;
+    --font-title: 1.75rem;
+    --border-radius-card: 1rem;
+    --border-radius-sheet: 0.5rem;
+    --box-shadow-material-design: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+/*  CSS RESET */
+
+html {
+    border-width: 0.1rem;
+    min-height: 100%;
+    overflow: auto; 
+}
+body {
+    font-family: 'Ruda';
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+button,
+    input,
+    select {
+        outline: none; 
+        font-size: inherit;
+    }    /*  inherit from html element style above;
+             ALL BREAK POINTS! */
+input,
+    input:active,
+    input:focus,
+    textarea {
+    box-shadow: none;
+    outline: none;
+}
+input[type=number] {-moz-appearance:textfield;}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+select {-webkit-appearance: none; }
+
+
+/* hide number tumblers ; we never want these   */
+input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {opacity: 0;}
+
+p {margin: 3%; }
+
+
+/* in order to get line-wrapping, we use contenteditable divs instead of
+normal text inputs */
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+  border:none;
+  outline:none;
+}
+
+
+/*  abstract fonts - new in version 4  */
+.font_tiny {font-size: var(--font-tiny); }
+.font_small {font-size: var(--font-small); }
+.font_medium {font-size: var(--font-medium); }
+.font_large {font-size: var(--font-large); }
+.font_title {font-size: var(--font-title); }
+
+
+/*  major UI stuff; sfx; consistency,etc.    */
+div[contenteditable=true]:empty:before {
+    color: #aaa;
+    content: attr(placeholder);
+    font-weight: normal;
+}
+.capitalize {text-transform: capitalize;}
+.clickable {
+    cursor: pointer;
+    transition: 0.25s;
+    outline: none; 
+}
+
+button:active,
+    .clickable:active {
+    transform:translate(0.15vh, 0.15vh);
+}
+
+.centered {text-align: center; }
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.hidden {display: none !important;}
+.faded {opacity: 0.3; transition: 3s; }
+
+
+/* angularjs animations */
+.ng_fade.ng-enter,
+    .ng_fade_in.ng-enter {transition: 1s linear all; opacity:0;}
+.ng_fade.ng-enter.ng-enter-active,
+    .ng_fade_in.ng-enter-active { opacity:1;}
+.ng_fadeout.ng-leave,
+    .ng_fade.ng-leave {transition: 1s linear all;  opacity:1;}
+.ng_fadeout.ng-leave.ng-leave-active,
+    .ng_fade.ng-leave.ng-leave-active {opacity:0;}
+
+/* pure CSS animations */
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% {transform: translate3d(4px, 0, 0); }
+}
+
+/*  generic roll-down stuff */
+.roll_down_container {
+    overflow: hidden;
+    max-height: 1000vh;
+    transition: 0.5s; 
+}
+.rolled_up {max-height: 0 !important;}
+.rolled_down {
+    border-bottom: 0 !important;
+    margin-bottom: 0 !important;  
+    padding-bottom: 3% !important;
+}
+.roll_icon_holder {
+    align-items: center;
+    border-radius: 100%;
+    box-shadow: 0 0 0.1rem 0.1rem #eee;
+    display: flex;
+    justify-content: center; 
+    line-height: 1.5;
+    margin-left: -0.2rem; 
+    height: 2rem;
+    text-align: center;
+    width: 2rem;
+}
+.roll_content_title {
+    width: 75%; 
+}
+.roll_content_arrow {
+    display: inline-block; 
+    height: 60%;
+    font-size: 1rem;
+    margin-right: 3%;
+    transition: 1s;
+}
+.roll_content_arrow.open {
+    margin-bottom: 2%; 
+    transform: rotate(180deg); 
+}
+
+
+/*  image and typography fuckery   */
+.invert_image {filter: invert();}
+
+#container {
+    width: 100%;
+    height: 100%;
+    margin-top: 8vh;
+    margin-bottom: 11vh;
+    overflow: hidden;       /*  scrollbar dead man switch */
+}
+
+
+/*  general UI  */
+
+.vertical_tumbler_container {   /* quickview attributes, survivor sheet affinity, etc. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+}
+.vertical_tumbler_container button {
+    width: 100%;
+    padding: 5%;
+}
+.vertical_tumbler_container input {
+    background: none; 
+    font-size: 3em;
+    height: 10vh;
+    width: 10vh;
+    margin: 1% auto;
+    box-sizing: border-box;
+    text-align: center;
+    border: none;
+    pointer-events: none;  
+}
+
+.api_error_debug {word-break: break-word;}
+
+
+    /*  saved, loading and spinner stuff   */
+.corner_loading_spinner {
+    bottom: 1px;
+    right: 1px;
+    position: fixed;
+}
+.corner_loading_spinner img {
+    height: 10vh; 
+}
+.tiny_loader,
+    .tiny_loader img {
+    height: 1rem;
+}
+.capsule_alert {
+    left: 50%;
+    max-width: 75%;
+    min-width: 50%;  
+    position: fixed;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    width: 100%; 
+}
+.capsule_outer {
+    border: 0;
+    border-radius: 10vw;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+.capsule_inner {
+    border: 0.2rem solid;
+    border-radius: inherit;
+    box-shadow: var(--box-shadow-material-design);
+    display: flex;
+}
+.capsule_inner .short,
+    .capsule_inner .long {
+    align-items: center; 
+    display: flex;
+    margin: -1px;   /*  HACK CITY   */
+    padding: 0.25rem 1rem 0.25rem 1rem;
+}
+.capsule_inner .short {
+    border-radius: 10vw 0 0 10vw;
+    font-family: 'Silverado';
+}
+.capsule_inner .long {
+    border-radius: 0 10vw 10vw 0;
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+}
+
+.full_page_modal_blocker {
+    bottom: 0;
+    background-color: #fff;
+    background: rgba(255,255,255,0.9);  /* out of alpha order */
+    left: 0;
+    position: fixed;
+    right:0;
+    top: 0;
+}
+.full_page_loading_spinner {
+    left: 50%;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.inline_spinner_container {
+    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    font-family: 'Silverado';
+    margin: 1rem auto 1rem auto;
+}
+.inline_spinner_container img {
+    height: auto; 
+    width: 20vw;
+}
+
+
+/*
+
+    CARDS - all cards, including gear cards
+    gear_lookup.html
+
+*/
+
+.card_gradient {
+    border: 2px solid;
+}
+
+.survivor_sheet_card_container {    /* contains the repeater */
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+}
+.survivor_sheet_card_expansion_flair {
+    align-items: center;
+    border: 0;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    display: flex;
+    font-family: 'Silverado';
+    margin-bottom: 1rem;
+    margin-top: -1rem;
+    padding: 0.5rem;
+    padding-left: 1.5rem;
+    text-align: left;
+}
+.survivor_sheet_card {              /*  is the repeater */
+    border: 0;
+    border-radius: 0.75rem;
+    box-shadow: var(--box-shadow-default);
+    height: 100%; 
+    margin: 0 auto;
+    margin-bottom: 5%;
+    margin-top: 3%; 
+    padding: 0;
+    padding-top: 1rem;
+    text-align: center;
+    width: 95%;
+}
+.survivor_sheet_card br {
+    content: "";
+    display: block;
+    height: 1vh; 
+}
+.survivor_sheet_card_text,
+    .survivor_sheet_card_level_block {
+    margin: 1rem; 
+}
+.survivor_sheet_card_color_span {
+    height: 1.5rem;
+    border: 0;
+    margin: 0 0 1rem 0;
+}
+.survivor_sheet_card_content {      /*  initialized asset within repeater */
+    width: 100%; 
+}
+.survivor_sheet_card .card_title {
+    display: block;
+    font-family: 'Silverado'; 
+    margin-bottom: 1%;
+}
+.survivor_sheet_card_subhead {
+    margin-top: 0;
+    text-transform: lowercase;
+} 
+.fighting_art_card_strain_threshold_container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-bottom: -5%;
+    margin-top: 6%;
+    padding: 3%;
+    width: 100%;
+}
+.fighting_art_card_strain_threshold_blocks_container {
+    margin-bottom: 0;
+    margin-top: -6.5%;
+    text-align: center;
+    width: 100%;
+}
+.fighting_art_card_strain_threshold_blocks_container span {
+    margin-right: 1.5vw;
+}
+.fighting_art_card_strain_threshold_desc {
+    font-size: 0.7em;
+    text-align: center;
+    width: 100%;
+}
+.strain_block {
+    border: 0.1em solid;
+    display: inline-block;
+    height: 1rem;
+    margin-bottom: -0.3vh;
+    width: 1rem;
+}
+.survivor_sheet_card_click_to_remove {
+    text-align:center;
+    padding: 0.6rem;
+    margin: 0;
+    margin-top: 1rem;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+font.inline_shield {
+    background-color: #000;
+    border-radius: 0 0 5rem 5rem;
+    color: #fff;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+.vignette_survivor_expansion_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    margin: 0 -1rem 0 -1rem;
+}
+.vignette_survivor_card_container {
+    border-radius: var(--border-radius-sheet);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: 1s;
+}
+
+    /*  gear grid   */
+
+
+
+/*  login.html  */
+
+body.login {
+    background: var(--color-kd-black-gradient);
+    background-color: #000;
+    color: #fff;
+}
+body.login div.container {
+    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto; 
+    max-width: 1300px;
+    min-height: 100%; 
+}
+.login_splash {
+    font-weight: normal;
+    margin: 0; 
+    text-align: center; 
+    text-transform: uppercase;
+}
+h1.login_splash {
+    margin-top: 6rem;
+}
+h2.login_splash {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+.login_label {
+    margin: -1rem auto auto 1.5rem;
+    position: absolute; 
+}
+.login_subhead {
+    font-weight: normal;
+    text-align: center; 
+    width: 75%;
+}
+.login_version_tag {
+    position: absolute;
+    right: 3%;
+}
+.login_lantern_loader img {
+    margin: 1rem; 
+}
+.login_downtime_warning {
+    margin: 1rem 0 1rem 0;
+    width: 75%; 
+}
+.login_field_error {
+    margin: -1rem 0 0 0;
+    text-align: center;
+}
+.login_inputs_container {
+    margin-top: 3rem;
+    width: 75%;  
+}
+.login_inputs_container input[type="submit"] {
+    margin: 2rem auto auto auto; 
+    width: -webkit-fill-available; 
+}
+.login_inputs_container input[type="email"],
+.login_inputs_container input[type="text"],
+    .login_inputs_container input[type="password"] {
+    background-color: #000;
+    border: 0; 
+    font-family: 'Silverado';
+    font-size: var(--font-large);
+    margin: 0 0 1rem 0;
+    padding-left: 1rem; 
+    text-align: left;
+}
+.login_about_p {
+    text-align: left;
+    width: 90%; 
+}
+.login_footer_container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 2rem 1rem 1rem 1rem; 
+    width: 90%;
+}
+
+/*  gear_lookup.html    */
+input[type="radio"].gear_lookup_attrib_toggle {
+    display: inherit;
+}
+.gear_lookup_loading {
+    margin-bottom: 3vh;
+    text-align: center;
+    transition: 1s;
+    width: 100%;
+}
+.gear_lookup_search_box {
+    border:0;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 6%;
+    text-align: center;
+    width: 95%;
+}
+.gear_lookup_card_repeater {
+    margin: 0 auto;
+    margin-bottom: 2%;
+    width: 90%;
+}
+.gear_card_container {
+    border: 0.1rem solid;
+    border-radius: 1rem;
+    margin: 0 auto; 
+    min-height: fit-content;
+}
+
+    /*  card 'border' regions */
+
+.gear_card_affinity_col {                           /*  'column' margins for    */
+    display: flex;                                  /*  gear cards              */
+    flex-direction: column;
+    justify-content: center;
+    overflow: visible; 
+    width: min-content;                            
+}
+.gear_card_affinity_outer.top_affinity,             /*  top and bottom 'row'    */
+    .gear_card_affinity_outer.bottom_affinity {     /*  margins for gear cards  */
+    height: 1.4rem;
+    width: 3rem;        
+}
+
+.gear_card_affinity_outer {
+    margin: 0 auto;
+}
+.gear_card_affinity_inner {
+    border: 0.1rem solid;
+    border-radius: inherit;
+    border-width: 0.15rem;
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+    /*  top & bottom    */
+    .gear_card_affinity_outer.top_affinity {
+        border-radius: 0 0 0.3vw 0.3vw;
+        margin-top: -0.1rem;
+        padding: 0 0.25rem 0.25rem 0.25rem;
+    }
+    .gear_card_affinity_outer.bottom_affinity {
+        border-radius: 0.3vw 0.3vw 0 0;
+        margin-bottom: -0.1rem;
+        padding: 0.25rem 0.25rem 0 0.25rem;
+    }
+    .gear_card_affinity_inner.top_affinity {
+        border-top: 0;
+    }
+    .gear_card_affinity_inner.bottom_affinity {
+        border-bottom: 0; 
+    }
+
+    /*  left & right    */
+    .gear_card_affinity_outer.left_affinity,
+        .gear_card_affinity_outer.right_affinity {
+            width: 1.4rem;
+            height: 3rem;
+    }
+    .gear_card_affinity_outer.left_affinity {
+        border-radius: 0 0.3vw 0.3vw 0;
+        margin-left: -0.1rem;
+        padding: 0.25rem 0.25rem 0.25rem 0;
+     }
+    .gear_card_affinity_outer.right_affinity {
+        border-radius: 0.3vw 0 0 0.3vw;
+        margin-right: -0.1rem;
+        padding: 0.25rem 0 0.25rem 0.25rem;
+     }
+    .gear_card_affinity_inner.left_affinity {
+        border-left: 0;
+    }
+    .gear_card_affinity_inner.right_affinity {
+        border-right: 0;
+    }
+
+    /* paired arrows */
+    .gear_card_affinity_outer.left_affinity.affinity_paired_left,
+        .gear_card_affinity_outer.right_affinity.affinity_paired_right {
+        border-bottom: 1rem solid transparent;
+        border-top: 1rem solid transparent;
+        height:0;
+        padding: 0;
+        width:0;
+    }
+    .gear_card_affinity_outer.left_affinity.affinity_paired_left {
+        border-right: 1rem solid;
+    }
+    .gear_card_affinity_outer.right_affinity.affinity_paired_right {
+        border-left: 1rem solid;
+    }
+    .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {
+        width: 0;
+        height: 0;
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid transparent;
+        border-top: 1rem solid;
+        padding: 0;
+    }
+
+
+.gear_card_detail_region:before { /* forces 1:1 aspect ratio */
+    content: "";
+    float: left;
+    padding-top: 88%;
+}
+.gear_card_detail_region {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+    /*  weapon/item cards */
+.gear_card_detail_top_info {
+    font-size: 0.75rem;
+    height: 50%;
+    overflow: visible;
+    width: 100%;
+}
+.gear_card_combat_stat_col {
+    font-family: 'Arial';
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap; 
+    height: 100%;
+    margin-left: -3%;
+    width: 45%;
+}
+.gear_card_combat_stat_activation,
+    .gear_card_combat_stat_footnote {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: 15%;
+    padding: 4%;
+    width: 1.5rem;
+}
+.gear_card_combat_stat_activation {
+    border-radius: 5vw;
+    flex-direction: column;
+    padding-bottom: 5%;
+    text-align: center;
+}
+.gear_card_combat_stat_footnote {
+    align-items: flex-end;
+    border-radius: 10vw;
+    justify-content: center; 
+    height: 4rem;
+    margin-top: -2.25rem;
+    padding-bottom: 0.5rem;
+}
+.gear_card_combat_stat_col hr.three_dee {
+    border: 0;
+    border-bottom: 1px solid;
+    box-sizing: border-box;
+    height: 0.15rem;
+    margin: 0.25rem 0 0.25rem -10%;;
+    width: 1.75rem; 
+}
+.gear_card_combat_stat_activation_detail {
+    border: 0;
+    border-radius: inherit;
+    margin: 0 auto;
+    width: 100%;
+    overflow: visible;
+}
+.gear_card_combat_stat_activation_detail hr {
+    border: 0;
+    height: 0.1rem;
+    margin: 0 0 0.25rem 0;
+}
+.gear_card_combat_stat_activation_icon {
+    font-family: 'kdm-font-10';
+}
+.gear_card_combat_stat_activation_icon::before {
+    content: 'a';
+    font-size: 0.8em; 
+    border-radius:100%;
+    position: absolute;
+    margin: 0.1em; 
+}
+.gear_card_accuracy_detail {
+    align-items: baseline;
+    display: flex;
+    justify-content: center;
+    width: 150%;
+}
+.gear_card_accuracy_detail::after {
+    content: "+";
+    text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333;
+    line-height: 1.5;
+    margin-bottom: -1rem;
+}
+
+
+    /*  armor cards */
+.gear_card_combat_stat_shield {
+    font-family: 'Silverado';
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    height: 3rem;
+    font-size: 2rem;
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+    margin-right: 0.25rem;
+    line-height: 150%;
+}
+.gear_card_location_glyph {
+    font-size: 1.25rem;
+    font-family: 'kdm-font-2';
+}
+
+/*  gear card footnote   */
+
+.gear_card_footnote {
+    border: 0.2rem solid;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 3% auto;
+    width: 85%;
+}
+.gear_card_footnote_character {
+    align-items: flex-end;
+    border-radius: 0 0 10vw 10vw;
+    display: flex;
+    font-family: 'Arial';
+    font-size: 1.25rem;
+    justify-content: center;
+    margin: -1px 0 1rem 0;
+    padding: 4%;
+    width: 1rem;
+}
+.gear_card_footnote_description {
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    width: 65%;
+}
+
+/*  gear card recipes   */
+
+.gear_card_recipe {
+    border: 1px solid;
+    border-radius: 0.5em;
+    box-sizing: border-box;
+    margin: 3% auto 5% auto;
+    padding: 1%;
+}
+.gear_card_recipe span:nth-child(2) {
+    margin-left: 3%;
+}
+.gear_card_recipe_title {
+    background-color: #f3E067;
+    color: #8E7E1F;
+    padding: 0.2rem;
+    padding-left: 3%;
+    margin: -0.3rem -0.3rem 0.3rem -0.3rem;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+.pattern_recipe_crafting_process_container {
+    background: #fff;
+    border: 1px solid;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0 auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    overflow: hidden;
+    padding: 0;
+    width: 97%;
+}
+.pattern_recipe_crafting_process_item {
+    border-bottom: 1px solid;
+    box-sizing: border-box;
+    padding: 2%;
+    width: 100%;
+}
+.pattern_recipe_crafting_process_item:first-child {
+    font-weight: bold;
+}
+.pattern_recipe_crafting_process_item:last-child {
+    border-bottom: none;
+}
+
+
+/*  KD Kickstarter UI   */
+
+.kd_kickstarter_button_raft {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 5%;
+    margin-bottom: 0;
+}
+.kd_kickstarter_button_raft button {
+    margin-bottom: 7%; 
+}
+
+.kd_kickstarter_tumblers_raft {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+.kd_kickstarter_tumbler_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+.kd_kickstarter_tumbler_container input {
+    margin-top: 5%;
+    margin-bottom: 5%; 
+}
+
+.kd_kickstarter_button,
+    .kd_kickstarter_select {
+    border-radius: 2em;
+    padding: 3%;
+    border: 0.2em solid;
+    display: block; 
+    margin: 0 auto; 
+    margin-top: 3%;
+    margin-bottom: 3%;
+    min-height: 4vh;
+    box-sizing: border-box;
+    width: 90%;
+    transition: 1s;  
+}
+.kd_kickstarter_select {
+    padding: 0;
+    padding-left: 3%; 
+    height: 6vh;
+    text-align-last:center;
+}
+
+/*  KD Worksheet UI */
+.kd_icon {width: 1rem; }    /* crossed swords, etc. */
+
+.kd_sheet_ui_outer_ring_container {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.kd_sheet_ui_inner_ring_container {
+    display: flex;
+    flex-direction: column;
+    border: 0.5em solid;
+    margin: 3% auto;
+    box-sizing: border-box;
+    width: 98%;
+}
+.kd_sheet_ui_inner_ring_container:last-child,
+    .kd_sheet_ui_inner_ring_container:only-child {
+    margin-bottom: 7rem;
+}
+.kd_sheet_ui_inner_ring_container p {
+    margin: 3%; 
+}
+.kd_sheet_ui_inner_ring_container.survivor_quickview_container {
+    width: 95%;
+    box-sizing: border-box;
+}
+.kd_sheet_ui_border_box {
+    border: 0.3vh solid;
+    box-sizing: border-box; 
+    height: fit-content; 
+    margin: 3%;
+}
+.kd_sheet_ui_border_box.no_border {
+    border: none;
+}
+.kd_sheet_ui_row_tip,
+    .kd_sheet_ui_row.tooltip {  /* these are tooltips */
+    padding: 1%;
+    margin: 0 auto;
+} 
+.kd_sheet_ui_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3%; 
+}
+.kd_sheet_ui_row.story_tip {
+    display: inline-block;
+    margin: 5%;
+    margin-top: 0;
+    margin-bottom: 0; 
+    vertical-align: middle; 
+}
+.kd_sheet_ui_row.title {     /* for rows with a title in them */
+    font-family: 'Silverado';
+    display: block;
+}
+.kd_sheet_ui_row_toggle_box {   /* contains text and a checkbox */
+    display: flex;
+    align-items: center;
+    margin: 3%;
+    padding: 1%; 
+}
+.kd_sheet_ui_row_toggle_box.right_align {
+    justify-content: flex-end; 
+}
+.kd_sheet_ui_row_toggle_box .kd_sheet_ui_box:last-child {
+    margin-right: 3%;
+}
+.kd_sheet_ui_row_toggle_box * {
+    margin-left: 1%;
+    margin-right: 1%; 
+}
+.kd_sheet_ui_box_row.wrap {
+    margin-left: 5%; 
+}
+.kd_sheet_ui_box_row.hunt_xp .kd_sheet_ui_box {
+    margin-right: 1.5%; 
+}
+.kd_sheet_ui_box_row.long {
+    display: flex;
+    margin-left: auto;
+    margin-right: -5%; 
+    width: 60%;
+}
+.kd_sheet_ui_box_row.hunt_xp {
+    align-items: center;
+    justify-content: space-between;
+}
+.kd_sheet_ui_box_row.hunt_xp .hunt_xp_box_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;  
+    margin-top: 1%; 
+    white-space: nowrap; 
+    width: 95%;
+}
+.kd_sheet_ui_row.dynamic_tip {
+    align-items: baseline;
+    flex-wrap: nowrap; 
+    margin: 0;
+    margin-top: 3%;
+}
+.dynamic_tip_container {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    justify-content: center; 
+}
+.dynamic_tip_container * {
+    margin-right: 3%; 
+}
+.dynamic_tip_container .kd_sheet_ui_box:last-child {
+    margin: 3%; 
+}
+.kd_sheet_ui_row.dynamic_tip.wrap {
+    flex-wrap: wrap;       
+    justify-content: center;  
+}
+.kd_sheet_ui_row.dynamic_tip.wrap .dynamic_tip_container {
+    flex-grow: 0; 
+    justify-content: flex-start;
+    margin: 2%; 
+    min-width: 45%;
+}
+.kd_sheet_ui_ai_toggle_tip_row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 3%;
+}
+.kd_sheet_ui_ai_toggle_container {
+    border-top: solid;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-bottom: 3%;  
+    margin-left: -2%;
+    margin-top: 2%;
+    padding-top: 2%; 
+    width: 104%;
+}
+.kd_sheet_ui_ai_toggle_item {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 2%;  
+    width: 75%;
+}
+.kd_sheet_ui_ai_toggle_item input[type="radio"] {
+    display: block;
+    margin-top: -5%;
+}
+.kd_sheet_ui_ai_toggle_item input[type="radio"]:checked+label{
+    color: #000
+}
+.kd_sheet_ui_ai_toggle_item label {
+    border-bottom: 0.01rem solid;
+    width: 90%; 
+}
+.kd_sheet_ui_ai_toggle_item label.last {
+    border: none;
+}
+
+.kd_title {
+    font-family: 'Silverado';
+    text-transform: uppercase;
+    font-weight: normal;
+}
+.kd_title:before {
+    content: "- ";
+}
+.kd_title:after {
+    content: " -";
+}
+
+    /* rolldown roll_down roll-down */
+.kd_sheet_ui_roll_down {
+    transition: 1s;
+    height: auto;
+    max-height: 1500px;
+    overflow: hidden;
+}
+.kd_sheet_ui_roll_down_controls {
+    padding: 2%;
+    width: 98%;
+    border: 3px solid;
+    margin: 0 auto;
+    margin-bottom: 5%;
+    box-sizing: border-box;
+}
+.kd_sheet_ui_roll_down_controls.embedded {
+    border: 0;
+    transition: 1s;
+}
+.kd_sheet_ui_roll_down_controls.integrated {
+    border-top: 0;
+    transition: 1s;
+}
+.kd_sheet_ui_roll_down_controls .kd_sheet_ui_row.dynamic_tip {   /* when the tip is in the controls */
+    width: 90%;
+    margin: 0 auto; 
+    margin-bottom: 5%; 
+}
+.kd_sheet_ui_number_tumbler {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1%; 
+}
+.kd_sheet_ui_box {      /* the one and only checkbox style! */
+    box-sizing: border-box;
+    border: 0.1rem solid;
+    height: 0.8rem;
+    display: inline-block;
+    margin-right: 4%;
+    min-height: 0.8rem;
+    min-width: 0.8rem;
+    transition: 1s;
+    width: 0.8rem;
+}
+.kd_sheet_ui_box:last-child{
+    margin-right: auto;
+}
+.kd_sheet_ui_box.dotted:before {
+    content: '';
+    position: absolute;
+    width:0.4rem;
+    height:0.4rem;
+    border-radius:100%;
+}
+.kd_sheet_ui_box.small.dotted:before {
+    width: 0.29rem;
+    height: 0.29rem;
+}
+.kd_sheet_ui_box.heavy {
+    border-width: 0.2rem;
+}    
+.kd_sheet_ui_box.small {
+    width: 0.29rem;
+    height: 0.29rem; 
+}
+
+/*                              */
+/*      survivor_sheet          */
+/*                              */
+
+.survivor_sheet div.horizontal_rule {
+    border-top: 0.15rem solid;
+    margin: 0.25rem auto 0.25rem auto;
+    width: 100%;
+}
+.survivor_sheet.name_and_sex_container div.caption {
+    font-size: var(--font-small);
+}
+.survivor_sheet.name_and_sex_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.survivor_sheet.name_and_sex_container div.name {
+    font-family: 'Silverado';
+    width: 75%;
+}
+.survivor_sheet.name_and_sex_container div.sex {
+    width: 25%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.survivor_sheet.name_and_sex_container .sex .repeater {
+    align-items: center;
+    display: flex;
+    font-size: var(--font-small);
+    justify-content: space-around;
+    width: 50%;
+}
+
+
+/* survivor_sheet - survival.html */
+.survivor_sheet.border_box.survival_container {
+    justify-content: flex-start;
+    flex-wrap: wrap; 
+}
+
+.survivor_sheet.survival_column {
+    display: flex;
+    flex-direction: column;
+    width: auto; 
+}
+.survivor_sheet.survival_column .survival_box {
+    border: 0.1rem solid;
+    height: 2.1rem;
+    margin: 0.5rem;
+    text-align: center; 
+    width: 2.1rem;
+}
+
+.survivor_sheet.caption_column {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.5rem 0.5rem 0; 
+}
+.cannot_spend_survival_caption {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 0.25rem;
+}
+.cannot_spend_survival_caption .kd.checkbox {
+    margin: 0 0.1rem 0 0;
+}
+
+.survivor_sheet.survival_action_repeater {
+    align-items: center; 
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0.1rem 0 0.1rem 0;
+}
+.survivor_sheet.survival_action_repeater .kd.checkbox {
+    margin: 0 0.1rem 0 0;
+}
+
+.survival_container .roll_down_container {
+    width: 100%; 
+}
+
+/*  survivor_sheet - attributes.html */
+
+.survivor_sheet.attributes.tumbler_container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.survivor_sheet.attributes.tumbler_container > div {
+    padding: 0 0.5rem 0 0.5rem;
+    text-align: center; 
+    width: 33%;
+}
+
+
+/* hit locations */
+
+.survivor_sheet.border_box {
+    border: 0.125rem solid;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+}
+.survivor_sheet.border_box.borderless {
+    border: 0;
+}
+.survivor_sheet.border_box.lined {
+    border-bottom: 0.1rem solid #ccc;
+}
+.survivor_sheet.border_box_inset {
+    align-items: center;
+    border-right: 0.1rem solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 0.25rem;
+    min-width: 15.8%
+}
+.survivor_sheet.border_box_inset:first-child {
+    min-width: 17.5%;
+    justify-content: center;
+}
+.survivor_sheet.border_box_inset:last-child {
+    border: 0;
+    width: 100%;
+}
+.survivor_sheet.border_box_inset.borderless {
+    border: 0;
+}
+
+.survivor_sheet.border_box_inset.full_width {
+    display: flex;
+    flex-direction: column;
+}
+.survivor_sheet.border_box_inset .number_container {
+    align-items: center;
+    border: 0.1rem solid;
+    display: flex;
+    height: 1.75rem;
+    justify-content: center;
+    margin: 0.25rem auto 0.75rem auto;
+    width: 1.75rem;
+}
+.survivor_sheet.border_box_inset .number_container.borderless {
+    border: 0;
+}
+.survivor_sheet.border_box_inset .number_container.shield {
+    border-bottom: 0;
+    border-image: linear-gradient(to bottom, #000, #000, rgba(0,0,0,0), rgba(0,0,0,0)) 1;
+}
+.survivor_sheet.border_box_inset .number_container.shield::before {
+    content:"";
+    position: absolute;
+    background: linear-gradient(to right, #fff, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, #fff);
+    width: 1.78rem;
+    height: 1rem;
+    margin-top: -0.75rem;
+    z-index:1;
+}
+.survivor_sheet.border_box_inset .number_container.shield::after {
+    content: "";
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    background: rgba(255,255,255,0);
+    border: 0.125rem solid;
+    border-bottom-left-radius: 0.75rem 1rem;
+    border-top-right-radius: 0.75rem 1rem;
+    border-left: 0;
+    border-top: 0;
+    transform: rotate(45deg);
+}
+
+.survivor_sheet_kd_sheet_ui_box,
+    .settlement_sheet_kd_sheet_ui_box {
+    border: 0;
+    margin: 0 auto;
+    margin-bottom: 3%;
+    width: 98%;
+    padding: 2%;
+    box-sizing: border-box;
+    height: fit-content; 
+}
+.survivor_sheet_kd_sheet_ui_box.border,
+    .settlement_sheet_kd_sheet_ui_box.border {
+    border: 3px solid;
+    transition: 1s;  
+}
+.survivor_sheet_kd_sheet_ui_box.border.top_most,
+    .settlement_sheet_kd_sheet_ui_box.border.top_most {
+    margin-top: 3%; 
+}
+
+
+/*  POTSTARS    */
+.survivor_sheet_the_constellations_title_bar {
+    font-weight: bold;
+    margin: -2%;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    text-align: center;  
+}
+.survivor_sheet_potstars_the_constellations_container {
+    margin: 0 auto;
+    margin-top: 3%; 
+    padding: 0;
+}
+.survivor_sheet_potstars_the_constellations_table {
+    border-collapse: collapse;
+    width: 100%; 
+}
+.survivor_sheet_potstars_the_constellations_table th {
+    padding: 0.25rem;
+    padding-right: 0.5rem;
+    text-align: left; 
+}
+.survivor_sheet_potstars_the_constellations_table tr.underline th,
+    .survivor_sheet_potstars_the_constellations_table tr.underline td {
+    border-bottom: 0.1rem solid var(--color-kd-pale-grey);
+}
+.survivor_sheet_potstars_the_constellations_table td {
+    transition: 1s;
+}
+
+
+/*                                      */
+/*  modal - re-usable modal elements    */
+/*                                      */
+
+.modal {
+    align-items: flex-start; 
+    bottom: 0;
+    display: flex;
+    height: auto;
+    left: 0;
+    max-width: 100vw; /* i.e. 100% of the viewport width */
+    overflow: auto; 
+    position: fixed;
+    justify-content: center; 
+    right: 0;
+    top: 0;
+}
+.modal-black {
+    bottom: 0;
+    height: auto;
+    left: 0;
+    overflow: scroll;
+    padding-top: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: 1s;
+    width: 100%;
+}
+.modal-content {
+    border: 0.1rem solid;
+    border-radius: var(--border-radius-sheet);
+    bottom: auto;
+    box-shadow: var(--box-shadow-material-design);
+    box-sizing: border-box;
+    margin: 1rem auto 5rem auto;
+    max-width: 95%; 
+    height: min-content;
+    padding: 1rem 0.5rem 2rem 0.5rem;
+}
+.modal-content p {text-align: center; }
+.modal-content.warning {
+    border: 0.3rem solid;
+    min-height: 75%;
+}
+
+.modal_content_button_raft {
+    margin: 3% auto 3% auto;
+    text-align: center;
+}
+
+.corner_close_modal:before {    /*  large red X */
+    content: "\274C";
+}
+.corner_close_modal {   /*  supersedes 'closeModal' class   */
+    bottom: auto;
+    float: right;
+    font-size: var(--font-large);
+    height: 0; 
+}
+.floating_close_modal_button {  /* use with .kd_kickstarter_button */
+    bottom: 0%;
+    left: 0%;
+    padding: 3%;
+    position: fixed;
+    max-width: 500px; 
+    right: 0%;
+    top: auto;
+    width: 90%;
+}
+
+.modal_control_overlay {    /*  used by the timeline */
+    background: var(--color-modal-blackout);
+    bottom: 0; 
+    left: 0;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+
+/*
+
+    SIDE NAV - base/mobile (nav.html)
+
+    DEPRECATED IN V4
+
+*/
+
+#leftSideNav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.3s;
+}
+#leftSideNav::-webkit-scrollbar { width: 0 !important }
+
+#leftSideNav.open {width: 75%; }
+#leftSideNavUnderlay.open {width: 25%; }
+#leftSideNav H3 {
+    margin-left: 3%; 
+    text-align: left;
+    margin-bottom: 0;
+}
+#leftSideNav button {
+    border: 0;
+    box-sizing: border-box; 
+    display: block;
+    text-align: left;
+    padding: 4%;
+    margin: 3%;
+    margin-left: 0;  
+    transition: 0.3s;
+    width: 100%;
+}
+#leftSideNav button:hover {
+    padding-left:15%;
+    padding-right: 1%;
+}
+#leftSideNav button.disabled:hover {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    backface-visibility: hidden;
+    padding: 4%;
+    perspective: 1000px;    
+    transform: translate3d(0, 0, 0);
+}
+
+#leftSideNav #leftSideNavUserSignOut {text-align: center; }
+#leftSideNav .sidenav_top_level {
+    text-align: right;
+}
+#leftSideNav .sidenav_top_level:hover {
+    padding-left: 1%;
+    padding-right: 10%; 
+}
+
+/*
+
+    DASHBOARD
+
+*/
+#container.dashboard_container {
+    margin-top: 0;
+}
+
+.dashboard_bg_art {
+    display: none;
+}
+.tlv_about_logo {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 2vh;
+    margin-top: 3vh;
+    width: 30vh;
+}
+
+.dashboard_welcome_modal {
+}
+.dashboard_welcome_modal p {
+    text-align: justify; 
+}
+
+#dashboardSettlementsRetrieved {
+    bottom: 0;
+    top: Auto;
+}
+
+/*  dashboard_rollup styles (the clickers on the dash) */
+div.dashboard_menu {
+    margin: 0 auto;
+    max-width: 40rem;
+}
+.dashboard_menu ul {
+    list-style-type: none;
+}
+.dashboard_menu li {
+    margin-right: 2rem;
+}
+
+.dashboard_menu:first-child {
+    margin-top: -7%; 
+}
+.dashboard_rollup {
+    align-items: flex-end; 
+    border: 0;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction:row;
+    flex-wrap: nowrap;
+    height: 2.5rem; 
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-bottom: 1%; 
+    margin: 0 auto; 
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+    text-transform: uppercase;
+    transition: 4s; 
+    width: 95%;
+}
+.dashboard_rollup.open {
+    transition: 0.3s;
+}
+.dashboard_rollup.open:after {
+    display: block; 
+    height: 3vh; 
+}
+.dashboard_accordion {
+    border-bottom-right-radius: var(--border-radius-sheet);
+    border-bottom-left-radius: var(--border-radius-sheet);
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0 auto;
+    margin-bottom: 5%;
+    margin-top: -4rem;
+    width: 95%;
+}
+.dashboard_accordion.rolled_down {
+    padding-top: 1rem; 
+    transition: 0.5s; 
+    margin-top: -4rem;
+}
+.dashboard_preference_block_group h2 {
+    border: none;
+    padding-left: 5%; 
+}    
+.dashboard_kdm_font {
+    text-transform: lowercase;
+    vertical-align: text-top;
+}
+.dashboard_panel_card {
+    border-radius: var(--border-radius-sheet);
+    box-shadow: var(--box-shadow-default);
+    box-sizing: border-box; 
+    margin: 3% auto 3% auto;
+    padding: 0.5rem 1rem 1rem 1rem; 
+    width: 90%;
+}
+.dashboard_user_collection_repeater {
+    border: 0.1rem solid;
+    border-radius: 0.1rem;
+    margin: 5%;
+    padding-bottom: 2%;
+}
+.dashboard_user_expansions_repeater {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5%;
+    align-items: center; 
+}
+.dashboard_expansion_name {
+    width: 80%; 
+}
+.dashboard_expansion_name.active {
+    font-weight: bold;
+}
+.dashboard_expansion_subtitle {
+    width: 95%;
+    margin: 0 auto; 
+    margin-top: 5%;
+}
+#dashboardCreateNewSettlement {
+    margin: 1rem auto 2rem auto;
+}
+.dashboard_button_list button {
+    width: 80%;
+    text-align: left;
+    padding: 3%;
+}
+.dashboard_settlement_list_settlement_button {
+    border: 0; 
+    border-radius: var(--border-radius-sheet);
+    box-shadow: var(--box-shadow-default);
+    margin: 3%;
+    padding: 0.25rem 1rem 0.25rem 1rem;
+} 
+.dashboard_settlement_launch_button_settlement_name {
+    font-family: 'Silverado';
+    font-weight: bold; 
+}
+.dashboard_settlement_list_settlement_attribs {
+    list-style-type: none; 
+    margin: 0.25rem;
+    padding: 0.25rem;
+}
+.dashboard_preference_elections_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 85%;
+    box-sizing: border-box;
+    margin: 0 auto;  
+}
+.dashboard_preference_election_item {
+    display: flex;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-bottom: 3%;
+}
+
+
+
+#dashboardAlertsViewer .kd_sheet_ui_inner_ring_container {
+    padding-bottom: 1rem;
+}
+.dashboard_alerts_clicker {
+    align-items: center;
+    border: solid 0.25rem;
+    border-radius: 100%;
+    bottom: 2vw;
+    display: flex;
+    height:  12vh;
+    justify-content: center;
+    position: fixed;
+    right: 2vw;
+    width: 12vh;
+}
+.dashboard_alerts_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    width: 100%; 
+}
+.dashboard_alerts_alert_repeater {
+    border-radius: 1vw;
+    margin: 1rem auto;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0; 
+    width: 95%;
+}
+.dashboard_alerts_alert_repeater .kd_sheet_ui_box {
+    margin-right: 0.25rem;
+}
+.dashboard_alerts_alert_footer {
+    border-top: 1px solid;
+    margin-top: 3%;
+    padding-right: 1%;
+    padding-top: 1%;
+    text-align: right;
+    width: 90%;
+}
+
+/*  dashboard   -  world  */
+
+.dashboard_panel_card table {
+    border-collapse: collapse;
+    margin: 3% auto 3% auto;
+    width: 90%;
+}
+.dashboard_panel_card table td.int_value {
+    width: 10%;
+}
+.dashboard_panel_card table th.principle {
+    display: initial;
+    font-style: italic;
+    font-weight: normal;
+    margin: 0 auto;
+    margin-left: 4%;
+}
+.world_panel_avatar_cell {
+    text-align: center;
+}
+.world_panel_avatar {
+    width: 65%;
+}
+
+
+
+/*
+
+    NEW SURVIVORS
+
+*/
+
+.kd_kickstarter_tumbler_container.bulk_add {
+    flex-basis: 40%;
+}
+#newSurvivorName {
+    font-family: 'Silverado'; 
+    outline: none; 
+    font-size: var(--font_large);
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 3%;
+    border-bottom: 5px solid;
+    padding: 2%;
+    padding-bottom: 0;
+}
+h3.new_survivor_sheet {
+    font-size: 1.2em; 
+    padding-left: 3%; 
+    text-align: left;
+}
+.new_survivor_sheet .permissions .new_survivor_email {
+    margin-left: 7%;
+    width: 90%;
+    border: 0;
+    font-size: var(--font-large); 
+ }
+.new_survivor_sheet .permissions .public {
+    margin-left: 7%;
+}   
+.donor_clicker {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.new_survivor_sheet_footer_button_container {
+    width: 100%; 
+}
+.new_survivor_sheet_footer_button_container button {
+    margin-bottom: 10%; 
+}
+.new_survivor_link_container .new_survivor_link .desc .email {
+    padding-left: 2%;
+} 
+
+/*
+    EXPANSION CONTENT expansion_content_manager.html
+*/
+.expansions_controls_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+.expansions_controls_container .kd_sheet_ui_row_tip {
+    margin: 0 auto;
+    margin-bottom: 1%;
+    width: 90%;
+}
+
+
+/*
+    timeline.html 
+*/
+.timeline_ly_repeater {
+    transition: 1s;
+}
+.timeline_ly_repeater.active {
+    padding: 0.5rem 0 1rem 0;
+}
+.timeline_top_line {
+    border-bottom: 0.1rem solid;
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem auto auto auto;
+    width: 100%;
+}
+.timeline_top_line div {
+    margin-left: 1.7rem;
+}
+
+.timeline_event {
+    align-items: baseline;
+    display: flex;
+}
+.timeline_event * {
+    margin-left: 0.5rem;
+}
+.timeline_event *:first-child {
+    margin-left: 0;
+}
+
+
+/*
+
+
+    NEW SETTLEMENT
+
+*/
+.new_settlement_form .settlement_name {
+    font-size: 2em;
+    margin: 2% auto;
+    margin-bottom: 1%;
+    text-align: center;
+    font-weight: bold;
+    padding: 1%;
+    padding-top: 0;
+}
+.new_settlement_form h4 {margin-left: 3%; }
+.new_settlement_asset_clicker {margin: 7%;}
+#createNewSettlementButton {margin-top: 6%; margin-bottom: 6%;}
+
+
+/*
+
+    TABS - yeah, we're doing tabs now
+
+*/
+
+.full_tab_spinner {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    right: 0; 
+    text-align: center;
+}
+
+
+/*
+
+    Re-usable settlement view styles; sheet and campaign summary
+
+*/
+.settlement_name {
+    font-family: 'Silverado';
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 3%;
+}
+.campaign_type {
+    font-style: italic;
+    margin-bottom: 5%;
+    margin-top: -3%;
+    text-align: center;
+}
+.settlement_abandoned_stamp {
+    font-family: 'Silverado';
+    letter-spacing: 1vw;
+    text-align: center;
+    transform: rotatez(-1deg);
+}
+
+
+/*  blood drop / bleeding token */
+
+.bleeding_token_container {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%; 
+}
+.bleeding_token {
+    border: 0.2rem solid black;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    height: 2.5rem;
+    transform: rotate(-45deg);
+    transition: 0.5s;
+    width: 2.5rem;
+}
+
+/*
+
+    SURVIVOR SEARCH app
+
+*/
+#survivorSearchModalOpener {
+    height: 6vh;
+    box-sizing: border-box;
+    left: 20%;
+    position: fixed;
+    text-align: center;
+    top: 1%;
+    width: calc(100% - 40%);
+}
+.survivor_search_modal_content {
+    border: 0.1em solid;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    border-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: auto;
+    padding: 10vh 0 0 0; 
+    position: absolute;
+    top: 0;
+    width: 95%; 
+}
+.survivor_search_modal_content:after {
+    bottom: -10vh; 
+    content: "\00a0"; /*    white space; element needs content to work */
+    position: absolute;
+}
+.survivor_search_button {
+    height: fit-content;
+    margin: 3%;
+}
+.survivor_search_button_inner {
+    margin: 0.5em;
+    border: 0.5em solid;
+    padding: 0.5em;
+}
+.survivor_search_survivor_name_container {
+    border-bottom: 0.1em solid;
+    display: flex;
+    align-items: flex-end;
+}
+.survivor_search_survivor_name {
+    width: 70%;
+    font-family: 'Silverado';
+}
+.survivor_search_survivor_sex {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 30%;
+    margin-bottom: 1%; 
+}
+.survivor_search_survivor_sex * {
+    margin-right: 3%; 
+}
+.survivor_search_survivor_sex .kd_sheet_ui_box {
+    height: 1.5vh;
+    width: 1.5vh;
+}
+.survivor_search_survivor_sex .kd_sheet_ui_box:last-child {
+    margin-right: 0; 
+}
+
+.survivor_search_survivor_assets {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; 
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 0.8em;
+    text-indent: -1vw;
+    margin-left: 1vw; 
+}
+.survivor_search_attrib_container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-indent: initial;
+    width: 15%;
+}
+.survivor_search_attrib_container span {
+    padding-top: 1%;
+}
+
+.survivor_search_results_warning {
+    border-top: 1px solid;
+    box-sizing: border-box;
+    font-style: Italic;
+    margin: 3% auto;
+    margin-bottom: 0;
+    padding: 1%; 
+    text-align: center;
+    width: 95%;
+}
+
+/*
+
+    CAMPAIGN SUMMARY
+
+*/
+
+
+.dead_guardian_ul {
+    text-align: left; 
+}
+
+/*  headline and diamonds   */
+.headline_block {
+    align-items: center;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+.headline_block_caption {
+    text-align: center;
+}
+.headline_block_subtitle {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 5%;
+    width: 90%;
+}
+
+    /* diamonds! */
+.shape-section {
+  padding: 20px 0;
+}
+.diamond {
+  background: #000;
+  text-align: center;
+  transform:rotate(45deg);
+  height: 10vw;
+  width: 10vw;
+}
+.diamond_inner {
+  color: #fff;
+  display: table-cell;
+  transform: rotate(-45deg);
+  vertical-align: middle;
+  height: inherit;
+  width: inherit;
+}
+.campaign_summary_headline_blocks_container {
+    margin: 0 auto;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+/*  campaign summary and fact box styles    */
+.campaign_summary_small_box.settlement_fact h4 {
+    text-align: center; 
+    margin: 1%;
+    text-transform: capitalize
+}
+.campaign_summary_settlement_bonus_desc {
+    margin: 3%;
+    text-align: justify;
+}
+
+/*  Pulse Discoveries / pd_ styles  */
+.pulse_discovery {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 0 auto;
+	width: 98%;
+}
+.pulse_discovery:first-child {
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+}
+.pulse_discovery:last-child {
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+}
+.pd_level_container {
+    padding-top: 6%;
+    width: 25%;
+}
+.pd_level {
+    align-items: center;
+    border-radius: 100%;
+    display: flex;
+    height: 2rem;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    width: 2rem;
+}
+.pd_text {
+	box-sizing: border-box;
+	padding: 6%;
+	padding-left: 0;
+	width: 75%;
+}
+.pd_arrow {
+	display: flex;
+	justify-content: center; 
+	height: 1px; 
+	width: 25%;
+}
+.pd_arrow .glyph {
+	font-size: 4rem; 
+	margin-top: -3rem;
+}
+
+/*  campaign summary storage */
+.campaign_summary_storage_opener {
+    border: 0.2rem solid;
+    border-bottom-left-radius: 1rem;
+    border-right: none; 
+    border-top-left-radius: 1rem;
+    height: auto;
+    padding: 0.5rem;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 5rem;
+}
+.campaign_summary_storage_item {
+    border-bottom: 1px solid;
+    border-radius: 5px; 
+    display: block;
+    padding-left: 2%;
+    width: 100%;
+}
+.campaign_summary_storage_keyword {
+    margin-right: 5%;
+}
+.campaign_summary_storage_item_keywords {
+    padding-left: 2%; 
+}
+.campaign_summary_storage_keywords {
+    background-color: #FFFFEE;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:flex-end; 
+    text-align: right;
+}
+.right_side_nav_close_tip {
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    width: 80%;
+}
+
+
+/* group container */
+.campaign_summary_survivors_container h2 {
+    font-family: 'Silverado';
+    border: 0;
+    text-align: center;
+    margin-bottom: 1%;
+}
+.campaign_summary_survivors_group {
+    margin-top: 2%;
+    margin-bottom: 7%;
+}
+.campaign_summary_survivors_group h3 {
+    text-align: left;
+    margin: 0;
+    margin-left: 7%;
+    display: block;
+    padding:0;
+    padding-left: 3%;
+    padding-right: 3%;
+    font-family: 'Silverado';
+}
+.campaign_summary_survivor_container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 99%;
+    margin: 0 auto;
+}
+.campaign_summary_survivor {
+    border-radius: 1vw;
+    margin: 2%;
+    transition: 2s;
+    transition-timing-function: ease;
+    padding: 0;
+    width: 100%; 
+}
+.campaign_summary_survivor_returning_flash {
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+}
+.campaign_summary_survivor_constellation {
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+    margin-top: 5%;
+    font-family: 'Silverado';
+    font-size: 1em;
+}
+.campaign_summary_survivor_returning_flash,
+    .campaign_summary_survivor_constellation {
+    margin: 0;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: -0.25%;
+    width: 100.5%;
+}
+.campaign_summary_survivor_avatar_and_summary {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 3%; 
+}
+.campaign_summary_survivor_avatar_and_summary div.avatar {
+    margin: 1vh 0 0 3%;
+    width: 30%;
+}
+.campaign_summary_survivor_avatar_and_summary div.avatar img {
+    border: 0;
+    max-height: 15vh;
+}
+.campaign_summary_survivor_avatar_and_summary div.summary {
+    width: 70%;
+}
+.campaign_summary_survivor_avatar_and_summary div.summary div {
+    margin-left: 3%;
+    padding-right: 5%;
+}
+.campaign_summary_survivor_avatar_and_summary div.summary div.COD {
+    margin-bottom: 3%;
+    white-space: inherit;
+}
+.campaign_summary_avatar {
+    position: relative;
+}
+.campaign_summary_survivor_button_bleeding_tokens_container {
+    display: flex;
+    flex-direction: column; 
+    float: right;
+}
+.campaign_summary_survivor_affinities_container {
+    display: flex;
+    flex-wrap: wrap; 
+    padding-left: 3%;  
+}
+.campaign_summary_survivor_affinities_container div {
+    margin: 1%; 
+}
+.death_x {
+    font-size: 10rem;
+    position: absolute;
+    margin: -2rem 0 0 0;
+}
+.campaign_summary_survivor_tags_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    margin-bottom: 1%; 
+    width: 90%;
+}
+.survivor_tag {
+    border-radius: 0.25vw;
+    break-inside: avoid;
+    display: flex;
+    font-family: 'Silverado';
+    justify-content: center;
+    margin: 1%;
+    width: auto;
+}
+.survivor_tag span {
+    padding: 0.5rem; 
+}
+.campaign_summary_endeavor_controller .controls button {
+    margin: auto;
+    height: 5vh;
+    margin-left:2%;
+    margin-right: 2%; 
+    width: 100%; 
+}
+.campaign_summary_endeavor_container {
+    width: 98%;
+    margin: 0 auto;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+.campaign_summary_endeavor_controller .tokens {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 3%; 
+    padding-left: 1%;
+    padding-top: 5%;
+    width: 100%;
+}
+.campaign_endeavor {
+    margin-top: 2%;
+}
+.endeavor_location {
+    font-weight: normal;
+    margin: 0.25rem;
+    margin-left: 0.5rem;
+    padding: 0;
+    margin-top: 3%;
+}
+.endeavor_text {
+    padding: 2%;
+    vertical-align: middle;
+    width: 100%;
+}
+.endeavor_cost {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 0;
+    min-width: 4%; 
+}
+.endeavor_cost span {
+    margin-right: 5%;
+}
+.endeavor_cost span:last-child {
+    margin-right: auto;
+}
+
+/*  settlement facts */
+.campaign_summary_small_box.settlement_fact {
+    width: 95%;
+    margin: 0 auto;
+    border: 0.1em solid;
+    padding: 3%;
+    margin-top: 5%;
+    border-radius: 0.3em;
+    box-sizing: border-box; 
+}
+.campaign_summary_bullet {  /*  these are spans */
+    display: block;
+    margin: 2%;  
+}
+
+/*  survivor quickview  */
+
+#survivorQuickviewLeftColumn {
+    border-bottom: 1px solid;
+}
+
+.survivor_quickview_container .kd_sheet_ui_roll_down_controls {
+    width: 85%;
+}
+
+.quickview_survivor_name_and_sex_bar {
+    align-items: flex-end;
+    border-bottom: solid;
+    display: flex;
+    justify-content: space-between;
+    margin: 3%;
+}
+.quickview_name_box {
+    font-family: 'Silverado';
+}
+.quickview_sex_box {
+    display: flex;
+    font-weight: bold; 
+    margin-bottom: 2%; 
+    width: 25%;
+}
+.quickview_sex_box * {
+    margin: auto;
+} 
+.quickview_survival_container {
+    display: flex;
+    margin: 3%;
+}
+.quickview_survival_container .survival_box_number,
+    .secondary_attribute_title_bar {
+    align-items: flex-end; 
+    display: flex; 
+    flex-wrap: nowrap;
+    margin-bottom: 2%; 
+}
+.secondary_attribute_title_bar .title {
+    font-family: 'Silverado';
+    line-height: 0.9; 
+    min-width: 30%;
+    margin-right: 2%;  
+}
+
+.secondary_attribute_title_bar .lockbox {
+    align-items: center; 
+    display: flex;
+    justify-content: flex-end; 
+    margin-left: auto;
+    white-space: nowrap; 
+}
+.lockbox .kd_sheet_ui_box {
+    margin: auto;  
+}
+
+.quickview_secondary_container {
+    margin: 3%;
+    display: flex;
+    flex-direction: column;
+}
+.weapon_proficiency_type {
+    align-items: center; 
+    display: flex;
+    width: 50%;
+}
+.null_weapon_proficiency {  /*  the blank underline thing */
+    border-bottom: 0.1rem solid;
+    display: block;
+    margin: 0 1rem 0 0.5rem;
+    width: 100%;
+}
+.weapon_proficiency_boxes {
+    width: 50%;
+    display: flex; 
+}
+.quickview_ui_button_container {
+    border-top: solid; 
+    text-align: center;
+}
+.quickview_ui_button {
+    margin-top: 5%;
+    margin-bottom: 5%;
+} 
+.quickview_attribute_tumblers_container { /* base, gear, tokens tumblers */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly; 
+}
+.quickview_attribute_tumblers_container .vertical_tumbler_container {
+    width: 33%;
+    border: 1px solid;
+    margin: 1%; 
+}
+.quickview_asset_list {
+    padding: 0 0 0 1rem;
+}
+.quickview_asset_list li {
+    list-style: none;
+    margin: 0.5rem 0 0 0;
+}    
+
+/*  departing survivors - base/mobile   */
+.modal-black.departing_survivors_modal_container {
+    padding-bottom: 11vh; 
+}
+.showdown_controls_button_box {
+    overflow: hidden;
+    transition: 1s;  
+}
+.showdown_controls_button_box_option_repeater {
+    width: 80%;
+    padding-left: 5%;
+    margin: 5% auto;
+}
+.showdown_controls_button_box_option_repeater.unset {
+    font-style: italic;
+} 
+.return_departing_survivors {
+    text-align: justify;
+}
+.return_departing_survivors p {
+    margin: 3%; 
+}
+
+#manageDepartingSurvivors {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.applying_update_spinner  {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0; 
+    font-size: 0.8em;
+    align-items: center;
+    text-align: center;
+    margin: 2% auto;
+    position: fixed;
+    padding-top: 50%; 
+}
+.applying_update_spinner img {
+    width: 300px;
+    margin-bottom: 43%;
+}
+
+/*
+
+    SETTLEMENT SHEET
+
+*/
+
+#settlementSheetApp {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; 
+}
+
+.view_tab {
+    display: flex;
+    flex-direction: column; 
+    overflow-x: hidden;
+    width: 100%;  
+}
+
+.tab_nav_warning_arrow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    width: 20vh;
+    height: 20vh;
+    font-size: 20vh;
+    border: 0.3vw solid;
+    border-radius: 1vw;
+}
+
+#viewTabContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 9vh;
+    font-family: 'Silverado';
+    border-top: 0.3vw solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; 
+}
+.view_tab_button {
+    font-size: 2.5vh;
+    margin: 1vw;
+    padding: 1em;
+    transition: 1s;
+    cursor: pointer;
+    text-align: center;
+}
+
+.settlement_sheet_block_group {
+    margin: 0.5%;
+    margin-top: 10%;
+    padding-bottom: 3%;
+    box-sizing: border-box;
+}
+
+.settlement_sheet_block_group .line_item {
+    margin-bottom: 4%;
+}
+
+/*  settlement sheet left panel */
+
+#settlementSheetMilestonesContainer .milestone_content_container {
+    margin: 1% auto; 
+    width: 90%; 
+}
+
+.settlement_sheet_milestone_content_container {
+    display: flex;
+    border-bottom: 0.1em solid;
+    justify-content: space-evenly;
+    margin-top: 5%;  
+}
+.settlement_sheet_milestone_checkbox_container {
+    display: flex;
+    align-items: center; 
+}
+.settlement_sheet_milestone_details {
+    width: 75%;
+    box-sizing:border-box;
+    margin-bottom: 3%; 
+}
+
+/*  settlement sheet right column */
+.checkbox_desc.nemesis {
+    white-space: nowrap;
+}
+.nemesis_level_clicker {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap; 
+}
+.nemesis_level_clicker * {
+    margin-right: 0.1rem;
+}
+.nemesis_level_clicker:last-child {
+    margin-right: -1rem;
+}
+
+/*  storage - mobile    */
+#editStorage {
+    width: 100%; 
+}
+.floating_storage_refresh_button {
+    bottom: 5rem;    
+    left: 0;
+    position: fixed;
+    right: auto;
+    transform: translate(50%, 0);
+}
+.storage_type_repeater {
+    margin: 3%; 
+    border: 0.3vw solid;
+    padding: 2%;
+}
+
+.storage_type_title {
+    text-align: left;
+    margin: 0;
+    padding: 0; 
+}
+
+.storage_location_keywords_rollup {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 1%;
+}
+
+.storage_location_keywords_rollup_item {
+    width: auto;
+    display: flex;
+    margin-right: 3vw;
+    white-space: nowrap;  
+}
+
+.inventory_row_detail_keywords,
+    .inventory_row_detail_rules {
+    margin-left: 1.5%;
+    margin-bottom: 2%; 
+}
+
+/*  SETTLEMENT SHEET left panel - mobile */
+
+
+/*  settlement numbers tumblers - mobile */
+
+.settlement_sheet_tumblers_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 3%;  
+}
+.settlement_sheet_tumbler {
+    width: 33%;
+    margin-bottom: 3%; 
+}
+.settlement_sheet_tumbler_click_on {
+    cursor: pointer;
+    margin: auto; 
+}
+.settlement_sheet_tumbler_number {
+    transition: 1s; 
+    border: 0.3vw solid;
+    margin: 0 auto;
+    font-size: 9vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;  
+}
+.settlement_sheet_tumbler_number div {
+    font-weight: bold; 
+    display: inline-block;
+}
+.settlement_sheet_tumbler_name {
+    font-size: 2.5vh;
+    font-family: Silverado;
+    margin: 0 auto; 
+    text-align: center;
+    text-transform: capitalize;  
+}
+.settlement_sheet_tumbler_controls {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 3%;
+    border-radius: 1em;  
+}
+.settlement_sheet_tumbler_control_title {
+    text-align: center;
+    font-size: 4vh;
+    margin-top: 2vh;
+    margin-bottom: 1vh; 
+    font-family: 'Silverado';
+}
+.settlement_sheet_tumbler_control_raft {
+    width: 100%;
+    display: flex;
+    justify-content: center;  
+}
+.settlement_sheet_tumbler_control_raft button {
+    width: 45%;
+    font-size: 5vh;
+    padding: 0; 
+}
+.settlement_sheet_tumbler_tip p {
+    margin: 3%; 
+}
+
+/*  Innovations controls */
+
+#innovationDeckContainer {margin-top: 2rem; padding-bottom: 1rem; }
+.settlement_sheet_innovation_deck {columns: 2; }
+.settlement_sheet_innovation_deck li {list-style-type: square;}
+
+/*  principles */
+.settlement_sheet_principles_spinner_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5%; 
+}
+.settlement_sheet_principles_spinner_container img {
+    width: 15vw;
+    margin: 0 auto; 
+}
+.settlement_sheet_principles_spinner_container p {
+    font-size: 0.8em;
+    text-align:center;
+    font-style: italic; 
+}
+#settlementSheetPrinciplesControls {
+    margin-bottom: 11vh; 
+}
+.settlement_sheet_principles_rack {
+    margin-left: 5%; 
+}
+.settlement_sheet_principle_repeater {
+    align-items: baseline;
+    display: flex;
+    flex-direction: column;
+    margin: 3%;
+}
+.settlement_sheet_principle_name {
+    font-weight: bold;
+    width: 100%;
+    font-size: 1.2em; 
+    margin-bottom: 5%; 
+}
+.principle_option {
+    width: 100%;
+    margin: 3%;
+    margin-top: 0;  
+}
+.principle_option_title {
+    display: flex;
+}
+.principle_option_name {
+    width: 75%; 
+}
+.principle_option_desc {
+    font-weight: normal;
+    margin: 3%;
+    font-size: 0.9em; 
+}
+.unset_principle_container {
+    margin-bottom: 10%;
+}
+
+
+/*  SETTLEMENT SHEET right panel - mobile */
+
+#settlementSheetRightColumn {
+    margin-top: 5%; 
+}
+
+/*  strain system */
+.strain_milestone_toggle_box {
+    border-radius: 0.15em;
+    padding: 1%;
+    margin-bottom: 3%;
+    transition: 1s;
+    box-sizing: border-box;
+    width: 100%;
+}
+.strain_milestone_toggle_box.active {transition: 1s;}
+.settlement_sheet_line_item {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    border-bottom: 0.1em solid;
+}
+.location_lvl_select {
+    position: absolute;
+    right: 5%;
+    width: 15%;
+    font-family: 'Silverado';
+}
+.line_item .location_lvl_select .location_level {
+    display: inline-block;
+    border: 0;
+    width: auto;
+}
+.strain_milestone_condition {
+    margin: 1%;
+}
+
+.strain_milestone_fighting_arts {
+    transition: 1s;
+}
+.unlocked_strain_fa {transition: 2s;}
+
+.innovation_consequences_repeater:after {
+    content: ", ";
+    margin-left: -1%;
+}
+.innovation_consequences_repeater:last-child:after {
+    content: "";
+}
+
+/* settlement sheet ADMIN tab */
+#settlementSheetAdminTab {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*
+
+    SURVIVOR SHEET
+
+*/
+#survivorSheetLeftColumn,
+    #survivorSheetMiddleColumn {
+    box-sizing: border-box; 
+}
+#settlementSheetSurvivalContainer {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#survivorName {
+    font-family: 'Silverado';
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin: 3%;
+}
+.survivor_sheet_avatar_container {
+    width: 50%;
+}
+.survivor_sheet_avatar_container label {
+    margin: 0 auto;
+}
+.survivor_avatar_image {
+    max-height: 30vh; 
+    max-width: 100%; 
+}
+
+/*  survival box elements; shared with campaign summary quickview */
+.survival_box_number_container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+}
+.survival_box_number {
+    border: 0.1rem solid;
+    font-size: 2.5em; 
+    height: 4rem;
+    padding: 0;
+    text-align: center;
+    width: 4rem;
+} 
+.survival_box_title_and_lock {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 1%;
+    width: 50%;
+}
+.survival_box_title_and_lock .survival_box_title {
+    font-family: 'Silverado';
+    line-height: 0.8;
+    padding-left: 2%;  
+}
+.survival_box_lock {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    padding: 2%;
+}
+.survival_box_survival_actions_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; 
+    min-width: 25%;
+}
+.survival_box_survival_action_item {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+} 
+
+/*  affinity    */
+.survivor_sheet_affinity_controls_container {
+    width: 90%;
+    margin: 2rem auto 3rem auto;
+}
+.survivor_sheet_affinity_controls_repeater {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%; 
+}
+.affinity_block {
+    height: 7rem;
+    width: 7rem; 
+}
+
+
+/* attributes container and boxes; shared with campaign summary quickview */
+
+.attributes_container {
+    margin: 3%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-top: 0;
+}
+.attributes_container.survivor_sheet {
+    width: 98%;
+    margin: 3% auto;
+    margin-top: 0; 
+}
+.attribute_box {
+    align-items: center;
+    border-right: 3px solid;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding-bottom: 2%;
+    width: 17%;
+}
+.attribute_box.last {
+    border: 0;
+}
+.attribute_box .attribute_box_number {
+    border: 1px solid;
+    font-size: 7vw;
+    margin: 2vw;
+    min-height: 5vh;
+    padding: 0;
+    text-align: center;
+    width: 70%;
+}  
+
+/* hit location; shared with campaign summary quickview */
+.hitbox_container {
+    height: 5rem; 
+    display: flex;
+    margin: 3%;
+}
+.hitbox_container.brain {
+    border: solid;
+    box-sizing: border-box;
+    height: 5rem;  
+    margin: 0 auto;
+    width: 98%;
+}
+.hitbox_container.brain.quickview_brain_container {
+    width: 94%; 
+}
+.hit_location_repeater {
+    border-bottom: 0.01rem solid;
+}
+.hit_location_repeater:last-child { /*   the last one doesn't need it */
+    border: none;
+}
+.hitbox_shield_container.brain {
+    border-right: solid;
+}
+.hitbox_shield_container.brain span {
+    margin-top: 2%;
+}
+.kd_sheet_ui_roll_down.brain {
+    margin-top: 3%; 
+}
+.hitbox_shield_container {
+    align-items: center;
+    border: none; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    width: 20%;
+}
+.hitbox_shield {
+    border: 0.1rem solid;
+    border-bottom-left-radius: 5vh;
+    border-bottom-right-radius: 5vh;
+    height: 70%;
+    padding: 0;
+    text-align: center;
+    width: 60%;
+}
+.hitbox_shield.brain {
+    height: 55%; 
+    width: 50%;
+}
+.hitbox_detail {
+    display: flex;
+    flex-direction: column;
+    font-size: larger;  
+    justify-content: space-between;
+    margin: 3%;
+    margin-left: 1%; 
+    width: 35%;
+}
+.hitbox_detail.brain {
+    margin-left: 3%; 
+}
+.hitbox_detail .title {
+    align-items: center;
+    display: flex;
+    font-family: 'Silverado';
+}
+.hitbox_detail .tip {
+    white-space: nowrap;
+}
+.hitbox_boxes_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: 3%; 
+    margin-top: 3%;  
+    width: 30%; 
+}
+.hitbox_boxes_container.brain {
+    margin-right: 5%; 
+}
+.hitbox_boxes_container div:only-child {
+    margin-left: auto;
+}
+.damage_box {
+    border: 0.1rem solid;
+    box-sizing: border-box;
+    height: 120px;
+    transition: 0.5s;
+    width: 120px;
+}
+.heavy.damage_box {
+    border-width: 0.3rem;
+}
+.damage_box.checked {background-color: #000; }
+.hitbox_boxes_container .damage_box {
+    height: 2rem;
+    width: 2rem;
+}
+.hitbox_boxes_container .damage_box:before {
+    font-size: 0.7rem;
+    margin-left: 0.5rem;  
+    margin-top: 2rem; 
+    position: absolute;
+}
+.hitbox_boxes_container .damage_box.light:before {
+    content: 'L' / "Light Injury";
+    padding-left: 0.2rem; 
+    padding-top: 0.2rem; 
+}
+.hitbox_boxes_container .damage_box.heavy:before {
+    content: 'H' / "Heavy Injury"; 
+}
+.survivor_sheet_partner {
+    display: flex;
+    padding: 2%;
+}
+.survivor_sheet_partner p {
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+}
+.survivor_sheet_partner img {
+    margin-right: 2%;
+    max-height: 100%;
+    max-width: 30%;
+}
+
+    /*  survivor_sheet.html - controls of death */
+.custom_cod_text {
+    border: 0.2rem solid;
+    border-radius: 5vw; 
+    box-sizing: border-box;
+    margin: 3%;
+    padding: 3%;
+    text-align: center;
+    width: 90%;
+}
+
+    /*  survivor_sheet.html - special attributes / campaign-specific */
+.survivor_sheet_special_attributes_container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto; 
+}
+.survivor_sheet_special_attribute_container {
+    align-items: center;
+    border: 0.2rem solid;
+    display: flex;
+    flex-direction: row;
+    margin: 3%;
+    padding: 3%;
+    transition: 2s;
+    width: inherit; 
+}
+.special_attribute_checkbox {
+    border: 0.2rem solid;
+    height: 1rem;
+    margin-right: 3%;
+    transition: 2s;
+    width: 1rem;
+}
+.special_attribute_text.active {
+    font-weight: bold;
+}
+
+/* survivor sheet a&i container */
+.survivor_sheet_secondary_attribs_container {
+    margin: 0 auto; 
+}
+.survivor_sheet_secondary_attrib_container {
+    margin-bottom: 15%; 
+}
+.survivor_sheet_secondary_attrib_container .secondary_attribute_title_bar {
+    margin: 3% auto;  
+    width: 95%;  
+}
+.outer_ai_container {
+    margin: 0 auto;
+    width: 96%;
+}
+.title.ai_title {
+    width: 55%;
+}
+.ai_repeater {
+    margin: 3%;
+}
+#survivorSheetAISelector {
+    margin-top: 8%; 
+}
+
+/*  survivor_sheet.html - 'extra' attributes: fav, savior, dead, etc. */
+/*      the 'ui_tiles_box' styles collect frd, savior, etc. */
+.ui_tiles_box {
+    display: flex;
+}
+.ui_tiles_box .clickable {
+    align-items: center;
+    border-radius: 3px; 
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    text-align: center; 
+}
+.ui_tiles_box .clickable .kd_sheet_ui_box {
+    margin-right: 3%;
+}
+.favorite_star:before {
+    content: "\2606"; 
+    font-size: 1.5em;
+    line-height: 1;
+    margin-right: 2%;
+    transition: 0.5s;
+}
+.favorite_star.checked:before {
+    content: "\2605";
+}
+
+
+
+    /* note tab starts here! */
+
+.survivor_sheet_notes_container {
+    display: flex;
+    flex-direction: column; 
+}
+.survivor_sheet_new_note_clicker {
+    margin: 3%; 
+}
+.survivor_sheet_new_note_container {
+    margin: 3%; 
+}
+.survivor_sheet_new_note_title_bar {
+    display: flex;
+    flex-wrap: nowrap;     
+}
+.survivor_sheet_new_note_input {
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 3%; 
+    width: 85%;
+}
+.survivor_sheet_new_note_input:focus {
+    outline: none;
+}
+.survivor_sheet_note_pushpin {
+    opacity: 0.5;
+    text-align: center;
+    vertical-align: middle;
+    width: 15%; 
+}
+.survivor_sheet_note_pushpin.active {
+    opacity: 1;
+}
+.survivor_sheet_note_repeater_container {
+    display: flex;
+    flex-direction: column;
+}
+.survivor_sheet_note_repeater {
+    border: 1px solid;
+    border-radius: 1vw;
+    margin: 2%;
+    overflow: hidden;
+    padding-bottom: 0; 
+}
+.survivor_sheet_note_body {
+    margin: 2%; 
+}
+.survivor_sheet_note_body:focus {
+    outline: none;
+}
+.survivor_sheet_note_body.pinned:before {
+    content: "\01F4CC\00a0";
+}
+.survivor_sheet_note_debugger {
+    font-size: 0.5rem;
+    padding: 1%;
+    word-break: break-all; 
+}
+.survivor_sheet_note_meta_data_bar {
+    text-align: right;
+    padding: 1%;
+    padding-right: 3%; 
+}
+.survivor_sheet_note_tools_bar {
+    display: flex;
+    padding: 1%;  
+}
+.survivor_sheet_note_select {
+    border: none;
+    text-align-last:center; 
+}
+.survivor_sheet_note_more_options {
+    margin-top: -1%;
+}
+.survivor_sheet_note_tools_bar div {
+    border-radius: 1vw;
+    padding: 1%;
+    text-align: center;
+    width: 33%;  
+}
+
+.survivor_sheet_kd_sheet_ui_box.tags_container {
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;  
+    justify-content: flex-start;
+}
+.survivor_sheet_tag {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    margin: 3%;
+    max-height: 1rem;
+    padding: 2%;
+}
+.survivor_sheet_tag.add_tag {
+    border: 1px solid;
+    border-radius: 100%;
+    font-size: 4vh; 
+    height: 10vh;
+    max-height: none; 
+    padding: 0;
+    text-align-last:center;
+    width: 10vh;
+}
+
+
+/*  survivor sheet admin tab */
+.survivor_sheet_public_toggle {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 7%; 
+}  
+.survivor_sheet_public_toggle .kd_sheet_ui_box {
+    margin-right: 3%; 
+}
+input.survivor_owner_email {
+    border-radius: 10px;
+    display: block;
+    font-family: Silverado;
+    font-size: 1.5em;
+    height: auto;
+    margin: 3% auto;
+    padding: 2%;
+    text-align: center; 
+    width: 93%;
+}
+input.survivor_owner_email:focus {
+    background: radial-gradient(#FDEDA9, #FFFFC5);
+}
+input.survivor_owner_email:invalid {
+    background: radial-gradient(#FDcDc9, #FFcFC5);
+}
+
+/*  debugger.html   */
+#ngDebugWindow {
+    bottom: 1%;
+    max-height: 50%;  
+    max-width: 90%;  
+    opacity: 90%;
+    overflow: scroll;
+    position: fixed;
+    right: 1%; 
+}
+#ngDebugWindow table {
+    width: 100%;
+}
+#ngDebugWindow ul {
+    margin-left: 0;
+}
+#ngDebugWindow li {
+    margin-top: 3%;
+}
+
+/*  error/default.html  */
+.http_error_container {
+    display: flex;
+    flex-direction: column; 
+    left: 50%;
+    min-height: 50%;
+    position: fixed;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    width: 75%; 
+}
+.http_error_container p {
+    flex-grow: 1;
+    text-align: center; 
+}
+.http_error_reporter {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;  
+    width: 90%;
+}
+.http_error_reporter code {
+    word-break: break-all; 
+}
+.http_error_container h1 {
+    margin-bottom: 0; 
+    text-align: center;
+}
+
+/*  event_log.html  */
+.event_log_clicker {
+    border: 2px solid;
+    margin: 1%;
+    margin-bottom: 3%;
+    margin-left: 2%;
+    padding: 1%;
+    width: 93%;
+}
+.event_log_clicker_title {
+    align-items: center; 
+    display: flex;
+}
+.event_log_clicker_title_name {
+    min-width: 80%
+}
+
+
+/*      help.html   */
+.help_section {
+    break-inside: avoid; 
+}
+.help_topic_question {
+    font-weight: bold;
+}
+.help_modal_tip_repeater b:after {
+    content: '\A';
+    display: table;
+}
+.help_modal_api_alert_container {
+    padding: 2%;
+    text-align: justify;
+}
+.help_modal_api_alert_detail_bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 1% 2% 1% 1%;
+}
+.help_modal_alert_detail_bar .date_stamp {
+    font-style: italic;
+}
+
+
+/*      report_error.html   */
+.report_error_container {
+    margin: 0 auto;
+    width: 90%;
+}
+.report_error_container p {
+    text-align: justify;
+    margin-bottom: 1rem;
+}
+.report_error_form {
+    align-items: center; 
+    display: flex;
+    flex-direction: column;
+}
+.report_error_form input,
+    .report_error_form button {
+    margin-top: 2rem; 
+    width: 90%;
+}
+.report_error_form textarea {
+    border: 0;
+    margin: 1rem auto;
+    min-height: 10rem;
+    padding: 1% 2% 1% 2%;
+    width: 100%; 
+}

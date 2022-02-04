@@ -137,11 +137,10 @@
                                     ng-if="eventType == 'special_showdown'"
                                 />
 
-                                <img
-                                    class="kd_icon nemesis_encounter"
-                                    src="/static/media/nemesis_encounter_event.jpg"
+                                <span
+                                    class="kdm_manager_font"
                                     ng-if="eventType == 'nemesis_encounter'"
-                                />
+                                />N</span>
 
                                 <span ng-if="!event.name">
                                     {a eventRepr.name a}
@@ -149,6 +148,7 @@
                                         (p. {a eventRepr.page a})
                                     </span>
                                 </span>
+
                                 <span ng-if="event.name">
                                     {a event.name a}
                                 </span>

@@ -8,13 +8,12 @@
 """
 
 # standard library
+import json
 
 # second party imports
-from bson import json_util
 import flask
 import flask_login
-import json
-import requests
+from bson import json_util
 
 # kdm-manager imports
 from app import app, models, utils
@@ -37,8 +36,8 @@ def unauthorized(status):
 
     return flask.render_template(
         '/errors/default.html',
-        status = status,
-        message = 'Unauthorized',
+        status=status,
+        message='Unauthorized',
         **app.config,
     ), int(status)
 
@@ -47,9 +46,9 @@ def unauthorized(status):
 #
 #   login / logout / register / reset
 #
-@app.route('/', methods=['GET','POST'])
-@app.route('/index', methods=['GET','POST'])
-@app.route('/login', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     """ Formerly the stand-alone AngularJS login app; now a part of the unified
     Flask application. """
@@ -60,8 +59,8 @@ def login():
         return flask.redirect(
             flask.url_for(
                 'reset_password',
-                login = flask.request.args.get('login', None),
-                recovery_code = flask.request.args.get('recovery_code', None),
+                login=flask.request.args.get('login', None),
+                recovery_code=flask.request.args.get('recovery_code', None),
             )
         )
 
@@ -75,19 +74,18 @@ def login():
 
         # try to authenticate the user against the API
         user = users.User(
-            username = login_form.username.data,
-            password = login_form.password.data
+            username=login_form.username.data,
+            password=login_form.password.data
         )
 
         if user.login_to_api(): # returns True if the user authenticates
             return user.login_to_flask(login_form)
-        else:
-            flask.flash('Invalid username or password!')
-            return flask.redirect(flask.url_for('login'))
+        flask.flash('Invalid username or password!')
+        return flask.redirect(flask.url_for('login'))
 
     return flask.render_template(
         'login/sign_in.html',
-        form = login_form,
+        form=login_form,
         **app.config
     )
 
@@ -100,7 +98,7 @@ def logout():
     return flask.redirect(flask.url_for('login'))
 
 
-@app.route('/register', methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     """ Processes the form for registering a new user with the API. """
 
@@ -115,8 +113,8 @@ def register():
         if success:
             flask.flash('New user registration successful! Please sign in...')
             return flask.redirect(flask.url_for('login'))
-        else:
-            flask.flash(api_response)
+
+        flask.flash(api_response)
 
     # if we tried and failed validation, default in the email we tried
     if register_form.username.data is not None:
@@ -124,23 +122,23 @@ def register():
 
     return flask.render_template(
         'login/register.html',
-        form = register_form,
+        form=register_form,
         **app.config
     )
 
 
-@app.route('/reset_password/<login>/<recovery_code>', methods=['GET','POST'])
-def reset_password(login, recovery_code):
+@app.route('/reset_password/<user_login>/<recovery_code>', methods=['GET', 'POST'])
+def reset_password(user_login, recovery_code):
     """ Processes the form for resetting a pw. """
 
     reset_form = ResetForm()
-    reset_form.default_login = login    # bit of a jinja hack here
+    reset_form.default_login = user_login    # bit of a jinja hack here
 
     if flask.request.method == 'POST' and reset_form.validate():
         user = users.User(username=reset_form.username.data)
         reset_result = user.reset_password(
-            new_password = reset_form.password.data,
-            recovery_code = recovery_code
+            new_password=reset_form.password.data,
+            recovery_code=recovery_code
         )
 
         # user.reset_password() logs the user in to the API, so we should have
@@ -148,18 +146,17 @@ def reset_password(login, recovery_code):
 
         if user.has_token():
             return user.login_to_flask(reset_form)
-        else:
-            flask.flash(reset_result)
+        flask.flash(reset_result)
 
     return flask.render_template(
         'login/reset_password.html',
-        form = reset_form,
+        form=reset_form,
         **app.config
     )
 
 
 @app.route('/about')
-def about():
+def login_about():
     """ This is currently just a flat page, but we might do some GDPR cookie
     complaiance stuff here eventually, so it's its own endpoint. """
     return flask.render_template(
@@ -168,7 +165,7 @@ def about():
     )
 
 @app.route('/help')
-def help():
+def login_help():
     """ Really simple; just renders the help and the controls for triggering
     a password reset. """
     return flask.render_template(
@@ -185,12 +182,12 @@ def help():
 def api_get_asset(asset_module):
     """ Returns dictionaries from our assets/ collection as JSON. """
     return flask.Response(
-        response = json.dumps(
+        response=json.dumps(
             models.get_asset_dicts(asset_module),
             default=json_util.default,
         ),
-        status = 200,
-        mimetype = 'application/json'
+        status=200,
+        mimetype='application/json'
     )
 
 
@@ -211,16 +208,18 @@ def almanac():
 @app.route('/dashboard')
 @flask_login.login_required
 def dashboard():
+    ''' Renders the dashboard for the user. Includes default app references. '''
     prefs = users.Preferences()
     return flask.render_template(
         'dashboard/_base.html',
-        PREFERENCES = prefs.dump(),     # because we edit them here
+        PREFERENCES=prefs.dump(),     # because we edit them here
         **app.config
     )
 
 @app.route('/new')
 @flask_login.login_required
 def new_settlement():
+    ''' Renders the stand along view for creating a new settlement. '''
     return flask.render_template(
         'new_settlement.html',
         **app.config
@@ -229,7 +228,10 @@ def new_settlement():
 @app.route('/settlement/<settlement_oid>')
 @flask_login.login_required
 def settlement_sheet(settlement_oid):
-    prefs = users.Preferences()
+    ''' Renders a settlement sheet, which is our main view in the v4 app. '''
+    app.logger.info(
+        '%s loading settlement %s' % (flask_login.current_user, settlement_oid)
+    )
     return flask.render_template(
         'settlement_sheet/_base.html',
         **app.config
@@ -241,29 +243,33 @@ def settlement_sheet(settlement_oid):
 #   error handling
 #
 @app.errorhandler(404)
-def error_404(e):
+def error_404(err):
     " Vanilla 404."
+    app.logger.debug('[404] %s' % flask.request.url)
     return flask.render_template(
         '/errors/default.html',
-        status = 404,
-        message = 'Not found',
+        status=404,
+        message='Not found',
         **app.config,
     ), 404
 
 @app.errorhandler(500)
 def error_500(error_msg):
     """ We sometimes throw a flask.abort(500). """
+    app.logger.error('[500] %s' % flask.request.url)
+    app.logger.error(error_msg)
     return flask.render_template(
         '/errors/default.html',
-        status = 500,
-        message = 'Server explosion',
+        status=500,
+        message='Server explosion! %s' % error_msg,
         **app.config
     ), 500
 
 @app.errorhandler(utils.Logout)
-def force_logout(error_msg):
+def force_logout(err):
     """ When the Flask error handler catches a utils.Logout, we need to log
     the user out immediately. """
+    app.logger.error(err)
     return flask.redirect(flask.url_for('logout'))
 
 

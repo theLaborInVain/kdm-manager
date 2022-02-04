@@ -44,32 +44,31 @@
                 expansion.released.$date < version.eol.$date 
             "
         >
-            <div
-                class="kd checkbox"
-                ng-class="{
-                    'checked': expansion.ui.pretty_category === 'Quarry',
-                    'red': expansion.ui.pretty_category === 'Nemesis',
-                }"
-            >
-            </div>
+            <div class="kd checkbox"></div>
             <div class="font_small">
                 {a expansion.released.$date|date: "yyyy-MM" a}
             </div>
             <div class="font_small kd checkbox_desc">
+                <span
+                    class="kdm_manager_font"
+                    ng-if="expansion.ui.pretty_category === 'Nemesis'"
+                >
+                    N
+                </span>
                 <b>{a expansion.name a}</b> - {a expansion.ui.pretty_category a}
 
                 <div>
                     <span
                         ng-if="expansion.pattern_gear.length > 0"
                     >
-                        <font class="kdm_font_2">p</font>: {a expansion.pattern_gear.length a}
+                        <font class="kdm_manager_font">p</font>: {a expansion.pattern_gear.length a}
                     </span>
                     
                     <!-- strain milestones -->
                     <span
                         ng-if="expansion.strain_milestones.length > 0"
                     >
-                        &#128917;: {a expansion.strain_milestones.length a}
+                        <span class="kdm_manager_font">s</span>: {a expansion.strain_milestones.length a}
                     </span>
                 </div>
 

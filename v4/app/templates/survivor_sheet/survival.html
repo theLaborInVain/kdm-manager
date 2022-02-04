@@ -35,7 +35,7 @@
                 ng-class="{'checked': survivor.sheet.cannot_spend_survival}"
             >
             </div>
-            &#x1f512;
+            <span class="kdm_manager_font">l</span>
             Cannot spend survival
         </div>
     </div> <!-- caption -->
@@ -94,8 +94,8 @@
             class="kd capsule blue"
             ng-click="
                 postJSONtoAPI(
-                    'survivor', 'set_survival', survivor.sheet._id.$oid,
-                    {'value': survivor.sheet.survival},
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {attribute: 'survival', value: survivor.sheet.survival},
                     false, true, true
                 );
                 ngRoll(survivalControlsId)

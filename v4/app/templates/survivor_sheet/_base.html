@@ -13,16 +13,16 @@
             {% include 'survivor_sheet/left_column.html' %}
             {% include 'survivor_sheet/right_column.html' %}
 
-        </div><!-- kd worksheet_block that holds the columns -->
+        </div> <!-- kd worksheet_block that holds the columns -->
 
         <div class="kd worksheet_block">
-            <div
-                contentEditable="true"
+            <input
+                class="kd capsule full_width"
+                type="text"
                 ng-init="scratch.survivorOriginalEmail = survivor.sheet.email"
                 ng-model="survivor.sheet.email"
                 ng-placeholder="email"
-            >
-            </div>
+            />
             <button
                 class="kd capsule blue"
                 ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"

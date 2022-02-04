@@ -6,6 +6,53 @@
         loadSettlementMacros();
     "
 >
+	<div
+        class="kd worksheet_block"
+        ng-init="newUrlRequest={}"
+        ng-class="{
+            'disabled': currentUser.subscriber.level === 0,
+        }"
+    >
+
+        <div class="kd worksheet_block_title">
+            Custom URL
+        </div>
+
+        <p ng-if="currentUser.preferences.show_ui_tips">
+            Subscribers to the Manager may set a custom URL for their
+            settlements. These URLs may be used to share settlements more
+            easily.
+        </p>
+
+        <input
+            class="kd capsule full_width"
+            ng-model="settlement.sheet.custom_url"
+            placeholder="custom_url"
+        />
+
+        <center
+            class="font_small bold"
+            ng-if="settlement.sheet.custom_url"
+            ng-click="loadUrl('/s/' + settlement.sheet.custom_url)"
+        >
+            https://kdm-manager.com/s/{a settlement.sheet.custom_url a}
+        </center>
+
+        <button
+            class="kd capsule blue"
+            ng-click="
+                postJSONtoAPI(
+                    'settlement', 'set_custom_url', settlement.sheet._id.$oid,
+                    {'url': settlement.sheet.custom_url},
+                    true, true, false
+                );
+            "
+        >
+            Save
+        </button>
+
+    </div> <!-- set custom URL -->
+
 	<div class="kd worksheet_block">
 
         <div class="kd worksheet_block_title">

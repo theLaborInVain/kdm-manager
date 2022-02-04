@@ -8,7 +8,7 @@
 .add_location  {color: #fff; background: linear-gradient(to bottom, #73C26C, #51B952); }
 .add_innovation {color: #fff; background: linear-gradient(#4EC7F1, #40ADD0); }
 .sysadmin {background: #999; color: #fff; }
-.sysadmin:before {content: "a"; margin-left: 0.5%; font-family: "kdm-font-2"}
+.sysadmin:before {content: "a"; margin-left: 0.5%; font-family: "kdm_manager_font"}
 .set_retired {background: #C5C6CB; }
 .set_principle {background-color: #A67526; color: #fff;}
 .set_principle:before {content: "g"; margin-left: 0.5%; font-family: "kdm-font-10"}

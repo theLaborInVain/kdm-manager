@@ -2685,12 +2685,19 @@
         <h3>Multiplayer</h3>
 
         <div
-            class="survivor_sheet_public_toggle clickable"
-            ng-click="toggleBoolean('public')"
+            class="survivor_sheet_public_toggle clickable hover_highlight"
+            ng-click="
+                survivor.sheet.public = !survivor.sheet.public;
+                postJSONtoAPI(
+                    'survivor', 'set_attribute',
+                    {attribute: 'public', value: survivor.sheet.public},
+                    false, true, true
+                );
+            "
         >
             <div
                 class="kd_sheet_ui_box"
-                ng-class="{checked: survivor.sheet.public == true}"
+                ng-class="{checked: survivor.sheet.public}"
             >
             </div>
             &#x1f512; Any player may manage this survivor

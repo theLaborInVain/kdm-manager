@@ -1,27 +1,138 @@
 <div
     class="kd survivor_sheet border_box survivor_attributes_container"
->
-    <div
-        class="kd survivor_sheet border_box_inset"
-        ng-repeat="attribute in [
+    ng-init="
+        survivorAttributes = [
             'Movement',
             'Accuracy',
             'Strength',
             'Evasion',
             'Luck',
             'Speed'
-        ]"
+        ];
+        survivorAttributeRollers = [];
+    "
+>
+    <div
+        class="clickable hover_highlight kd survivor_sheet border_box_inset"
+        ng-click="ngRoll(controlDiv, survivorAttributeRollers)"
+        ng-repeat="attribute in survivorAttributes"
+        ng-init="
+            controlDiv = survivor.sheet._id.$oid + attribute + 'Control';
+            survivorAttributeRollers.push(controlDiv);
+        "
+        ng-class="{'hover_highlight_forced': ngRolledUp[controlDiv] === false}"
     >
         <div
-            class="number_container"
+            class="kd number_container"
             ng-class="{
                 'borderless': attribute === 'Movement',
                 'font_large': attribute === 'Movement',
+                'green_text': survivor.sheet[attribute] < 
+                    survivor.sheet[attribute] +
+                    survivor.sheet.attribute_detail[attribute].tokens +
+                    survivor.sheet.attribute_detail[attribute].gear,
+                'red_text': survivor.sheet[attribute] > 
+                    survivor.sheet[attribute] +
+                    survivor.sheet.attribute_detail[attribute].tokens +
+                    survivor.sheet.attribute_detail[attribute].gear,
             }"
         >
-            {a survivor.sheet[attribute] a}
+            {a
+                survivor.sheet[attribute] +
+                survivor.sheet.attribute_detail[attribute].tokens +
+                survivor.sheet.attribute_detail[attribute].gear
+            a}
         </div>
-        <center class="font_tiny">{a attribute a}</center>
-    </div>
 
-</div>
+        <center class="font_tiny">
+            {a attribute a}
+        </center>
+
+    </div> <!-- attribute repeater -->
+
+
+</div> <!-- border_box -->
+    <div
+        id="{a controlDiv a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[controlDiv] === false}"
+        ng-repeat="attribute in survivorAttributes"
+        ng-init="controlDiv = survivor.sheet._id.$oid + attribute + 'Control'"
+    >
+        <div class="kd worksheet_row {a attribute a} survivor_sheet attributes tumbler_container">
+            <div>{a attribute a}</div>
+            <div>Gear</div>
+            <div>Tokens</div>
+        </div>
+        <div class="survivor_sheet attributes tumbler_container">
+            <div>
+                <button
+                    class="kd capsule blue"
+                    ng-click="
+                        survivor.sheet[attribute] = survivor.sheet[attribute] + 1;
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {'attribute': attribute, 'value': survivor.sheet[attribute]},
+                            false, true, true
+                        );
+                    "
+                >
+                    &#x25B2;
+                </button>
+                <div
+                    class="font_large"
+                >
+                    {a survivor.sheet[attribute] a}
+                </div>
+                <button
+                    class="kd capsule blue"
+                    ng-click="
+                        survivor.sheet[attribute] = survivor.sheet[attribute] - 1;
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {'attribute': attribute, 'value': survivor.sheet[attribute]},
+                            false, true, true
+                        );
+                    "
+                >
+                    &#x25BC;
+                </button>
+            </div>
+            <div
+                ng-repeat="attr in ['gear', 'tokens']"
+            >
+                <button
+                    class="kd capsule blue"
+                    ng-click="
+                        survivor.sheet.attribute_detail[attribute][attr] = survivor.sheet.attribute_detail[attribute][attr] + 1;
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute_detail', survivor.sheet._id.$oid,
+                            {'attribute': attribute, detail: attr, value: survivor.sheet.attribute_detail[attribute][attr]},
+                            false, true, true
+                        );
+                    "
+                >
+                    &#x25B2;
+                </button>
+                <div
+                    class="font_large"
+                >
+                    {a survivor.sheet.attribute_detail[attribute][attr] a}
+                </div>
+                <button
+                    class="kd capsule blue"
+                    ng-disabled="attr === 'gear' && survivor.sheet.attribute_detail[attribute][attr] === 0"
+                    ng-click="
+                        survivor.sheet.attribute_detail[attribute][attr] = survivor.sheet.attribute_detail[attribute][attr] - 1;
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute_detail', survivor.sheet._id.$oid,
+                            {'attribute': attribute, detail: attr, value: survivor.sheet.attribute_detail[attribute][attr]},
+                            false, true, true
+                        );
+                    "
+                >
+                    &#x25BC;
+                </button>
+            </div>
+        </div>
+    </div>

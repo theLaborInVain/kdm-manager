@@ -15,8 +15,8 @@
                 'id':  'navSettlementSheetDir',
                 'view': 'settlement_sheet',
                 'title': 'Settlement Sheet',
-                'font': 'kdm_font_10',
-                'icon': '&#9874;',
+                'font': 'kdm_manager_font',
+                'icon': 'D',
                 'requiresSettlement': true,
             },
             {
@@ -155,6 +155,7 @@
         id="{a 'settlementSheetTabButton-' + tab.id a}"
         ng-class="{
             'hidden': tab.adminOnly && settlement.sheet.admins.indexOf(currentUser.login) < 0,
+            'yellow_border': tabsObject.activeTab === tab.id,
             'yellow_text': tabsObject.activeTab === tab.id,
         }"
         ng-click="
@@ -269,7 +270,7 @@
         class="v4_nav_folder clickable"
         ng-click="loadUrl('/almanac')"
     >
-        <div class="kdm_font_2">a</div>
+        <div class="kdm_manager_font">a</div>
         <div class="font_small">Almanac</div>
     </div>
     {% endif %}
@@ -278,7 +279,7 @@
         class="v4_nav_folder clickable"
         ng-click="loadURL('/new')"
     >
-        <div>+ &#9874;</div>
+        <div>+ <span class="kdm_manager_font">D<span></div>
         <div class="font_small">New Settlement</div>
     </div>
 

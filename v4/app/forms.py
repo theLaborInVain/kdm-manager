@@ -22,7 +22,7 @@ from wtforms import (
 
 USERNAME = StringField(
     'Email',
-        validators = [
+        validators=[
             validators.DataRequired(),
             validators.Email(),
             validators.Optional(strip_whitespace=True)
@@ -30,7 +30,7 @@ USERNAME = StringField(
     )
 PASSWORD = PasswordField(
     'Password',
-    validators = [validators.DataRequired()]
+    validators=[validators.DataRequired()]
 )
 REMEMBER = BooleanField('Remember Me')
 

@@ -127,6 +127,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     
 
     $rootScope.setJwtFromCookie = function() {
+
+        // skip this if we're looking at the login screen
+        if ($scope.VIEW === 'login') {return true};
+
 		// injects the JWT into the root scope
         var cname = "kdm-manager_token";
         var name = cname + "=";
@@ -220,7 +224,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
             console.error(err);
         };
         if (element === null || element === undefined) {
-            console.error(err_slug + " is " + element + "!");
+            console.warn(err_slug + " is " + element + "!");
             throw 'ngGetElement() failed!'
         };
         return element;
@@ -244,15 +248,21 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         )
     };
 
-    $rootScope.ngHide = function(elementId, lazy) {
+    $rootScope.ngHide = function(elementId, lazy, swallowErrors) {
         // if lazy is boolean, we ignore the HTML and just force the element
         // to undef
         if (lazy) {
 //            console.warn("Lazy ngHide for '" + elementId + "'");
             $rootScope.ngVisible[elementId] = undefined;
         } else {
-            var element = $rootScope.ngGetElement(elementId);
-            element.classList.add('hidden');
+            try {
+                var element = $rootScope.ngGetElement(elementId);
+                element.classList.add('hidden');
+            } catch(err) {
+                if (!swallowErrors) {
+                    throw err;
+                };
+            };
         };
         $rootScope.ngVisible[elementId] = false;
     }
@@ -509,7 +519,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                 console.error('createSettlement() failed!');
                 if (response.data) {
                     console.error(response.data);
-                    $rootScope.ngHide('fullPageLoader');
+                    $rootScope.ngHide('fullPageLoader', false, true);
                     $rootScope.ngShow('apiErrorModal');
                     $rootScope.apiError = {
                         'status': response.status,
@@ -669,7 +679,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 			function successCallback(response) {
                 $scope.settlement = response.data;
                 console.timeEnd(reqURL);
-                $rootScope.ngHide('fullPageLoader'); // in case it's showing
+                $rootScope.ngHide('fullPageLoader', false, true);
 			},
 			function errorCallback(response) {
                 console.error('Could not retrieve settlement from API!');
@@ -712,7 +722,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
 
     $rootScope.setCurrentUser = function() {
-        // sets the current_user (from flask) to rootScope.currentUSer
+        // sets the current_user (from flask) to rootScope.currentUser
+
+        // first, bail if this is the login screen
+        if ($scope.VIEW == 'login') {return true};
 
         var reqURL = $rootScope.APIURL + 'user/get/' + $rootScope.USER;
         console.time(reqURL);

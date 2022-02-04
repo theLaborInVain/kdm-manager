@@ -361,10 +361,6 @@ app.controller("survivorSheetController", function($scope) {
     };
 
 
-    $scope.toggleBoolean = function(attrib) {
-        $scope.postJSONtoAPI('survivor','toggle_boolean', {'attribute': attrib}, false, true, true);
-    };
-
     // sex is a toggle 
     $scope.toggleSurvivorSex = function() {
         var new_sex = 'M'

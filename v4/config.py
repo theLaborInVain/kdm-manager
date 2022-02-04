@@ -1,9 +1,8 @@
 """
 
-    Grinberg-style settings management is a feature of version four.
+    settings.cfg is deprecated starting in 2021.
 
-    The former settings.cfg variables ARE NOT USED in this version of the app
-    and are therefore not maintained or persisted.
+    (This includes settings_private.cfg; use the instance/ folder instead.)
 
 """
 
@@ -13,10 +12,11 @@ import os
 import socket
 import sys
 
-class Config(object):
+class Config():
+    ''' Miguel Grinberg style config 'object' used by the Flask app. '''
 
     with open('.api_key', 'r') as file:
-        API_KEY = file.read().strip().replace('\n','')
+        API_KEY = file.read().strip().replace('\n', '')
 
     APP_AGE = int((datetime.now() - datetime(2015, 11, 10)).days / 365)
     APP_DESC = (
@@ -58,10 +58,10 @@ class Config(object):
                 'verify_ssl': True,
             }
         else:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            local_ip_address = s.getsockname()[0]
-            s.close()
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.connect(("8.8.8.8", 80))
+            local_ip_address = sock.getsockname()[0]
+            sock.close()
 
             self.API = {
                 'url': 'https://%s:%s/' % (

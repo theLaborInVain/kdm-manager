@@ -6,7 +6,6 @@
 
 # standard lib imports
 import os
-import sys
 
 # app imports
 from app import app

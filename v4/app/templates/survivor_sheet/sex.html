@@ -7,8 +7,8 @@
         ng-click="
             toggleSurvivorSex(survivor);
             postJSONtoAPI(
-                'survivor', 'set_sex', survivor.sheet._id.$oid,
-                {'sex': survivor.sheet.sex},
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {attribute: 'sex', value: survivor.sheet.sex},
                 false, true, true
             );
         "

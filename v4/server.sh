@@ -36,4 +36,4 @@ start_venv() {
 }
 
 start_venv development
-python kdm-manager.py
+python kdm_manager.py
