@@ -241,21 +241,20 @@ app.controller("survivorSheetController", function($scope) {
     $scope.addEpithet = function () {
         if ($scope.scratch.new_epithet === null) {return false};
         if ($scope.scratch.new_epithet === undefined) {console.error("'" + $scope.scratch.new_epithet + "' is not a handle!"); return false};
-        if ($scope.survivor.sheet.epithets.indexOf($scope.scratch.new_epithet) == -1) {
-            $scope.survivor.sheet.epithets.push($scope.scratch.new_epithet);
-            var js_obj = {"handle": $scope.scratch.new_epithet, "type": "epithets"};
-//            console.warn(js_obj);
+        if ($scope.survivor.sheet.tags.indexOf($scope.scratch.new_epithet) == -1) {
+            $scope.survivor.sheet.tags.push($scope.scratch.new_epithet);
+            var js_obj = {"handle": $scope.scratch.new_epithet, "type": "tags"};
             $scope.postJSONtoAPI('survivor','add_game_asset', js_obj, false);
         } else {
-            console.error("Epithet handle '" + $scope.scratch.new_epithet + "' has already been added!")
+            console.error("Tag handle '" + $scope.scratch.new_epithet + "' has already been added!")
         };
         $scope.initAssetLists();
     };
 
     $scope.rmEpithet = function (ep_index) {
-        var removedEpithet = $scope.survivor.sheet.epithets[ep_index];
-        $scope.survivor.sheet.epithets.splice(ep_index, 1);
-        var js_obj = {"handle": removedEpithet, "type": "epithets"};
+        var removedEpithet = $scope.survivor.sheet.tags[ep_index];
+        $scope.survivor.sheet.tags.splice(ep_index, 1);
+        var js_obj = {"handle": removedEpithet, "type": "tags"};
         $scope.postJSONtoAPI('survivor','rm_game_asset', js_obj, false);
     };
 
@@ -622,12 +621,12 @@ app.controller('fightingArtsController', function($scope) {
         if (fa_handle === null) {return false};
         $scope.survivor.sheet.fighting_arts.push(fa_handle);
         js_obj = {"handle": fa_handle, "type": "fighting_arts"};
-        $scope.postJSONtoAPI('survivor', 'add_game_asset', js_obj);
+        $scope.postJSONtoAPI('survivor', 'add_game_asset', js_obj, false, true, true);
     };
     $scope.rmFightingArt = function(handle, index) {
         $scope.survivor.sheet.fighting_arts.splice(index, 1);
         js_obj = {"handle": handle, "type": "fighting_arts"};
-        $scope.postJSONtoAPI('survivor', 'rm_game_asset', js_obj, false);
+        $scope.postJSONtoAPI('survivor', 'rm_game_asset', js_obj, false, true, true);
         $scope.initAssetLists();
     };
     $scope.toggleLevel = function($event, fa_handle, level) {

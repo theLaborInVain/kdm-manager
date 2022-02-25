@@ -1,0 +1,208 @@
+<div ng-init="survivorDamageRollers=[]">
+
+<div
+    class="kd survivor_sheet border_box insanity_container"
+    ng-init="
+        insanityControlDiv = survivor.sheet._id.$oid + 'InsanityControlDiv';
+        survivorDamageRollers.push(insanityControlDiv);
+    "
+
+>
+    <div
+        class="clickable kd survivor_sheet border_box_inset"
+        ng-click="ngRoll(insanityControlDiv, survivorDamageRollers)"
+    >
+        <div
+            class="kd number_container shield"
+            ng-class="{'red_text': survivor.sheet.Insanity >= 3}"
+        >
+            {a survivor.sheet.Insanity a}
+        </div>
+        <div class="font_tiny">Insanity</div>
+    </div>
+
+    <div
+        class="kd survivor_sheet border_box_inset full_width"
+    >
+        <div
+            class="kd worksheet_row spaced clickable"
+            ng-click="
+                survivor.sheet.brain_damage_light = !survivor.sheet.brain_damage_light;
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {
+                        'attribute': 'brain_damage_light',
+                        'value': survivor.sheet.brain_damage_light
+                    },
+                    false, true, true
+                );
+            "
+        >
+            <div class="silverado">Brain</div>
+            <div
+                class="kd checkbox large heavy"
+                ng-class="{'checked': survivor.sheet.brain_damage_light}"
+            >
+            </div>
+        </div>
+        <div class="kd worksheet_row font_small">
+            <div>
+                If your insanity is 3+
+                <span class="kd" ng-class="{'red_text': survivor.sheet.Insanity >= 3}">
+                    you are <b>insane</b>.
+                </span>
+            </div>
+        </div>
+    </div> <!-- border_box_inset -->
+
+</div>
+
+<div
+    id="{a insanityControlDiv a}"
+    class="roll_down_container rolled_up"
+    ng-class="{'rolled_down': ngRolledup[insanityControlDiv] === false}"
+    ng-init="insanityControlDiv = survivor.sheet._id.$oid + 'InsanityControlDiv';"
+>
+    <button
+        class="kd capsule blue full_width"
+        ng-click="
+            survivor.sheet.Insanity = survivor.sheet.Insanity + 1;
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {'attribute': 'Insanity', 'value': survivor.sheet.Insanity},
+                false, true, true
+            );
+        "
+    >
+        &#x25B2;
+    </button>
+    <button
+        class="kd capsule blue full_width"
+        ng-disabled="survivor.sheet.Insanity === 0"
+        ng-click="
+            survivor.sheet.Insanity = survivor.sheet.Insanity - 1;
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {'attribute': 'Insanity', 'value': survivor.sheet.Insanity},
+                false, true, true
+            );
+        "
+    >
+        &#x25BC;
+    </button>
+</div>
+
+
+
+<!--
+
+    Armor Locations!
+
+-->
+
+<div
+    ng-repeat="location in [
+        {name: 'Head', glyph: 'b', dmg: ['heavy']},
+        {name: 'Arms', glyph: 'd', dmg: ['light', 'heavy']},
+        {name: 'Body', glyph: 'c', dmg: ['light', 'heavy']},
+        {name: 'Waist', glyph: 'e', dmg: ['light', 'heavy']},
+        {name: 'Legs', glyph: 'f', dmg: ['light', 'heavy']},
+    ]"
+>
+
+    <div
+        class="kd survivor_sheet border_box lined borderless"
+        ng-init="
+            locationControlDiv = survivor.sheet._id.$oid + location.name + 'LocationControlDiv';
+            survivorDamageRollers.push(locationControlDiv);
+        "
+    >
+
+        <div
+            class="clickable kd survivor_sheet border_box_inset borderless"
+            ng-click="ngRoll(locationControlDiv, survivorDamageRollers)"
+        >
+            <div
+                class="number_container shield"
+            >
+                {a survivor.sheet[location.name] a}
+            </div>
+        </div>
+
+        <div
+            class="kd survivor_sheet border_box_inset full_width"
+        >
+        <div class="kd worksheet_row survivor_sheet name_and_sex_container">
+            <div class="name">
+                <font class="kdm_font_hit_locations">
+                    {a location.glyph a}
+                </font>
+                {a location.name a}
+            </div>
+            <div class="sex">
+                <div
+                    ng-repeat="dmgType in location.dmg"
+                    ng-init="toggleName = location.name.toLowerCase() + '_damage_' + dmgType"
+                    ng-class="
+                        {checked: survivor.sheet[toggleName]}
+                   "
+                    ng-click="
+                        survivor.sheet[toggleName] = !survivor.sheet[toggleName];
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {'attribute': toggleName, 'value': survivor.sheet[toggleName]},
+                            false, true, true
+                        );
+                    "
+                    class="clickable kd checkbox large {a dmgType a}"
+                    caption-text="{a dmgType[0].toUpperCase() a}"
+                 />
+                 </div>
+            </div>
+        </div>
+        <div class="kd worksheet_row">
+            <div class="kd checkbox tiny checked"></div>
+            <div class="kd checkbox_desc font_small">Heavy Injury: Knocked Down</div>
+        </div>
+        </div>
+
+    </div><!-- border_box -->
+
+    <div
+        id="{a locationControlDiv a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[survivalControlsId] === false}"
+    >
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                survivor.sheet[location.name] = survivor.sheet[location.name] + 1;
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {'attribute': location.name, 'value': survivor.sheet[location.name]},
+                    false, true, true
+                );
+            "
+        >
+            &#x25B2;
+        </button>
+        <button
+            class="kd capsule blue full_width"
+            ng-disabled="survivor.sheet[location.name] === 0"
+            ng-click="
+                survivor.sheet[location.name] = survivor.sheet[location.name] - 1;
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {'attribute': location.name, 'value': survivor.sheet[location.name]},
+                    false, true, true
+                );
+            "
+        >
+            &#x25BC;
+        </button>
+    </div>
+
+</div> <!-- anonymous repeater -->
+
+
+</div>

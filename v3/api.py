@@ -106,12 +106,12 @@ def refresh_jwt_token(Session):
     h = {
         'content-type':     'application/json',
         'API-Key':          settings_private.get('api', 'key'),
-        'Authorization':    Session.session["access_token"],
+        'Authorization':    Session.session.get("access_token", None),
     }
     r = requests.post(req_url, headers=h, verify=False)
 
     if r.status_code == 200:
-        Session.session["access_token"] = r.json()["access_token"]
+        Session.session["access_token"] = r.json().get("access_token", None)
         Session.save(verbose=False)
     else:
         logger.error(

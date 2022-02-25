@@ -559,6 +559,9 @@ input:active {  /* this is our on-click effect color */
     background-color: #DC2426;
     border-color: #DC2426;
 }
+.survivor_sheet.border_box_inset .number_container {
+    border-color: #000;
+}
 .survivor_sheet_note_pushpin {
     color: #666;
 }

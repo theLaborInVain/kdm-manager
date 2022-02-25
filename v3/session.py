@@ -230,9 +230,9 @@ class Session:
         elif self.cookie is None and creds_present:
             sign_in()
         else:
-            sign_in()
 #            self.logger.error("Error attempting to process cookie!")
 #            self.logger.error(self.cookie)
+            sign_in()
 
         if self.session is not None:
 

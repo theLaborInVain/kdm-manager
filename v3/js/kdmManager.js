@@ -1097,7 +1097,7 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
             $scope.setGameAssetOptions('disorders', "dOptions");
             $scope.dOptions["_random"]  = {handle: "_random", selector_text: "* Random Disorder", sub_type_pretty: "Special"};
 
-            $scope.setGameAssetOptions('epithets', "epithetOptions");
+            $scope.setGameAssetOptions('tags', "epithetOptions");
 
             //  custom COD junk
             var cod_list = [];
@@ -1119,6 +1119,8 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
         var cname = "jwt_token";
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
+//        console.warn("Raw cookie:" + decodeURIComponent(document.cookie));
+//        console.warn("Decoded cookie:" + decodedCookie);
         var ca = decodedCookie.split(';');
         for(var i = 0; i <ca.length; i++) {
             var c = ca[i];
@@ -1136,7 +1138,7 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
         console.error("Could not set JWT from cookie!");
         console.error("Session: " + $scope.session_oid);
         if ($scope.session_oid !== undefined) {
-            $scope.legacySignOut($scope.session_oid);
+//            $scope.legacySignOut($scope.session_oid);
         };
         console.error("Bad cookie: " + decodedCookie);
         $scope.jwt = false;
@@ -1145,6 +1147,13 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
     $scope.set_jwt_from_cookie();
 
     $scope.getJSONfromAPI = function(collection, action, requester) {
+
+        // die if there is no JWT in $scope
+        if (!$scope.jwt) {
+            var err = 'No JWT in scope! Cannot getJSONfromAPI()';
+            return Promise.reject(new Error(err));
+        };
+
         var r_log_level = "[" + requester + "] "
 //        console.log(r_log_level + "Retrieving '" + collection + "' asset '" + action + "' data from API:");
         if ($scope.api_url === undefined){console.error(r_log_level + '$scope.api_url is ' + $scope.api_url + '! API retrieval cannot proceed!'); return false};

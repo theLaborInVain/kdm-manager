@@ -513,7 +513,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 		promise.then(
 			function successCallback(response) {
 				console.timeEnd(url);
-                $scope.loadURL('/campaign_summary/' + response.data.sheet._id.$oid);
+                $scope.loadURL('/settlement/' + response.data.sheet._id.$oid);
 			},
 			function errorCallback(response) {
                 console.error('createSettlement() failed!');

@@ -566,6 +566,7 @@
                     </button>
                     <button
                         class="kd_kickstarter_button"
+                        ng-disabled="survivor.sheet.Insanity === 0"
                         ng-click="survivor.sheet.Insanity = survivor.sheet.Insanity - 1"
                     >
                         &#x25BC;
@@ -594,17 +595,11 @@
                 ng-click="rollUp('bleedingTokensControls')"
             >
                 <div
-                    ng-repeat="token_value in [1,2,3,4,5]"
+                    ng-repeat="token_value in range(survivor.sheet.max_bleeding_tokens)"
                     class="kd bleeding_token"
                     ng-class="{
-                        'active': token_value <= survivor.sheet.bleeding_tokens,
+                        'active': $index < survivor.sheet.bleeding_tokens,
                     }"
-                >
-                </div>
-                <div
-                    ng-if="survivor.sheet.bleeding_tokens >= token_value"
-                    ng-repeat="token_value in [6,7]"
-                    class="ng_fade kd bleeding_token active"
                 >
                 </div>
             </div>
@@ -616,7 +611,7 @@
             <div class="kd_sheet_ui_roll_down_controls">
                 <div class="kd_sheet_ui_number_tumbler">
                     <button
-                        ng-disabled="survivor.sheet.bleeding_tokens === 7"
+                        ng-disabled="survivor.sheet.bleeding_tokens === survivor.sheet.max_bleeding_tokens"
                         class="kd_kickstarter_button"
                         ng-click="survivor.sheet.bleeding_tokens = survivor.sheet.bleeding_tokens + 1"
                     >
@@ -2458,29 +2453,29 @@
 
             <div
                 class="ng_fade survivor_sheet_tag collection_gradient"
-                ng-repeat="e in survivor.sheet.epithets"
+                ng-repeat="e in survivor.sheet.tags"
                 ng-click="rmEpithet($index)"
                 style="
-                    background: #{{settlement.game_assets.epithets[e].bgcolor}};
-                    background-color: #{{settlement.game_assets.epithets[e].bgcolor}};
-                    color: #{{settlement.game_assets.epithets[e].color}};
-                    border-color: #{{settlement.game_assets.epithets[e].bordercolor}};
+                    background: #{{settlement.game_assets.tags[e].bgcolor}};
+                    background-color: #{{settlement.game_assets.tags[e].bgcolor}};
+                    color: #{{settlement.game_assets.tags[e].color}};
+                    border-color: #{{settlement.game_assets.tags[e].bordercolor}};
                 "
-                title="{{settlement.game_assets.epithets[e].name}}. Tap or click to remove!"
+                title="{{settlement.game_assets.tags[e].name}}. Tap or click to remove!"
             >
-                <span>{{settlement.game_assets.epithets[e].name}}</span>
+                <span>{{settlement.game_assets.tags[e].name}}</span>
             </div>
 
             <div
                 class="ng_fade survivor_sheet_tag"
-                ng-if="survivor.sheet.epithets.length === 0"
+                ng-if="survivor.sheet.tags.length === 0"
             >
                 Tap/click to add tags:
             </div>
 
             <select
                 id="epithetSelect"
-                name="add_epithets"
+                name="add_tags"
                 class="survivor_sheet_tag add_tag"
                 ng-model="scratch.new_epithet"
                 ng-change="addEpithet()"

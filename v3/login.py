@@ -67,6 +67,7 @@ class AuthObject:
 
         Note that the cookie will not appear to have the correct session ID
         until the NEXT page load after the one where the cookie is set."""
+#        self.logger.debug('Adding %s char JWT to user token' % len(token))
 
         expiration = datetime.now() + timedelta(days=30)
         cookie = Cookie.SimpleCookie()

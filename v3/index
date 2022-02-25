@@ -20,10 +20,9 @@ if __name__ == "__main__":
     start = datetime.now()
 
     settings = utils.load_settings()
-#    logger = utils.get_logger()
 
     # CGI application initialization
-    if settings.getboolean("application","debug"):
+    if settings.getboolean("application", "debug"):
         cgitb.enable()
     params = cgi.FieldStorage()
 
@@ -40,7 +39,12 @@ if __name__ == "__main__":
         # set the head
         head = []
         if S.set_cookie:
-            head.append(S.AuthObject.set_cookie_js(S.session["_id"], S.session["access_token"]))
+            head.append(
+                S.AuthObject.set_cookie_js(
+                    S.session["_id"],
+                    S.session["access_token"]
+                )
+            )
 
         # render!
         html.render(output, body_class=body, head=head)

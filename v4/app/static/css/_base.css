@@ -149,8 +149,9 @@ button:active,
 
 /*  generic roll-down stuff */
 .roll_down_container {
-    overflow: hidden;
     max-height: 1000vh;
+    overflow: hidden;
+    padding: 0 0.25rem 0 0.25rem;
     transition: 0.5s; 
 }
 .rolled_up {max-height: 0 !important;}
@@ -1177,6 +1178,7 @@ input[type="radio"].gear_lookup_attrib_toggle {
 .survivor_sheet.survival_column {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: auto; 
 }
 .survivor_sheet.survival_column .survival_box {
@@ -1190,6 +1192,7 @@ input[type="radio"].gear_lookup_attrib_toggle {
 .survivor_sheet.caption_column {
     display: flex;
     flex-direction: column;
+    justify-content: space-between; 
     padding: 0.5rem 0.5rem 0.5rem 0; 
 }
 .cannot_spend_survival_caption {

@@ -49,9 +49,8 @@
         </center>
 
     </div> <!-- attribute repeater -->
-
-
 </div> <!-- border_box -->
+
     <div
         id="{a controlDiv a}"
         class="roll_down_container rolled_up"
@@ -65,6 +64,7 @@
             <div>Tokens</div>
         </div>
         <div class="survivor_sheet attributes tumbler_container">
+
             <div>
                 <button
                     class="kd capsule blue"
@@ -86,6 +86,7 @@
                 </div>
                 <button
                     class="kd capsule blue"
+                    ng-disabled="attribute === 'Movement' && survivor.sheet.Movement === 1"
                     ng-click="
                         survivor.sheet[attribute] = survivor.sheet[attribute] - 1;
                         postJSONtoAPI(
@@ -98,6 +99,7 @@
                     &#x25BC;
                 </button>
             </div>
+
             <div
                 ng-repeat="attr in ['gear', 'tokens']"
             >

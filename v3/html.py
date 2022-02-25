@@ -266,6 +266,9 @@ def render(view_html, head=[], http_headers=None, body_class=None):
 
     # arbitrary head insertions
     for element in head:
+        if len(element) > 4096:
+            err = 'Rendering head element > 4kb! This can cause cookie failure!'
+            logger.error(err)
         output += element
 
     # GA goes at the bottom of the head -- as per their docs
