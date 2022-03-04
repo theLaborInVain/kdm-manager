@@ -1,1 +1,50 @@
-/home/toconnell/kdm-manager/v3/css/z-index.css
+                    /*  these are non-responsive! */
+
+.inventory_tag                                  {z-index: -100; }
+.dashboard_bg_art                               {z-index: -10; }
+.sign_in                                        {z-index: -10; }
+#container                                      {z-index: 0; }
+.gear_card_combat_stat_activation_icon::before  {z-index: -1;}
+.gear_card_combat_stat_activation               {z-index: 1;}
+.gear_card_combat_stat_activation_icon          {z-index: 10;}
+.clickable                                      {z-index: 10; }
+.death_x                                        {z-index: 20; }
+input[type=text], input[type=password]          {z-index: 50; }
+.survivor_sheet_attrib_controls_modal        {z-index: 50; }
+.manage_departing_survivors               {z-index: 50; } /* must be above death_x */
+.full_page_loading_spinner                   {z-index: 99; }
+#viewTabContainer                            {z-index: 100; }
+.floating_storage_refresh_button                {z-index: 101; }
+
+    /* top nav_bar indexes - DEPRECATED */
+#topNavBar                                      {z-index: 100; }
+#floating_refresh_button,
+    .floating_close_modal_button,
+    #floating_dashboard_button                  {z-index: 101; }
+.campaign_summary_storage_opener                {z-index: 102}
+
+    /* modal indexes */
+#survivorSearchModalContent.survivor_search_modal_container            {z-index: 1199;}
+#v4NavContainer                             {z-index: 2000; }
+#survivorSearchModalOpener,
+    #survivorSearchModalCloser              {z-index: 2002; }
+#leftSideNavUnderlay                        {z-index: 2999; }
+#leftSideNav                                {z-index: 3000; }
+.sidenav                                    {z-index: 3000; }
+.rightSideNav                               {z-index: 3000; }
+.full_size_modal_panel                      {z-index: 5000; }
+.modal                                      {z-index: 3005; }
+.modal-black                                {z-index: 3005; }
+.modal_control_overlay                      {z-index: 3006; }
+.modal.error                                {z-index: 3010; }
+.corner_loading_spinner                     {z-index: 5001; }
+.timeline_overlay_current_ly            {z-index: 10000; }
+
+    /* UI and feedback indexes */
+#fullPageLoader                             {z-index: 9999996;}
+.api_error_modal, .control_error            {z-index: 9999997;}
+.capsule_alert,
+    #error_dialog,
+    #savedAlert,
+    .tab_nav_warning_arrow                  {z-index: 9999998;}
+#ngDebugWindow                              {z-index: 9999999;} /* platinum ticket! */

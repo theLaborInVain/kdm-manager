@@ -2,35 +2,6 @@
 /*  DO NOT EDIT Z-INDEX VALUES OR COLORS IN THIS FILE!!!  */
 /*                                                        */
 
-/*  top nav - DEPRECATED 2019-12-17 */
-#topNavBar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 8vh;
-    margin-top: -1px; /* seriously? the fuck? */
-}
-.circular_button,
-    #floating_dashboard_button {
-    align-items: center; 
-    border: 0.1rem solid;
-    border-radius: 100%; 
-    box-shadow: var(--box-shadow-default);
-    display: flex;
-    height: 3rem;
-    line-height: 0; 
-    justify-content: center;
-    margin: 0;
-    position: fixed;
-    top: 0.75vh;
-    width: 3rem;
-}
-#floating_dashboard_button {
-    left: 0.3rem; 
-}
-#floatingRefreshButton {
-    right: 0.3rem; 
-}
-
 :root {
     --font-tiny: 0.4rem;
     --font-small: 0.6rem;
@@ -1139,7 +1110,7 @@ input[type="radio"].gear_lookup_attrib_toggle {
 /*      survivor_sheet          */
 /*                              */
 
-.survivor_sheet div.horizontal_rule {
+.horizontal_rule {
     border-top: 0.15rem solid;
     margin: 0.25rem auto 0.25rem auto;
     width: 100%;
@@ -3314,6 +3285,37 @@ h3.new_survivor_sheet {
     width: 10vh;
 }
 
+/*  hunt_xp.html    */
+.survivor_sheet_hunt_xp_container {
+    margin: 1rem 0 1rem 0;
+}
+.survivor_sheet_hunt_xp {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 0.5rem;
+}
+.survivor_sheet_hunt_xp .label {
+    margin: 0 0.25rem 0 -0.25rem;
+    white-space: nowrap; 
+}
+.survivor_sheet_hunt_xp .kd.checkbox {
+    margin: 0 0.1rem 0 0;
+}
+.survivor_sheet_hunt_xp_tool_tip {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.survivor_sheet_hunt_xp_tool_tip_repeater {
+    align-items: center; 
+    display: flex;
+    flex-wrap: nowrap; 
+    margin-right: 0.5rem;
+}
+.survivor_sheet_hunt_xp_tool_tip_repeater .kd.checkbox,  /* the checkboxes */
+    .survivor_sheet_hunt_xp_tool_tip_repeater .checkbox.tiny { /* the checkboxes */
+    margin: 0 0.1rem 0 0;
+}
 
 /*  survivor sheet admin tab */
 .survivor_sheet_public_toggle {

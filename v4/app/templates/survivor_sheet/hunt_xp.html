@@ -1,0 +1,66 @@
+<!-- 
+
+    survivor sheet hunt XP controls
+
+-->
+
+<div class="survivor_sheet_hunt_xp_container">
+    <div
+        class="font_small survivor_sheet_hunt_xp"
+        ng-click="ngRoll()"
+    >
+        <div class="label">Hunt XP</div>
+        <div
+            class="kd checkbox"
+            ng-repeat="box in range(15)"
+            ng-class="{
+                'checked': survivor.sheet.hunt_xp >= box,
+                'heavy': [1,5,9,14].indexOf(box) >= 0,
+            }"
+        >
+        </div>
+        <div
+            class="kd checkbox"
+            ng-class="{
+                'dotted': survivor.sheet.hunt_xp < 16,
+                'checked': survivor.sheet.hunt_xp >= 16,
+            }"
+        >
+        </div>
+    </div>
+
+    <div class="horizontal_rule"></div>
+
+    <div class="font_small caption survivor_sheet_hunt_xp_tool_tip">
+        <div
+            class="survivor_sheet_hunt_xp_tool_tip_repeater"
+            ng-repeat="ageMilestone in [
+                {'boxes': 1, 'xp': 2},
+                {'boxes': 2, 'xp': 6},
+                {'boxes': 3, 'xp': 10},
+                {'boxes': 4, 'xp': 15}
+            ]"
+        >
+            <div
+                class="kd checkbox tiny"
+                ng-repeat="box in range(ageMilestone.boxes)"
+                ng-class="{'checked': survivor.sheet.hunt_xp >= ageMilestone.xp}"
+            >
+            </div>
+            <font class="kdm_manager_font">S</font> Age
+        </div>
+        <div
+            class="survivor_sheet_hunt_xp_tool_tip_repeater"
+        >
+            <div
+                class="kd checkbox"
+                ng-class="{
+                    'dotted': survivor.sheet.hunt_xp < 16,
+                    'checked': survivor.sheet.hunt_xp >= 16,
+                }"
+            >
+            </div>
+            Retired
+        </div>
+    </div><!-- survivor_sheet_hunt_xp_tool_tip -->
+</div><!-- container -->

@@ -23,11 +23,15 @@ start_venv() {
     fi
     source $SCRIPTPATH/venv/bin/activate
 
-    export FLASK_ENV=$1
+    export FLASK_ENV=development
+    export FLASK_DEBUG=1
+    export FLASK_RUN_PORT=8014
+    export FLASK_RUN_HOST='0.0.0.0'
+    export FLASK_RUN_CERT=deploy/dev_cert.pem
+    export FLASK_RUN_KEY=deploy/dev_key.pem
 
     PYTHON_VERS=`python --version`
     echo -e " * interpreter $PYTHON_VERS"
-    echo -e " * FLASK_ENV   $FLASK_ENV"
     echo -e "\nPIP:"
     pip freeze $1 | while read x; do echo -e " * $x"; done
     echo -e
@@ -35,5 +39,5 @@ start_venv() {
 
 }
 
-start_venv development
-python kdm_manager.py
+start_venv
+flask run

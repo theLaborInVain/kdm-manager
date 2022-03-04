@@ -45,7 +45,7 @@ def get_logger(log_level=None, log_name=None):
     # defaults
     log_root_dir = os.path.join(app.root_path, '..', 'logs')
     if log_level is None:
-        if app.config['DEBUG']:
+        if app.env in ['dev', 'development']:
             log_level = 'DEBUG'
         else:
             log_level = 'INFO'

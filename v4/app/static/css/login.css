@@ -1,1 +1,267 @@
-/home/toconnell/kdm-manager/v3/css/login.css
+/*          */
+/*  fonts   */
+/*          */
+
+@font-face {
+    font-family: 'Silverado';
+    src: url('/media/fonts/329BC2_0_0.eot');
+    src: url('/media/fonts/329BC2_0_0.eot?#iefix')
+        format('embedded-opentype'), url('/media/fonts/329BC2_0_0.woff2') format('woff2'),
+        url('/media/fonts/329BC2_0_0.woff') format('woff'),
+        url('/media/fonts/329BC2_0_0.ttf') format('truetype');
+}
+
+
+/*              */
+/*  CSS reset   */
+/*              */
+
+html, body {
+    color: #fff;
+    font-family: 'Ruda';
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    font-weight: bold;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+button {
+    background-color: inherit;
+    border: 0;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+}
+h1 {
+    font-family: 'Silverado';
+    margin: 0 auto;
+    margin-top: 15%;
+}
+h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 1rem auto;
+    margin-top: 0; 
+    text-align: center;  
+    width: 90%;
+} 
+h3 {    /*  version tag */
+    font-size: 0.6rem;
+    position: absolute;
+    right: 3%;
+}
+
+
+
+
+/* mobile style */
+
+.container {
+    background: radial-gradient(circle, #333, #000);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: min-content;
+}
+
+
+button.sign_up {
+    bottom: 2%;
+    left: 3%;
+    position: fixed;
+}
+button.help {
+    bottom: 2%;
+    position: fixed;
+    right: 3%;
+}
+
+.user_inputs {
+    margin: 0 auto;
+    margin-bottom: 25%;
+    margin-top: 25%;
+    padding: 0;
+    text-align: center;
+    width: 80%;
+}
+
+input {
+    background-color: #000;
+    box-sizing: border-box; 
+    color: #fff;
+    font-family: 'Silverado';
+    margin: 0 auto;
+    margin-bottom: 5%;
+    padding-left: 5%;
+    width: 95%;
+}
+input,
+    button.submit {
+    border: 0;
+    border-radius: 10vw;
+    padding: 3%;
+}
+
+button.submit {
+    width: 100%;
+}
+.spinner {
+    border: 0;
+}
+.tiny_loader img {
+    height: 1rem;
+}
+
+.modal {
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.modal p.disclaimer {
+    text-align: left;
+}
+.modal_message {
+    margin: 0 auto;
+    margin-bottom: 3%;
+    text-align: center;
+    width: 90%;
+}
+.api_alert {
+    font-size: 250%;
+    left: 3%;
+    padding: 2%;
+    position: absolute;
+    right: 3%;
+    top: 3%;
+}
+
+
+noscript {
+    background-color: #CC0000;
+    border: 0.2em solid #fff;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+    margin-top: 3%;
+    padding: 1%;
+    text-align: center;
+}
+
+
+/*  hide bottom buttons if keyboard is displayed */
+
+@media only screen
+    and (max-device-height: 400px)
+    {
+
+    html {height: auto; }
+    button.sign_up,
+        button.help {
+        display: none;
+    }
+
+}
+
+/* tablet style */
+
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+
+    input, button.submit {width: 55%; }
+    button.submit {width: 60%; }
+
+    .user_inputs {margin-bottom: auto; }
+
+    .modal p {margin: 0 auto; width: 70%; }
+    .modal p.disclaimer {margin-bottom: 3%; }
+}
+
+
+/* wide style */
+
+@media only screen and (min-width: 1050px) and (orientation: landscape) {
+
+    input,
+        button.submit {
+        width: 35%;
+    }
+
+    button.submit {
+        margin: 0 auto;
+        width: 40%;
+    }
+
+    .spinner {
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .user_inputs {
+        display: flex;
+        flex-direction: column;
+        margin-top: 200px;
+        max-width: 800px;
+     }
+
+    .modal {justify-content: center; }
+    .modal p {margin-bottom: 4%; }
+
+    .modal_message {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+     }
+    .modal_message input {width: 60%; }
+    .modal_message button {width: 65%; }
+}
+
+
+
+/* general style - all breakpoints - last chance overwrites */
+
+.hidden {display: none; } 
+
+.kd_promo {
+    background: radial-gradient(circle, #5Dd7F2, #50CAF5, #3FACCF);
+    color: #fff;
+}
+.kd_alert {
+    background-color: #FF0040;
+    color: #fff;
+}
+
+.user_inputs {min-height: min-content; }
+.modal {
+    background-color: #000;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+}
+
+input {
+  border: 1px solid #000;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  -webkit-transition: all 0.30s ease-in-out;
+}
+ 
+input:focus {
+    border: 1px solid #ffed52;
+    border: 1px solid rgba(255, 238, 81, 1);
+    box-shadow: 0 0 20px rgba(255, 238, 81, 1);
+    outline: none;
+}
+

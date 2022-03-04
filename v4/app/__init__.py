@@ -15,7 +15,7 @@ from config import Config
 #   import the app!
 #
 app = flask.Flask(__name__)
-app.config.from_object(Config())
+app.config.from_object(Config(app.env)) # pass the env to config
 login = flask_login.LoginManager(app)
 login.login_view = 'login'
 
