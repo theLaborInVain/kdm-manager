@@ -937,26 +937,11 @@ input[type="radio"].gear_lookup_attrib_toggle {
 .kd_sheet_ui_box_row.wrap {
     margin-left: 5%; 
 }
-.kd_sheet_ui_box_row.hunt_xp .kd_sheet_ui_box {
-    margin-right: 1.5%; 
-}
 .kd_sheet_ui_box_row.long {
     display: flex;
     margin-left: auto;
     margin-right: -5%; 
     width: 60%;
-}
-.kd_sheet_ui_box_row.hunt_xp {
-    align-items: center;
-    justify-content: space-between;
-}
-.kd_sheet_ui_box_row.hunt_xp .hunt_xp_box_container {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;  
-    margin-top: 1%; 
-    white-space: nowrap; 
-    width: 95%;
 }
 .kd_sheet_ui_row.dynamic_tip {
     align-items: baseline;
@@ -2402,21 +2387,6 @@ h3.new_survivor_sheet {
     display: flex;
     flex-direction: column;
 }
-.weapon_proficiency_type {
-    align-items: center; 
-    display: flex;
-    width: 50%;
-}
-.null_weapon_proficiency {  /*  the blank underline thing */
-    border-bottom: 0.1rem solid;
-    display: block;
-    margin: 0 1rem 0 0.5rem;
-    width: 100%;
-}
-.weapon_proficiency_boxes {
-    width: 50%;
-    display: flex; 
-}
 .quickview_ui_button_container {
     border-top: solid; 
     text-align: center;
@@ -3306,15 +3276,137 @@ h3.new_survivor_sheet {
     display: flex;
     flex-wrap: nowrap;
 }
-.survivor_sheet_hunt_xp_tool_tip_repeater {
+
+
+/*  tool tip repeater */
+.survivor_sheet_tool_tip_repeater {
     align-items: center; 
     display: flex;
     flex-wrap: nowrap; 
     margin-right: 0.5rem;
 }
-.survivor_sheet_hunt_xp_tool_tip_repeater .kd.checkbox,  /* the checkboxes */
-    .survivor_sheet_hunt_xp_tool_tip_repeater .checkbox.tiny { /* the checkboxes */
+.survivor_sheet_tool_tip_repeater .kd.checkbox,  /* the checkboxes */
+    .survivor_sheet_tool_tip_repeater .checkbox.tiny { /* the checkboxes */
     margin: 0 0.1rem 0 0;
+}
+
+
+/*  weapon_proficiency.html */
+
+.survivor_sheet.border_box.weapon_proficiency {
+    display: flex;
+}
+.survivor_sheet.border_box.weapon_proficiency .left_column {
+    min-width: 45%;
+}
+.survivor_sheet.border_box.weapon_proficiency .left_column .title_box {
+    font-family: 'Silverado';
+    padding: 0.5rem 0 0 0.5rem;
+}
+.survivor_sheet.border_box.weapon_proficiency .left_column .picker_box {
+    display: flex;
+    padding: 0.5rem 0 0 0.6rem;
+}
+.hunt_xp_picker {
+    background: none;
+    border: none;
+    border-bottom: 1px solid;
+    margin-left: 0.25rem;
+    width: 100%; 
+}
+.hunt_xp_picker_caption {
+    font-size: var(--font-small);
+    margin: 0.25rem 0 0.5rem 2rem;
+    width: 100%;
+}
+.survivor_sheet.border_box.weapon_proficiency .right_column .boxes_container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 0.75rem 0.25rem 0.5rem 0;
+}
+.survivor_sheet.border_box.weapon_proficiency .right_column .tips_container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.survivor_sheet.border_box.weapon_proficiency .right_column .boxes_container .kd.checkbox {
+    margin: 0 0.1rem 0 0; 
+}
+
+
+/* courage_and_understanding.html */
+
+.border_box.courage_and_understanding {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.border_box.courage_and_understanding > div {
+    width: 50%; 
+}
+.c_and_u {
+    padding-bottom: 0.5rem; 
+}
+.c_and_u.courage {
+    border-right: 0.1rem solid;
+}
+.c_and_u .title_box {
+    font-weight: bold; 
+    margin: 0.5rem;
+    text-align: left;
+}
+.c_and_u .boxes_container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.c_and_u .boxes_container > .kd.checkbox {
+    height: 0.6rem;
+    margin: 0.1rem;
+    min-height: 0;
+    min-width: 0;
+    width: 0.6rem;
+}
+
+.c_and_u .caption_row {
+    display: flex;
+    justify-content: center; 
+    margin: 0.5rem 0 0.5rem 0;
+}
+.c_and_u .caption_row > div {
+    align-items: center;
+    display: flex;
+}
+.c_and_u .caption_row > div:first-child {
+    margin-right: 0.5rem;
+}
+.c_and_u .caption_row > div * {
+    margin: 0 0 0 0.1rem; 
+}
+
+.c_and_u hr {
+    border: 1px solid;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    width: 101%;
+}
+
+.c_and_u .ai_radio_repeater {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.c_and_u .ai_radio_repeater label {
+    max-width: 80%; 
+}
+
+hr.splitter {
+    border: 1px solid;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    width: 70%;
 }
 
 /*  survivor sheet admin tab */

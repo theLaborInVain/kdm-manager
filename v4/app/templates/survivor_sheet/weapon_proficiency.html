@@ -1,0 +1,128 @@
+<!--
+
+    Right-side weapon proficiency controls; uses survivorAttributeRoller
+    group for rollers.
+
+-->
+
+<div
+    ng-init="
+        weaponProficiencyControlDiv = survivor.sheet._id.$oid + 'WeaponProficiencyControlDiv';
+        survivorAttributeRollers.push(weaponProficiencyControlDiv);
+    "
+>
+    <div
+        class="survivor_sheet border_box weapon_proficiency"
+    >
+        <div class="left_column">
+            <div class="title_box">Weapon Proficiency</div>
+            <div class="picker_box font_small">
+                <b>Type:</b>
+                <select
+                    class="hunt_xp_picker"
+                    ng-model="survivor.sheet.weapon_proficiency_type"
+                    ng-options="
+                        dict.handle as dict.name for dict in
+                        settlement.game_assets.weapon_proficiency_types
+                    "
+                    ng-selected="survivor.sheet.weapon_proficiency_type"
+                    ng-change="
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {
+                                'attribute': 'weapon_proficiency_type',
+                                'value': survivor.sheet.weapon_proficiency_type,
+                                'handle': survivor.sheet.weapon_proficiency_type
+                            },
+                            false, true, true
+                        );
+                    "
+                >
+                </select>
+            </div>
+            <div class="hunt_xp_picker_caption">Select before hunt</div>
+        </div><!-- left col -->
+
+        <div class="right_column">
+
+            <div
+                class="boxes_container"
+                ng-click="
+                    ngRoll(weaponProficiencyControlDiv, survivorAttributeRollers)
+                "
+            >
+                <div
+                    class="kd checkbox"
+                    ng-repeat="box in range(8)"
+                    ng-class="{
+                        'checked': survivor.sheet['Weapon Proficiency'] >= box,
+                        'heavy': [2,7].indexOf(box) >= 0,
+                    }"
+                >
+                </div>
+            </div>
+
+            <div class="tips_container">
+                <div
+                    class="font_small survivor_sheet_tool_tip_repeater"
+                    ng-repeat="wpMilestone in [
+                        {'boxes': 1, 'value': 2, 'tip': 'Specialist'},
+                        {'boxes': 2, 'value': 7, 'tip': 'Master'},
+                    ]"
+                >
+                    <div
+                        class="kd checkbox tiny"
+                        ng-repeat="box in range(wpMilestone.boxes)"
+                        ng-class="{
+                            'checked': survivor.sheet['Weapon Proficiency'] >= wpMilestone.value,
+                        }"
+                    >
+                    </div>
+                    {a wpMilestone.tip a}
+                </div>
+            </div>
+        </div><!-- right col -->
+    </div>
+
+    <!-- roller -->
+    <div
+        id="{a weaponProficiencyControlDiv a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[weaponProficiencyControlDiv] === false}"
+    >
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                survivor.sheet['Weapon Proficiency'] = survivor.sheet['Weapon Proficiency'] + 1;
+            "
+        >
+            &#x25B2;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-disabled="survivor.sheet['Weapon Proficiency'] === 0"
+            ng-click="
+                survivor.sheet['Weapon Proficiency'] = survivor.sheet['Weapon Proficiency'] - 1;
+            "
+        >
+            &#x25BC;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                ngRoll(weaponProficiencyControlDiv, survivorAttributeRollers);
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {'attribute': 'Weapon Proficiency', 'value': survivor.sheet['Weapon Proficiency']},
+                    false, true, true
+                );
+            "
+        >
+            Save & close
+        </button>
+    </div>
+    <!-- end roller -->
+
+</div><!-- container -->

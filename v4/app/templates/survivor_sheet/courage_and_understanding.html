@@ -1,0 +1,195 @@
+<!--
+
+    Right-side courage/understanding controls; uses survivorAttributeRoller
+    group for rollers.
+
+-->
+
+<div
+>
+    <div
+        class="survivor_sheet border_box courage_and_understanding"
+        ng-init="
+            courageControlDiv = survivor.sheet._id.$oid + 'courageControlDiv';
+            survivorAttributeRollers.push(courageControlDiv);
+        "
+    >
+        <!-- courage -->
+        <div class="c_and_u courage">
+            <div class="font_small silverado title_box">Courage</div>
+
+            <div
+                class="clickable boxes_container"
+                ng-click="
+                    ngRoll(courageControlDiv, survivorAttributeRollers)
+                "
+            >
+                <div
+                    class="kd checkbox"
+                    ng-repeat="box in range(9)"
+                    ng-class="{
+                        'checked': survivor.sheet.Courage > box,
+                        'heavy': [2,8].indexOf(box) >= 0,
+                    }"
+                >
+                </div>
+            </div>
+
+            <div
+                class="font_small caption_row"
+            >
+                <div
+                    ng-repeat="milestone in settlement.survivor_attribute_milestones.Courage"
+                    ng-if="milestone.event === 'story_events'"
+                    title="
+                        {a settlement.game_assets.events[milestone.handle].name a}
+                        (p.{a settlement.game_assets.events[milestone.handle].page a})
+                    "
+                >
+                    <div
+                        class="kd checkbox tiny"
+                        ng-repeat="i in range(milestone.boxes) track by $index"
+                        ng-class="{'checked': survivor.sheet.Courage >= milestone.values[0]}"
+                    >
+                    </div>
+                    <font class="kdm_manager_font">S</font>
+                    <font class="font_tiny">
+                        {a settlement.game_assets.events[milestone.handle].name a}
+                    </font>
+                </div>
+            </div>
+
+            <!-- courage roller -->
+            <div
+                id="{a courageControlDiv a}"
+                class="roll_down_container rolled_up"
+                ng-class="{'rolled_down': ngRolledUp[courageControlDiv] === false}"
+            >
+
+                <button
+                    class="kd capsule blue full_width"
+                    ng-click="
+                        survivor.sheet.Courage = survivor.sheet.Courage + 1;
+                    "
+                >
+                    &#x25B2;
+                </button>
+    
+                <button
+                    class="kd capsule blue full_width"
+                    ng-disabled="survivor.sheet.Courage === 0"
+                    ng-click="
+                        survivor.sheet.Courage = survivor.sheet.Courage - 1;
+                    "
+                >
+                    &#x25BC;
+                </button>
+
+                <button
+                    class="kd capsule blue full_width"
+                    ng-click="
+                        ngRoll(courageControlDiv, survivorAttributeRollers);
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {'attribute': 'Courage', 'value': survivor.sheet.Courage},
+                            false, true, true
+                        );
+                    "
+                >
+                    Save
+                </button>
+
+
+            </div><!-- roller -->
+
+
+            <hr>
+
+            <div
+                ng-if="settlement.game_assets.campaign.courage_ai_radio_raft !== false"
+                class="clickable font_small ai_radio_repeater"
+                ng-repeat="cAI in [
+                    {
+                        'handle': 'stalwart',
+                        'desc': 'Cant be knocked down by brain trauma or intimidate.',
+                    },
+                    {
+                        'handle': 'prepared',
+                        'desc': 'Add Hunt XP to your roll when determining a straggler.',
+                    },
+                    {
+                        'handle': 'matchmaker',
+                        'desc': 'Spend 1 endeavor to trigger Intimacy story event.',
+                    },
+                ]"
+                ng-init="
+                    cAI['id'] = 'courageAI' + cAI['handle'];
+                "
+            >
+                <input
+                    id="{a 'courageAI' + cAI.handle a}"
+                    name="courage_ai"
+                    type="radio"
+                    ng-value="cAI['handle']"
+                    ng-checked="survivor.sheet.abilities_and_impairments.indexOf(cAI['handle'] > 0)"
+                >
+                <label
+                    for="{a cAI.id a}"
+                    ng-class="{
+                        'last': $index >= 2,
+                    }"
+                >
+                    <b class="capitalize">
+                        {a cAI.handle a}:
+                    </b>
+                    {a cAI.desc a}
+                </label>
+                
+                <hr class="splitter" ng-if="!$last"/>
+
+            </div>
+
+        </div>
+
+        <!-- understanding -->
+        <div
+            class="c_and_u understanding"
+            ng-init="
+                understandingControlDiv = survivor.sheet._id.$oid + 'understandingControlDiv';
+                survivorAttributeRollers.push(understandingControlDiv);
+            "
+        >
+            <div class="font_small silverado title_box">Understanding</div>
+
+            <div
+                class="clickable boxes_container"
+                ng-click="
+                    ngRoll(understandingControlDiv, survivorAttributeRollers)
+                "
+            >
+                <div
+                    class="kd checkbox"
+                    ng-repeat="box in range(9)"
+                    ng-class="{
+                        'checked': survivor.sheet.Understanding > box,
+                        'heavy': [2,8].indexOf(box) >= 0,
+                    }"
+                >
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- understanding roller -->
+            <div
+                id="{a understandingControlDiv a}"
+                class="roll_down_container rolled_up"
+                ng-class="{'rolled_down': ngRolledUp[understandingControlDiv] === false}"
+            >
+            </div><!-- roller -->
+
+        </div>
+
+    </div><!-- border_box -->
+
+</div><!-- container -->

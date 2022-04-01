@@ -4,10 +4,16 @@
 
 -->
 
-<div class="survivor_sheet_hunt_xp_container">
+<div
+    class="survivor_sheet_hunt_xp_container"
+    ng-init="
+        huntXPControlDiv = survivor.sheet._id.$oid + 'HuntXPControlDiv';
+        survivorAttributeRollers.push(huntXPControlDiv);
+    "
+>
     <div
-        class="font_small survivor_sheet_hunt_xp"
-        ng-click="ngRoll()"
+        class="clickable font_small survivor_sheet_hunt_xp"
+        ng-click="ngRoll(huntXPControlDiv, survivorAttributeRollers)"
     >
         <div class="label">Hunt XP</div>
         <div
@@ -22,8 +28,8 @@
         <div
             class="kd checkbox"
             ng-class="{
-                'dotted': survivor.sheet.hunt_xp < 16,
-                'checked': survivor.sheet.hunt_xp >= 16,
+                'dotted': survivor.sheet.hunt_xp < 15,
+                'checked': survivor.sheet.hunt_xp >= 15,
             }"
         >
         </div>
@@ -33,12 +39,12 @@
 
     <div class="font_small caption survivor_sheet_hunt_xp_tool_tip">
         <div
-            class="survivor_sheet_hunt_xp_tool_tip_repeater"
+            class="survivor_sheet_tool_tip_repeater"
             ng-repeat="ageMilestone in [
-                {'boxes': 1, 'xp': 2},
-                {'boxes': 2, 'xp': 6},
-                {'boxes': 3, 'xp': 10},
-                {'boxes': 4, 'xp': 15}
+                {'boxes': 1, 'xp': 1},
+                {'boxes': 2, 'xp': 5},
+                {'boxes': 3, 'xp': 9},
+                {'boxes': 4, 'xp': 14}
             ]"
         >
             <div
@@ -50,17 +56,61 @@
             <font class="kdm_manager_font">S</font> Age
         </div>
         <div
-            class="survivor_sheet_hunt_xp_tool_tip_repeater"
+            class="survivor_sheet_tool_tip_repeater"
         >
             <div
                 class="kd checkbox"
                 ng-class="{
-                    'dotted': survivor.sheet.hunt_xp < 16,
-                    'checked': survivor.sheet.hunt_xp >= 16,
+                    'dotted': survivor.sheet.hunt_xp < 15,
+                    'checked': survivor.sheet.hunt_xp >= 15,
                 }"
             >
             </div>
             Retired
         </div>
     </div><!-- survivor_sheet_hunt_xp_tool_tip -->
+
+    <!-- roller -->
+    <div
+        id="{a huntXPControlDiv a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[huntXPControlDiv] === false}"
+    >
+
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                survivor.sheet.hunt_xp = survivor.sheet.hunt_xp + 1;
+            "
+        >
+            &#x25B2;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-disabled="survivor.sheet.hunt_xp === 0"
+            ng-click="
+                survivor.sheet.hunt_xp = survivor.sheet.hunt_xp - 1;
+            "
+        >
+            &#x25BC;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                ngRoll(huntXPControlDiv, survivorAttributeRollers);
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {'attribute': 'hunt_xp', 'value': survivor.sheet.hunt_xp},
+                    false, true, true
+                );
+            "
+        >
+            Save & close
+        </button>
+
+    </div>
+    <!-- end roller -->
+
 </div><!-- container -->

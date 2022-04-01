@@ -1,6 +1,11 @@
 <!-- right column -->
-<div class="kd worksheet_column">
+<div
+    class="kd worksheet_column"
+    ng-init="survivorAttributeRollers=[]"
+>
 
     {% include 'survivor_sheet/hunt_xp.html' %}
+    {% include 'survivor_sheet/weapon_proficiency.html' %}
+    {% include 'survivor_sheet/courage_and_understanding.html' %}
 
 </div> <!-- right column ends -->
