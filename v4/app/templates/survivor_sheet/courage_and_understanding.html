@@ -102,7 +102,6 @@
 
             </div><!-- roller -->
 
-
             <hr>
 
             <div
@@ -131,7 +130,19 @@
                     name="courage_ai"
                     type="radio"
                     ng-value="cAI['handle']"
-                    ng-checked="survivor.sheet.abilities_and_impairments.indexOf(cAI['handle'] > 0)"
+                    ng-checked="survivor.sheet.abilities_and_impairments.indexOf(cAI['handle']) > -1"
+                    ng-click="
+                        toggleSetAttribute(
+                            cAI['handle'],
+                            ['stalwart', 'prepared', 'matchmaker'],
+                            survivor.sheet.abilities_and_impairments
+                        );
+                        postJSONtoAPI(
+                            'survivor', 'set_abilities_and_impairments', survivor.sheet._id.$oid,
+                            {'value': survivor.sheet.abilities_and_impairments},
+                            false, true, true
+                        );
+                    "
                 >
                 <label
                     for="{a cAI.id a}"
@@ -144,11 +155,8 @@
                     </b>
                     {a cAI.desc a}
                 </label>
-                
                 <hr class="splitter" ng-if="!$last"/>
-
             </div>
-
         </div>
 
         <!-- understanding -->
@@ -178,7 +186,29 @@
                 </div>
             </div>
 
-            <hr />
+            <div
+                class="font_small caption_row"
+            >
+                <div
+                    ng-repeat="milestone in settlement.survivor_attribute_milestones.Understanding"
+                    ng-if="milestone.event === 'story_events'"
+                    title="
+                        {a settlement.game_assets.events[milestone.handle].name a}
+                        (p.{a settlement.game_assets.events[milestone.handle].page a})
+                    "
+                >
+                    <div
+                        class="kd checkbox tiny"
+                        ng-repeat="i in range(milestone.boxes) track by $index"
+                        ng-class="{'checked': survivor.sheet.Understanding >= milestone.values[0]}"
+                    >
+                    </div>
+                    <font class="kdm_manager_font">S</font>
+                    <font class="font_tiny">
+                        {a settlement.game_assets.events[milestone.handle].name a}
+                    </font>
+                </div>
+            </div>
 
             <!-- understanding roller -->
             <div
@@ -186,10 +216,102 @@
                 class="roll_down_container rolled_up"
                 ng-class="{'rolled_down': ngRolledUp[understandingControlDiv] === false}"
             >
+
+                <button
+                    class="kd capsule blue full_width"
+                    ng-click="
+                        survivor.sheet.Understanding = survivor.sheet.Understanding + 1;
+                    "
+                >
+                    &#x25B2;
+                </button>
+    
+                <button
+                    class="kd capsule blue full_width"
+                    ng-disabled="survivor.sheet.Understanding === 0"
+                    ng-click="
+                        survivor.sheet.Understanding = survivor.sheet.Understanding - 1;
+                    "
+                >
+                    &#x25BC;
+                </button>
+
+                <button
+                    class="kd capsule blue full_width"
+                    ng-click="
+                        ngRoll(understandingControlDiv, survivorAttributeRollers);
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {'attribute': 'Understanding', 'value': survivor.sheet.Understanding},
+                            false, true, true
+                        );
+                    "
+                >
+                    Save
+                </button>
+
+
             </div><!-- roller -->
+
+            <hr />
+
+            <div
+                ng-if="settlement.game_assets.campaign.understanding_ai_radio_raft !== false"
+                class="clickable font_small ai_radio_repeater"
+                ng-repeat="uAI in [
+                    {
+                        'handle': 'analyze',
+                        'desc': 'Look at the top AI card and return it to the top of the deck.',
+                    },
+                    {
+                        'handle': 'explore',
+                        'desc': 'Add +2 to your <b>investigate</b> roll results.',
+                    },
+                    {
+                        'handle': 'tinker',
+                        'desc': '+1 endeavor when a returning survivor.',
+                    },
+                ]"
+                ng-init="
+                    uAI['id'] = 'understandingAI' + uAI['handle'];
+                "
+            >
+                <input
+                    id="{a 'understandingAI' + uAI.handle a}"
+                    name="understanding_ai"
+                    type="radio"
+                    ng-value="uAI['handle']"
+                    ng-checked="survivor.sheet.abilities_and_impairments.indexOf(uAI['handle']) > -1"
+                    ng-click="
+                        toggleSetAttribute(
+                            uAI['handle'],
+                            ['analyze', 'explore', 'tinker'],
+                            survivor.sheet.abilities_and_impairments
+                        );
+                        postJSONtoAPI(
+                            'survivor', 'set_abilities_and_impairments', survivor.sheet._id.$oid,
+                            {'value': survivor.sheet.abilities_and_impairments},
+                            false, true, true
+                        );
+                    "
+                >
+                <label
+                    for="{a uAI.id a}"
+                    ng-class="{
+                        'last': $index >= 2,
+                    }"
+                >
+                    <b class="capitalize">
+                        {a uAI.handle a}:
+                    </b>
+                    <span ng-bind-html="uAI.desc|trustedHTML"></span>
+                </label>
+                <hr class="splitter" ng-if="!$last"/>
+            </div>
 
         </div>
 
     </div><!-- border_box -->
+
 
 </div><!-- container -->

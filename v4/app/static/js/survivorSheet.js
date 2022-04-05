@@ -118,6 +118,36 @@ app.controller("survivorSheetController", function($scope, $rootScope, $http) {
     };
 
 
+    $scope.toggleSetAttribute = function(selectedAttrib, setOfAttribs, survivorAttribs) {
+        // ugly business logic method meant to facilitate the attribute 
+        // radio buttons for Courage and Understanding on Adam's worksheet
+        
+        // toggle it on or off; determine whether it's on or off
+        var selectedAttribIndex = survivorAttribs.indexOf(selectedAttrib);
+        if (selectedAttribIndex > -1) {
+            survivorAttribs.splice(selectedAttribIndex, 1);
+            return true;
+        } else {
+            survivorAttribs.push(selectedAttrib);
+
+            // now remove the others, if present
+            var indexOfSelected = setOfAttribs.indexOf(selectedAttrib);
+            setOfAttribs.splice(indexOfSelected, 1);
+
+            // iterate the list
+            for (var i = 0; i < setOfAttribs.length; i++) {
+                var rmAttr = setOfAttribs[i];
+                var indexOfAttr = survivorAttribs.indexOf(rmAttr);
+                if (indexOfAttr > -1) {
+                    survivorAttribs.splice(indexOfAttr, 1);
+                };
+            };
+        };
+
+
+
+    };
+
     $scope.init = function() {
         console.warn('Initializing Survivor Sheet controller...');
         $scope.setRandomNames();
