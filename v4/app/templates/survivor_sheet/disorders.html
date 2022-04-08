@@ -1,0 +1,158 @@
+<!--
+
+    disorders
+
+-->
+
+<div class="survivor_sheet asset_list_box">
+
+    <div class="title_bar">
+        <div class="title">
+            Disorders
+        </div>
+        <div class="tool_tip left_margin">
+            Maximum 3.
+        </div>
+    </div>
+
+    <center ng-if="survivor.sheet.disordersLoading">
+        <img  class="tiny_loader"  src="/static/media/loading_io.gif" />
+    </center>
+
+    <div
+        class="clickable hover_highlight kd worksheet_row lined"
+        title="
+            {a asset.name a} {a asset.pretty_sub_type a}.
+            Tap or click to manage.
+        "
+        ng-if="!survivor.sheet.disordersLoading"
+        ng-click="ngShow(disorderController)"
+        ng-repeat="disorder in survivor.sheet.disorders"
+        ng-init="
+            asset = settlement.game_assets.disorders[disorder];
+            disorderController = survivor.sheet._id.$oid + 'DisorderController' + asset.handle;
+        "
+    >
+
+        <i ng-class="{'kd_red_text': asset.constellation}">{a asset.name a}</i>
+
+    </div>
+
+    <!-- blank lines -->
+    <span
+        ng-if="!survivor.sheet.disordersLoading"
+        class="font_tiny"
+        ng-repeat="disorder in range(3 - survivor.sheet.disorders.length)"
+    >
+        &nbsp;
+        <hr />
+    </span>
+
+    <!-- disorder selector -->
+    <select
+        class="kd capsule disorder_purple full_width"
+        ng-disabled="survivor.sheet.disordersLoading"
+        ng-if="survivor.sheet.disorders.length < 3"
+        ng-model="newDisorder"
+        ng-init="
+            scratch.disordersOptions = ngObject.assign(
+                {'_random': {'handle': '_random', 'selector_text': 'Random!'}},
+                settlement.game_assets.disorders
+            )
+        "
+        ng-change="
+            survivor.sheet.disordersLoading = true;
+            postJSONtoAPI(
+                'survivor', 'add_game_asset', survivor.sheet._id.$oid,
+                {'type': 'disorders', 'handle': newDisorder},
+                false, true, true
+            );
+            newDisorder = undefined;
+        "
+        ng-options="
+            disorder.handle as disorder.selector_text
+            disable when survivor.sheet.disorders.indexOf(disorder.handle) !== -1
+            for disorder in scratch.disordersOptions
+        "
+    >
+
+        <option value="" disabled selected>Add Disorder</option>
+
+    </select>
+
+    <div
+        ng-repeat="dHandle in survivor.sheet.disorders"
+        ng-init="
+            disorder = settlement.game_assets.disorders[dHandle];
+            disorderController = survivor.sheet._id.$oid + 'DisorderController' + disorder.handle;
+        "
+    >
+        <div
+            id="{a disorderController a}"
+            class="modal hidden ng_fadeout"
+            ng-if="ngVisible[disorderController]"
+            ng-click="ngHide(disorderController);"
+        >
+            <div
+                class="modal-content survivor_sheet_card_controls"
+                ng-click="$event.stopPropagation();"
+            >
+                <div
+                    class="clickable corner_close_modal"
+                    ng-click="ngHide(disorderController)"
+                >
+                </div>
+
+                {% include 'cards/disorder.html' %}
+
+                <select
+                    ng-if="disorder.handle === 'weak_spot'"
+                    class="kd capsule disorder_gradient full_width"
+                    ng-change="
+                        postJSONtoAPI(
+                            'survivor', 'set_weak_spot', survivor.sheet._id.$oid,
+                            {'weak_spot': survivor.sheet.weak_spot},
+                            false, true, true
+                        );
+                    "
+                    ng-model="survivor.sheet.weak_spot"
+                    ng-selected="survivor.sheet.weak_spot"
+                    ng-options="option.name as option.name for option in [
+                        {'name': 'Head'},
+                        {'name': 'Arms'},
+                        {'name': 'Body'},
+                        {'name': 'Waist'},
+                        {'name': 'Legs'},
+                        {'name': 'UNSET'},
+                    ]"
+                >
+                    <option value="" disabled selected>Location</option>
+                </select>
+
+
+                <button
+                    class="kd capsule pink full_width"
+                    ng-click="
+                    survivor.sheet.disordersLoading = true;
+                    postJSONtoAPI(
+                        'survivor', 'rm_game_asset', survivor.sheet._id.$oid,
+                        {'type': 'disorders', 'handle': disorder.handle},
+                        false, true, true
+                    );
+                    "
+                >
+                    Remove
+                </button>
+
+                <button
+                    class="kd capsule full_width"
+                    ng-click="ngHide(disorderController);"
+                >
+                    Close
+                </button>
+
+            </div> <!-- modal content -->
+        </div>
+    </div>
+
+</div><!-- disorders container outer / bottom -->

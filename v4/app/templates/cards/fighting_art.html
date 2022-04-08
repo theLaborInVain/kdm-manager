@@ -1,0 +1,96 @@
+<!-- fighting arts card! -->
+<div
+    class="kd card fighting_art container"
+    title="{a fighting_art.name a} ({a fighting_art.sub_type_pretty a})"
+>
+    <div
+        class="kd card face"
+        ng-init="expansion = kingdomDeath.expansions[fighting_art.expansion]"
+    >
+
+        {% include 'cards/expansion_flair.html' %}
+
+        <div class="kd card face fighting_art header">
+            <div class="kd card face fighting_art title_bar">
+                <div
+                    class="kd card fighting_art title"
+                    ng-class="{'kd_red_text': fighting_art.constellation}"
+                >
+                    {a fighting_art.name a}
+                </div>
+                <div
+                    class="kd card fighting_art subtitle"
+                    ng-if="fighting_art.sub_type !== 'strain'"
+                >
+                    {a fighting_art.sub_type_pretty a}
+                </div>
+                <div
+                    class="kd card fighting_art subtitle"
+                    ng-if="fighting_art.sub_type === 'strain'"
+                >
+                    fighting art, strain
+                </div>
+            </div><!-- title_bar -->
+        </div><!-- header -->
+
+        <div
+            class="kd card fighting_art gradient_span {a fighting_art.sub_type a}_gradient">
+        </div>
+
+        <!-- body -->
+        <div
+            ng-if="fighting_art.desc"
+            class="kd card fighting_art body"
+            ng-bind-html="fighting_art.desc|trustedHTML"
+        >
+        </div>
+
+        <!-- levels -->
+        <div
+            ng-repeat="(level, desc) in fighting_art.levels track by $index"
+            class="kd card fighting_art level_container"
+        >
+            <div
+                ng-if="desc !== ''"
+                class="kd worksheet_row"
+            >
+                <div
+                    class="kd card fighting_art level_number"
+                >
+                    {a level a}
+                </div>
+                <div
+                    class="kd card fighting_art level_desc"
+                    ng-bind-html="desc|trustedHTML"
+                >
+                </div>
+            </div>
+        </div> <!-- levels -->
+
+        <!-- Strain Treshold - 10th Anniversary White Speaker, etc. -->
+        <div
+            ng-if="fighting_art.strain_threshold"
+            class="kd card fighting_art strain_threshold_container"
+            ng-class="{
+                'promo': fighting_art.strain_threshold.final === undefined,
+                'pink': fighting_art.strain_threshold.final,
+            }"
+        >
+            <div
+                class="kd card fighting_art strain_threshold_blocks_container"
+            >
+                <span
+                    ng-repeat="block in range(fighting_art.strain_threshold.blocks)"
+                    class="strain_block"
+                >
+                </span>
+            </div>
+            <div
+                class="kd card fighting_art strain_threshold_desc"
+                ng-bind-html="fighting_art.strain_threshold.desc|trustedHTML"
+            >
+            </div>
+        </div>
+
+    </div>
+</div><!-- end of card container -->

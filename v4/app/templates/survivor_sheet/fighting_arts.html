@@ -1,0 +1,209 @@
+<!--
+
+    The template/model for the lined list bits
+
+-->
+
+<div class="survivor_sheet asset_list_box">
+
+    <div class="title_bar">
+        <div class="title">
+            Fighting Arts
+        </div>
+        <div class="tool_tip">
+            Maximum 3.
+        </div>
+        <div
+            class="lockbox clickable"
+            ng-click="
+                survivor.sheet.cannot_use_fighting_arts = !survivor.sheet.cannot_use_fighting_arts;
+                postJSONtoAPI(
+                    'survivor', 'set_status_flag', survivor.sheet._id.$oid,
+                    {
+                        'flag': 'cannot_use_fighting_arts',
+                        'value': survivor.sheet.cannot_use_fighting_arts
+                    },
+                    false, true, false
+                );
+            "
+        >
+            <div
+                class="kd checkbox tiny"
+                ng-class="{'checked': survivor.sheet.cannot_use_fighting_arts}"
+            >
+            </div>
+            <span class="kdm_manager_font">l</span>
+            Cannot use Fighting Arts
+        </div>
+    </div>
+
+    <center ng-if="survivor.sheet.fightingArtsLoading">
+        <img  class="tiny_loader"  src="/static/media/loading_io.gif" />
+    </center>
+
+    <div
+        class="clickable hover_highlight kd worksheet_row lined"
+        title="
+            {a asset.name a} {a asset.pretty_sub_type a}.
+            Tap or click to manage.
+        "
+        ng-if="!survivor.sheet.fightingArtsLoading"
+        ng-class="{'faded': survivor.sheet.cannot_use_fighting_arts}"
+        ng-click="ngShow(faController)"
+        ng-repeat="fighting_art in survivor.sheet.fighting_arts"
+        ng-init="
+            asset = settlement.game_assets.fighting_arts[fighting_art];
+            faController = survivor.sheet._id.$oid + 'FightingArtController' + asset.handle;
+        "
+    >
+
+        <i
+            ng-class="{
+                'kd_red_text': asset.sub_type ===
+                    'secret_fighting_art' || asset.constellation,
+            }"
+        >
+            {a asset.name a}
+            <span ng-if="asset.levels">
+                lvl.{a
+                    survivor.sheet.fighting_arts_levels[asset.handle][
+                        survivor.sheet.fighting_arts_levels[asset.handle].length - 1
+                    ]
+                a}
+            </span>
+        </i>
+
+    </div>
+
+    <span
+        ng-if="!survivor.sheet.fightingArtsLoading"
+        class="font_tiny"
+        ng-repeat="fighting_art in range(3 - survivor.sheet.fighting_arts.length)"
+    >
+        &nbsp;
+        <hr />
+    </span>
+
+    <select
+        class="kd capsule fighting_art_red full_width"
+        ng-disabled="survivor.sheet.fightingArtsLoading"
+        ng-if="survivor.sheet.fighting_arts.length < 3"
+        ng-model="newFightingArt"
+        ng-init="
+            scratch.fightingArtsOptions = ngObject.assign( 
+                {'_random': {'handle': '_random', 'selector_text': 'Random!'}},
+                settlement.game_assets.fighting_arts
+            )
+        "
+        ng-change="
+            survivor.sheet.fightingArtsLoading = true;
+            postJSONtoAPI(
+                'survivor', 'add_game_asset', survivor.sheet._id.$oid,
+                {'type': 'fighting_arts', 'handle': newFightingArt},
+                false, true, true
+            );
+            newFightingArt = undefined;
+        "
+        ng-options="
+            fa.handle as fa.selector_text
+            disable when survivor.sheet.fighting_arts.indexOf(fa.handle) !== -1
+            for fa in scratch.fightingArtsOptions
+        "
+    >
+        <option value="" disabled selected>Add Fighting Art</option>
+    </select>
+
+
+    <!-- card controllers -->
+    <div
+        ng-repeat="fart in survivor.sheet.fighting_arts"
+        ng-init="
+            fighting_art = settlement.game_assets.fighting_arts[fart];
+            faController = survivor.sheet._id.$oid + 'FightingArtController' + fighting_art.handle;
+        "
+    >
+        <div
+            id="{a faController a}"
+            class="modal hidden ng_fadeout"
+            ng-if="ngVisible[faController]"
+            ng-click="ngHide(faController);"
+        >
+            <div
+                class="modal-content survivor_sheet_card_controls"
+                ng-click="$event.stopPropagation();"
+            >
+                <div
+                    class="clickable corner_close_modal"
+                    ng-click="ngHide(faController)"
+                >
+                </div>
+
+                {% include 'cards/fighting_art.html' %} 
+
+                <!-- level controls -->
+                <div
+                    ng-if="fighting_art.levels"
+                    title="Tap or click a {a fighting_art.name a} skill level to toggle it on or off."
+                    class="survivor_sheet fighting_arts controls_container"
+                >
+
+                    <h3 class="kd title">Levels</h3>
+
+                    <div
+                        ng-repeat="(level, desc) in fighting_art.levels track by $index"
+                        ng-init="level = ngNumber(level)"
+                        class="clickable kd worksheet_row"
+                        ng-class="{'lined': !$last}"
+                        ng-if="desc !== ''"
+                        ng-click="
+                        toggleArrayItem(survivor.sheet.fighting_arts_levels[fighting_art.handle], level);
+                        postJSONtoAPI(
+                            'survivor', 'set_fighting_art_level', survivor.sheet._id.$oid,
+                            {
+                                'handle': fighting_art.handle,
+                                'levels': survivor.sheet.fighting_arts_levels[fighting_art.handle]
+                            },
+                            false, true, false
+                        );
+                    "
+                    >
+                        <div
+                            class="kd checkbox"
+                            ng-class="{
+                                'checked': survivor.sheet.fighting_arts_levels[fighting_art.handle].indexOf(level) > -1}
+                            "
+                        >
+                        </div>
+                        <div class="kd checkbox_desc" ng-bind-html="desc|trustedHTML">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="kd capsule pink full_width"
+                    ng-click="
+                    survivor.sheet.fightingArtsLoading = true;
+                    postJSONtoAPI(
+                        'survivor', 'rm_game_asset', survivor.sheet._id.$oid,
+                        {'type': 'fighting_arts', 'handle': fighting_art.handle},
+                        false, true, true
+                    );
+                    "
+                >
+                    Remove
+                </button>
+
+                <button
+                    class="kd capsule full_width"
+                    ng-click="ngHide(faController);"
+                >
+                    Close
+                </button>
+
+            </div> <!-- modal content -->
+        </div>
+    </div>
+
+</div><!-- FA container outer / bottom -->

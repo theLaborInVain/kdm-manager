@@ -50,8 +50,8 @@
     <select
         class="kd capsule full_width green"
         ng-disabled="!settlement.game_assets.locations_options"
-        ng_model="newLocation"
-        ng_change="
+        ng-model="newLocation"
+        ng-change="
             settlement.game_assets.locations_options = undefined;
             settlement.sheet.locations.push(newLocation);
             postJSONtoAPI(

@@ -536,16 +536,17 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
     $scope.updateSurvivorSheet = function(newSheet) {
         // overwrites a survivor sheet in the current scope with 'newSheet'
+        var targetOid = newSheet._id.$oid
         var survivors = $scope.settlement.user_assets.survivors;
         for (var i = 0; i < survivors.length; i++) {
-            var survivor = survivors[i];
-            if (survivor.sheet._id.$oid === newSheet._id.$oid) {
-                survivors[i].sheet = newSheet;
+            if (survivors[i].sheet._id.$oid === targetOid) {
+                survivors[i].sheet = newSheet
+                $scope.$apply();
                 console.info('Survivor sheet updated successfully!');
                 return true;
             };
-            console.error('Survivor sheet could not be updated!');
         };
+        console.error('Survivor sheet could not be updated!');
     };
 
 
@@ -605,11 +606,16 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                 if (reinit) { $rootScope.initializeSettlement($scope.settlement.sheet._id.$oid) };
 				if (showAlert) { $rootScope.flashCapsuleAlert('Saved') };
                 if (updateSheet) { 
-                    if (collection == 'settlement') {
-                        $scope.settlement.sheet = response.data.sheet;
-                    } else if (collection == 'survivor') {
-                        $scope.updateSurvivorSheet(response.data.sheet);
-                    };
+                    // wait for the DOM to finish being updated; then hit it again
+                    $timeout(function(){
+                        if (collection === 'settlement') {
+                            $scope.settlement.sheet = response.data.sheet;
+                        } else if (collection === 'survivor') {
+                            $timeout(function(){
+                                $scope.updateSurvivorSheet(response.data.sheet)
+                            }, 500)
+                        };
+                    });
                 };
 				console.timeEnd(endpoint);
 			},
@@ -1006,6 +1012,8 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     $rootScope.objectKeys = Object.keys;
     $rootScope.ngCopy = angular.copy;
     $rootScope.ngEquals = angular.equals;
+    $rootScope.ngNumber = Number;
+    $rootScope.ngObject = Object;
     $rootScope.ngString = String;
 
 });

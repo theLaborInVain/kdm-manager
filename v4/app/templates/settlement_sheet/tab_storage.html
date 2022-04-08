@@ -154,14 +154,14 @@
                                 ng-if="asset.type !== 'gear' && ngRolledUp[storageAssetRollerId] === false"
                                 ng-init="resource = asset"
                             >
-                                {% include 'resource_card.html' %}
+                                {% include 'cards/resource.html' %}
                             </div>
 
                             <div
                                 ng-if="asset.type === 'gear' && ngRolledUp[storageAssetRollerId] === false"
                                 ng-init="gear = asset"
                             >
-                                {% include 'gear_card.html' %}
+                                {% include 'cards/gear.html' %}
                             </div>
 
                             <!-- add/remove resource/gear from storage -->

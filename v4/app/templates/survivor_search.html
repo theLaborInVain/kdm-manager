@@ -13,7 +13,7 @@
     <div class="modal-content">
 
         <div
-            ng-repeat="survivor in settlement.user_assets.survivors"
+            ng-repeat="survivor in settlement.user_assets.survivors track by $index"
             class="clickable kd worksheet_block"
             ng-click="
                 $event.stopPropagation();

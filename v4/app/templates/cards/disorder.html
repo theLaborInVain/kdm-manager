@@ -1,0 +1,39 @@
+<!-- disorders card! -->
+<div
+    class="kd card disorder container"
+    title="{a disorder.name a} ({a disorder.sub_type_pretty a})"
+>
+    <div
+        class="kd card face"
+        ng-init="expansion = kingdomDeath.expansions[disorder.expansion]"
+    >
+
+        {% include 'cards/expansion_flair.html' %}
+
+        <div class="kd card face disorder header">
+            <div class="kd card face disorder title_bar">
+                <div
+                    class="kd card disorder title"
+                    ng-class="{'kd_red_text': disorder.constellation}"
+                >
+                    {a disorder.name a}
+                </div>
+                <div></div>
+            </div><!-- title_bar -->
+        </div><!-- header -->
+
+        <!-- body -->
+        <div
+            ng-if="disorder.flavor_text"
+            class="kd card disorder flavor_text"
+            ng-bind-html="disorder.flavor_text|trustedHTML"
+        >
+        </div>
+        <div
+            class="kd card disorder survivor_effect"
+            ng-bind-html="disorder.survivor_effect|trustedHTML"
+        >
+        </div>
+
+    </div>
+</div><!-- end of card container -->

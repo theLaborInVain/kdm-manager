@@ -55,6 +55,14 @@ input[type="number"]::-webkit-outer-spin-button,
 p {margin: 3%; }
 
 
+hr {
+    border: 1px solid;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    width: 101%;
+}
+
 /* in order to get line-wrapping, we use contenteditable divs instead of
 normal text inputs */
 
@@ -287,103 +295,12 @@ button:active,
 .card_gradient {
     border: 2px solid;
 }
-
-.survivor_sheet_card_container {    /* contains the repeater */
-    display: flex;
-    flex-direction: column;
-    margin-top: 3%;
-}
-.survivor_sheet_card_expansion_flair {
-    align-items: center;
-    border: 0;
-    border-top-left-radius: 0.75rem;
-    border-top-right-radius: 0.75rem;
-    display: flex;
-    font-family: 'Silverado';
-    margin-bottom: 1rem;
-    margin-top: -1rem;
-    padding: 0.5rem;
-    padding-left: 1.5rem;
-    text-align: left;
-}
-.survivor_sheet_card {              /*  is the repeater */
-    border: 0;
-    border-radius: 0.75rem;
-    box-shadow: var(--box-shadow-default);
-    height: 100%; 
-    margin: 0 auto;
-    margin-bottom: 5%;
-    margin-top: 3%; 
-    padding: 0;
-    padding-top: 1rem;
-    text-align: center;
-    width: 95%;
-}
-.survivor_sheet_card br {
+.kd.card.fighting_art.body br {
     content: "";
     display: block;
-    height: 1vh; 
-}
-.survivor_sheet_card_text,
-    .survivor_sheet_card_level_block {
-    margin: 1rem; 
-}
-.survivor_sheet_card_color_span {
-    height: 1.5rem;
-    border: 0;
-    margin: 0 0 1rem 0;
-}
-.survivor_sheet_card_content {      /*  initialized asset within repeater */
-    width: 100%; 
-}
-.survivor_sheet_card .card_title {
-    display: block;
-    font-family: 'Silverado'; 
-    margin-bottom: 1%;
-}
-.survivor_sheet_card_subhead {
-    margin-top: 0;
-    text-transform: lowercase;
-} 
-.fighting_art_card_strain_threshold_container {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    margin-bottom: -5%;
-    margin-top: 6%;
-    padding: 3%;
-    width: 100%;
-}
-.fighting_art_card_strain_threshold_blocks_container {
-    margin-bottom: 0;
-    margin-top: -6.5%;
-    text-align: center;
-    width: 100%;
-}
-.fighting_art_card_strain_threshold_blocks_container span {
-    margin-right: 1.5vw;
-}
-.fighting_art_card_strain_threshold_desc {
-    font-size: 0.7em;
-    text-align: center;
-    width: 100%;
-}
-.strain_block {
-    border: 0.1em solid;
-    display: inline-block;
     height: 1rem;
-    margin-bottom: -0.3vh;
-    width: 1rem;
 }
-.survivor_sheet_card_click_to_remove {
-    text-align:center;
-    padding: 0.6rem;
-    margin: 0;
-    margin-top: 1rem;
-    border-bottom-left-radius: 0.75rem;
-    border-bottom-right-radius: 0.75rem;
-}
+
 
 font.inline_shield {
     background-color: #000;
@@ -397,6 +314,10 @@ font.inline_shield {
     flex-wrap: wrap;
     justify-content: center; 
     margin: 0 -1rem 0 -1rem;
+}
+
+.modal-content.survivor_sheet_card_controls .kd.card.container {
+    margin-top: 4rem;
 }
 .vignette_survivor_card_container {
     border-radius: var(--border-radius-sheet);
@@ -1854,6 +1775,9 @@ h3.new_survivor_sheet {
 
 /*  blood drop / bleeding token */
 
+.kd.card.bleeding_token_container {
+    margin: 1rem auto 2rem auto; 
+}
 .bleeding_token_container {
     align-items: center;
     display: flex;
@@ -3383,13 +3307,6 @@ h3.new_survivor_sheet {
     margin: 0 0 0 0.1rem; 
 }
 
-.c_and_u hr {
-    border: 1px solid;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    width: 101%;
-}
 
 .c_and_u .ai_radio_repeater {
     align-items: center;
@@ -3407,6 +3324,41 @@ hr.splitter {
     border-left: none;
     border-right: none;
     width: 70%;
+}
+
+
+/* survivor sheet fighting_arts.html */
+.survivor_sheet.asset_list_box {
+    margin: 1rem -0.1rem 1rem -0.1rem;
+}
+.survivor_sheet.asset_list_box .title_bar{
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+}
+.survivor_sheet.asset_list_box .title_bar .title{
+    font-family: 'Silverado';
+}
+.survivor_sheet.asset_list_box .title_bar .tool_tip {
+    margin: 0 auto 0 0.2rem;
+}
+.survivor_sheet.asset_list_box .title_bar .tool_tip.left_margin {
+    margin-left: 1.2rem;
+}
+.survivor_sheet.asset_list_box .title_bar .tool_tip,
+    .survivor_sheet.asset_list_box .title_bar .lockbox{
+    font-size: var(--font-small);
+}
+.survivor_sheet.asset_list_box .title_bar .lockbox{
+    align-items: baseline;
+    display: flex;
+}
+.survivor_sheet.asset_list_box .title_bar .lockbox * {
+    margin: 0 0.2rem 0 0; 
+}
+
+.survivor_sheet.fighting_arts.controls_container {
+    margin: 3rem  auto 1rem auto; 
 }
 
 /*  survivor sheet admin tab */
