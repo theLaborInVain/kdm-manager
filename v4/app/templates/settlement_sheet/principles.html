@@ -1,0 +1,176 @@
+<!--
+
+    PRINCIPLES; there's a block display as well as a model in this subtemplate
+
+-->
+<div class="settlement_sheet_block_group">
+
+    <h2 class="kd worksheet_page_title">Principles</h2>
+
+    <p>The settlement's established principles.</p>
+
+    <div
+        class="settlement_sheet_principles_spinner_container"
+        ng-if="settlement.sheet.principles === undefined"
+    >
+        <img src="/static/media/loading_io.gif" />
+        <p>Updating settlement principles...</p>
+    </div>
+
+    <div
+        ng-repeat="p in settlement.game_assets.principles_options"
+        ng-if="settlement.sheet.principles !== undefined"
+    >
+        <div
+            class="kd worksheet_row lined"
+            ng-repeat="o in p.options"
+            ng-if="o.checked"
+        >
+            <div class="kd checkbox checked"></div>
+            <div class="kd checkbox_desc">{a o.name a}</div>
+        </div>
+
+    </div> <!-- principle repeater -->
+
+    <button
+        class="kd capsule full_width"
+        ng-click="ngShow('settlementSheetPrinciplesEditorModal')"
+    >
+        Edit principles
+    </button>
+
+</div> <!-- principles settlement sheet block group -->
+
+
+<!--    controller modal -->
+
+<div
+    id="settlementSheetPrinciplesEditorModal"
+    ng-click="ngHide('settlementSheetPrinciplesEditorModal')"
+    ng-if="
+        ngVisible['settlementSheetPrinciplesEditorModal']
+    "
+    class="modal-black hidden"
+>
+
+    <div class="kd_sheet_ui_outer_ring_container">
+
+        <div
+            id="settlementSheetPrinciplesControls"
+            class="kd_sheet_ui_inner_ring_container"
+            ng-click="$event.stopPropagation()"
+        >
+
+            <h3 class="kd title">Principles</h3>
+
+            <p>The settlement's established principles.</p>
+
+            <p
+                class="kd_sheet_ui_row_tip"
+                ng-if="user.user.preferences.show_ui_tips"
+                ng-if="settlement.sheet.principles !== undefined"
+            >
+                Bonuses to <b>living</b> survivors are applied immediately
+                when a principle is selected. Bonuses to <b>new</b> and
+                <b>newborn</b> survivors are applied automatically
+                thereafter.
+            </p>
+
+            <div
+                class="settlement_sheet_principles_spinner_container"
+                ng-if="settlement.sheet.principles === undefined"
+            >
+                <img src="/static/media/loading_io.gif" />
+                <p>Updating settlement principles...</p>
+            </div>
+
+            <div
+                ng-repeat="p in settlement.game_assets.principles_options"
+                class="settlement_sheet_principle_repeater"
+                ng-if="settlement.sheet.principles !== undefined"
+            >
+
+                <div class="settlement_sheet_principle_name">
+                    {a p.name a}
+                </div>
+
+                <div
+                    class="clickable principle_option editor"
+                    ng-repeat="o in p.options"
+                    ng-click="
+                        settlement.sheet.principles = undefined;
+                        o.checked = !o.checked;
+                        postJSONtoAPI(
+                            'settlement', 'set_principle', settlement.sheet._id.$oid,
+                            {
+                                'principle': p.handle,
+                                'election': o.handle
+                            },
+                            true, true, false
+                        );
+                    "
+                >
+                    <div class="principle_option_title">
+
+                        <div
+                            class="kd_sheet_ui_box"
+                            ng-class="{'checked': o.checked,}"
+                        >
+                        </div>
+
+                        <div class="principle_option_name">
+                            {a  o.name  a}
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="principle_option_desc"
+                        ng-bind-html="o.desc|trustedHTML"
+                    >
+                    </div>
+
+                </div> <!-- individual principle option repeater-->
+
+            </div> <!-- principle repeater -->
+
+            <div
+                class="ng_fade unset_principle_container"
+                ng-if="
+                    settlement.sheet.principles !== undefined &&
+                    settlement.game_assets.principles_options !== undefined
+                "
+            >
+
+                <p
+                    class="kd_sheet_ui_row_tip"
+                    ng-if="user.user.preferences.show_ui_tips"
+                >
+                    Select a principle from the list below to unset it. The
+                    Manager will automatically undo any changes that were
+                    made when the principle was selected.
+                </p>
+
+                <select
+                    class="kd capsule full_width"
+                    ng-model="scratch.unset"
+                    ng-change="unsetPrinciple();"
+                    ng-options="p.handle as p.name for p in settlement.game_assets.principles_options"
+                >
+                    <option disabled value="">Unset Principle</option>
+                </select>
+
+            </div> <!-- unset_principle_container -->
+
+        </div> <!-- sheet ui INNER ring -->
+
+        <button
+            class="kd_kickstarter_button floating_close_modal_button"
+            ng-click="ngHide('settlementSheetPrinciplesEditorModal')"
+        >
+            Close
+        </button>
+
+    </div> <!-- sheet ui outer ring -->
+
+</div><!-- principles editor-->

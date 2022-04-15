@@ -1,0 +1,63 @@
+<div
+    title="Bleeding tokens"
+    ng-init="
+        bleedingTokenControls = survivor.sheet._id.$oid + 'BleedingTokenControl';
+        survivorDamageRollers.push(bleedingTokenControls);
+    "
+>
+
+    <div
+        class="clickable kd card bleeding_token_container survivor_sheet"
+        ng-click="ngRoll(bleedingTokenControls, survivorDamageRollers)"
+    >
+        <div
+            ng-repeat="token_value in range(survivor.sheet.max_bleeding_tokens)"
+            class="kd bleeding_token"
+            ng-class="{'active': $index < survivor.sheet.bleeding_tokens}"
+        >
+        </div>
+    </div>
+
+    <div
+        id="{a bleedingTokenControls a}"
+        class="roll_down_container rolled_up"
+        ng-class="{'rolled_down': ngRolledUp[bleedingTokenControls] === false}"
+    >
+
+        <button
+            class="kd capsule blue full_width"
+            ng-disabled="survivor.sheet.bleeding_tokens === survivor.sheet.max_bleeding_tokens"
+            ng-click="
+                survivor.sheet.bleeding_tokens = survivor.sheet.bleeding_tokens + 1;
+            "
+        >
+            &#x25B2;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-disabled="survivor.sheet.bleeding_tokens === 0"
+            ng-click="
+                survivor.sheet.bleeding_tokens = survivor.sheet.bleeding_tokens - 1;
+            "
+        >
+            &#x25BC;
+        </button>
+
+        <button
+            class="kd capsule blue full_width"
+            ng-click="
+                ngRoll(bleedingTokenControls, survivorDamageRollers);
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {'attribute': 'bleeding_tokens', 'value': survivor.sheet.bleeding_tokens},
+                    false, true, true
+                );
+            "
+        >
+            Save & close
+        </button>
+
+    </div>
+
+</div><!-- bleeding tokens -->

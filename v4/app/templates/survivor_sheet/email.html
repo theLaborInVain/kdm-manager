@@ -1,0 +1,28 @@
+            <input
+                class="kd capsule full_width"
+                type="text"
+                ng-init="scratch.survivorOriginalEmail = survivor.sheet.email"
+                ng-model="survivor.sheet.email"
+                ng-placeholder="email"
+            />
+            <button
+                class="kd capsule blue"
+                ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"
+                ng-click="
+                    ngShow('fullPageLoader');
+                    postJSONtoAPI(
+                        'survivor', 'set_email', survivor.sheet._id.$oid,
+                        {'email': survivor.sheet.email},
+                        true, true, false
+                    );
+                "
+            >
+                Save
+            </button>
+            <button
+                class="kd capsule"
+                ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"
+                ng-click="survivor.sheet.email = scratch.survivorOriginalEmail"
+            >
+                Cancel
+            </button>

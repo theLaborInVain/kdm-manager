@@ -60,12 +60,6 @@ input:active {  /* this is our on-click effect color */
     background: #fff;
 }
 
-.bleeding_token.active {
-    border-color: #fff;
-    box-shadow: var(--box-shadow-default);
-    background: var(--color-kd-special-showdown);
-    background: var(--color-kd-bleeding-token);
-}
 
 /*  modal and modal-black   */
 .modal, .modal-black {

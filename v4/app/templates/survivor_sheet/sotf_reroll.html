@@ -1,0 +1,39 @@
+<div
+    class="clickable survivor_sheet border_box wrap"
+    ng-if="
+        settlement.sheet.principles.indexOf('survival_of_the_fittest') > -1
+    "
+    ng-click="
+        survivor.sheet.sotf_reroll = !survivor.sheet.sotf_reroll;
+
+    "
+>
+
+    <div
+        class="kd worksheet_row"
+    >
+        <div
+            class="kd checkbox"
+            ng-class="{
+                'checked': survivor.sheet.sotf_reroll,
+            }"
+        >
+        </div>
+
+        <div class="kd checkbox_desc">
+            Once per lifetime reroll
+        </div>
+
+    </div>
+
+    <div
+        class="kd worksheet_row caption"
+        ng-if="!survivor.sheet.sotf_reroll"
+    >
+        <p class="font_small">
+            <b>Survival of the fittest:</b> Once per lifetime, a survivor may
+            reroll a single roll result. They must keep this result.</b>
+        </p>
+    </div>
+
+</div>

@@ -1,0 +1,60 @@
+/*                                                        */
+/*  DO NOT EDIT Z-INDEX VALUES OR COLORS IN THIS FILE!!!  */
+/*                                                        */
+
+/*  2020 tablet breakpoint!     */
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+
+
+    /*                          */
+    /*  SURVIVOR SHEET - tablet */
+    /*                          */
+
+    .modal-content.survivor_sheet {
+        width: 100%;
+    }
+
+    .kd.worksheet_block.survivor_sheet {
+        display: flex;
+    }
+
+    .kd.worksheet_block.survivor_sheet > * {
+        flex: 1;
+        margin: 0.5rem;
+        max-width: 48%;
+    }
+
+    .survivor_sheet.caption_column {
+        min-width: 55%;
+    }
+
+
+    .survivor_sheet_hunt_xp_container {
+        margin: 0.1rem 0 0 0;
+    }
+    .survivor_sheet_hunt_xp .label {
+        margin: auto 0.5rem auto;
+    }
+
+    .survivor_sheet_hunt_xp .kd.checkbox,
+        .survivor_sheet.border_box.weapon_proficiency .right_column .boxes_container .kd.checkbox {
+        margin: 0 0.3rem 0 0;
+    }
+
+    .kd.bleeding_token_container.survivor_sheet {
+        flex-wrap: nowrap;
+    }
+
+    .survivor_sheet.border_box.weapon_proficiency .right_column .boxes_container {
+        margin: 0.75rem 0.25rem 1rem 0;
+    }
+
+    .c_and_u .boxes_container > .kd.checkbox {
+        height: 0.8rem;
+        width: 0.8rem;
+    }
+
+}

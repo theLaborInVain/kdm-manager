@@ -1,0 +1,45 @@
+<div>
+
+    <h2 class="kd worksheet_page_title">
+        Milestone Story Events
+    </h2>
+
+    <p>
+        Trigger these story events when the milestone condition is met.
+    </p>
+
+    <div
+        ng-repeat="m in settlement.game_assets.milestones_options"
+        class="clickable hover_highlight kd worksheet_row lined principle"
+        ng-click="
+            toggleArrayItem(settlement.sheet.milestone_story_events, m.handle);
+            postJSONtoAPI(
+                'settlement', 'set_milestones', settlement.sheet._id.$oid,
+                {'milestone_story_events': settlement.sheet.milestone_story_events},
+                false, true, false
+            );
+        "
+    >
+        <div
+            class="kd checkbox"
+            ng-class="{
+                'checked': settlement.sheet.milestone_story_events.indexOf(m.handle) != -1
+            }"
+        >
+        </div>
+
+        <div>
+            {a m.name a}
+        </div>
+
+        <div class="font_small">
+            <font class="kdm_font">g</font>
+            <b>{a m.story_event a}</b>
+            <span class="milestone_story_reference">
+                (p.{a settlement.game_assets.events[m.story_event_handle].page a})
+            </span>
+        </div>
+
+    </div> <!-- milestone repeater div -->
+
+</div> <!-- anonymous div for milestones -->

@@ -6,44 +6,20 @@
     ng-init="survivor = settlement.viewSurvivor"
     ng-click="ngHide('survivorSheet')"
 >
-    <div class="modal-content" ng-click="$event.stopPropagation()">
+    <div class="modal-content survivor_sheet" ng-click="$event.stopPropagation()">
 
-        <div class="kd worksheet_block">
+        <div class="kd worksheet_block survivor_sheet">
 
-            {% include 'survivor_sheet/left_column.html' %}
-            {% include 'survivor_sheet/right_column.html' %}
+            {% include '/survivor_sheet/left_column.html' %}
+            {% include '/survivor_sheet/right_column.html' %}
 
         </div> <!-- kd worksheet_block that holds the columns -->
 
-        <div class="kd worksheet_block">
-            <input
-                class="kd capsule full_width"
-                type="text"
-                ng-init="scratch.survivorOriginalEmail = survivor.sheet.email"
-                ng-model="survivor.sheet.email"
-                ng-placeholder="email"
-            />
-            <button
-                class="kd capsule blue"
-                ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"
-                ng-click="
-                    ngShow('fullPageLoader');
-                    postJSONtoAPI(
-                        'survivor', 'set_email', survivor.sheet._id.$oid,
-                        {'email': survivor.sheet.email},
-                        true, true, false
-                    );
-                "
-            >
-                Save
-            </button>
-            <button
-                class="kd capsule"
-                ng-if="scratch.survivorOriginalEmail !== survivor.sheet.email"
-                ng-click="survivor.sheet.email = scratch.survivorOriginalEmail"
-            >
-                Cancel
-            </button>
+        <div class="kd worksheet_block survivor_sheet">
+            
+            {% include '/survivor_sheet/bottom_left_column.html' %}
+            {% include '/survivor_sheet/bottom_right_column.html' %}
+
         </div>
 
     </div> <!-- kd_sheet_ui_outer_ring_container -->
