@@ -5,7 +5,14 @@
     "
     ng-click="
         survivor.sheet.sotf_reroll = !survivor.sheet.sotf_reroll;
-
+        postJSONtoAPI(
+            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+            {
+                'attribute': 'sotf_reroll',
+                'value': survivor.sheet.sotf_reroll
+            },
+            false, true, false
+        );
     "
 >
 

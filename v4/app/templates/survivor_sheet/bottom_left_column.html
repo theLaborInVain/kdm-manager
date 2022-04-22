@@ -5,4 +5,54 @@
 
     {% include '/survivor_sheet/sotf_reroll.html' %}
 
+    <!-- special attributes -->
+    <div
+        class="clickable survivor_sheet border_box"
+        ng-repeat="sAttr in settlement.game_assets.survivor_special_attributes"
+        ng-click="
+            survivor.sheet[sAttr.handle] = !survivor.sheet[sAttr.handle];
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': sAttr.handle,
+                    'value': survivor.sheet[sAttr.handle]
+                },
+                false, true, false
+            );
+        "
+        title = "{a sAttr.title_tip a}"
+    >
+        <div class="kd worksheet_row">
+            <div class="kd checkbox" ng-class="{'checked': survivor.sheet[sAttr.handle]}"></div>
+            <div
+                class="kd checkbox_desc"
+            >
+                {a sAttr.name a}
+            </div>
+        </div><!-- worksheet_row -->
+    </div><!-- special attrib repeater -->
+
+    <!-- retired -->
+    <div
+        class="clickable survivor_sheet border_box"
+        ng-click="
+            survivor.sheet.retired = !survivor.sheet.retired;
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': 'retired',
+                    'value': survivor.sheet.retired
+                },
+                false, true, false
+            );
+        "
+    >
+        <div class="kd worksheet_row">
+            <div class="kd checkbox" ng-class="{'checked': survivor.sheet.retired}"></div>
+            <div class="kd checkbox_desc">Retired</div>
+        </div><!-- worksheet_row -->
+    </div><!-- retired clicker -->
+
+
+
 </div> <!-- bottom right column ends -->

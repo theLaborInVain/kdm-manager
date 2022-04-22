@@ -316,8 +316,14 @@ font.inline_shield {
     margin: 0 -1rem 0 -1rem;
 }
 
+.modal-content.survivor_sheet_card_controls {
+    display: flex;
+    flex-direction: column;
+    min-width: 75%;
+    width: 90%;
+}
 .modal-content.survivor_sheet_card_controls .kd.card.container {
-    margin-top: 4rem;
+    margin: 4rem auto 2rem auto;
 }
 .vignette_survivor_card_container {
     border-radius: var(--border-radius-sheet);
@@ -1301,9 +1307,10 @@ input[type="radio"].gear_lookup_attrib_toggle {
 }
 .corner_close_modal {   /*  supersedes 'closeModal' class   */
     bottom: auto;
-    float: right;
     font-size: var(--font-large);
-    height: 0; 
+    height: 0;
+    position: relative;
+    right: -90%;
 }
 .floating_close_modal_button {  /* use with .kd_kickstarter_button */
     bottom: 0%;
@@ -3368,7 +3375,7 @@ hr.splitter {
 }
 
 .survivor_sheet.fighting_arts.controls_container {
-    margin: 3rem  auto 1rem auto; 
+    margin: 0 auto 2rem auto; 
 }
 
 /*  survivor sheet admin tab */

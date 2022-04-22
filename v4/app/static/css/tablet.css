@@ -57,4 +57,15 @@
         width: 0.8rem;
     }
 
+    .modal-content.survivor_sheet_card_controls {
+        width: auto;
+    }
+    .modal-content.survivor_sheet_card_controls .kd.capsule.full_width {
+        margin: 1.5rem;
+        max-width: 25rem;
+    }
+
+    .survivor_sheet.fighting_arts.controls_container {
+        max-width: 25rem;
+    }
 }
