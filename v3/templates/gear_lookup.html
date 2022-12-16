@@ -130,12 +130,10 @@
 
                         <div class="gear_card_detail_region_text">
                             <div class="gear_card_detail_region_top">
-
-
                                 <div
-                                    class="gear_card_combat_stat_col"
-                                    ng-if="gear.armor != undefined || gear.speed != undefined"
+                                    class="gear_card_top_row_left_col"
                                 >
+                                    <!-- weapon detial --> 
                                     <div
                                         class="gear_card_combat_stat_activation"
                                         ng-if="gear.speed != undefined"
@@ -167,14 +165,16 @@
                                     >
                                         {{gear.footnote.char}}
                                     </div>
+                                    <!-- END weapon detail -->
 
-                                    <!-- armor -->
+                                    <!-- armor detail -->
                                     <div
                                         class="gear_card_combat_stat_shield"
                                         ng-if="gear.armor != undefined"
                                     >
                                         {{gear.armor}}
                                     </div>
+
                                     <span
                                         class="gear_card_location_glyph"
                                         ng-repeat="
@@ -192,6 +192,8 @@
                                         <span ng-if="gear.aux_location == 'body'">c</span>
                                         <span ng-if="gear.aux_location == 'waist'">e</span>
                                     </span>
+                                    <!-- end of armor detail -->
+
                                 </div>
 
                                 <div
@@ -212,9 +214,14 @@
                                 </div>
     
                                 <div 
-                                    class="gear_card_combat_stat_col_negative_spacer"
-                                    ng-if="gear.armor != undefined || gear.speed != undefined"
+                                    class="gear_card_top_row_right_col"
                                 >
+                                    <span
+                                        ng-if="gear.pattern_id"
+                                        class="pattern_logo kdm_manager_font font_large"
+                                    >
+                                        p
+                                    </span>
                                 </div>
                             </div> <!-- detail_region_top -->
 
@@ -386,6 +393,12 @@
                     <div ng-if="recipe.prefix_text != undefined">
                         <span ng-bind-html="recipe.prefix_text|trustedHTML"></span>
                     </div>
+
+                    <span
+                        ng-if="recipe.endeavor_tokens"
+                    >
+                        {{ recipe.endeavor_tokens }} x <font class="kdm_manager_font">E</font>,
+                    </span>
 
                     <span
                         ng-if="recipe.undefined_ingredient"

@@ -1,0 +1,24 @@
+<!-- favorite -->
+<div
+    class="clickable survivor_sheet border_box"
+    ng-click="
+        toggleArrayItem(currentUser.favorite_survivors, survivor.sheet._id.$oid);
+        updateCurrentUser(
+            'set_favorite_survivors',
+            {'favorite_survivors': currentUser.favorite_survivors}
+        );
+    "
+>
+    <div class="kd worksheet_row">
+        <div
+            class="ng_fade favorite_star"
+            ng-class="
+                {
+                    'checked':
+                    currentUser.favorite_survivors.indexOf(survivor.sheet._id.$oid) > -1
+                }
+            "
+        ></div>
+        <div class="kd checkbox_desc">Favorite</div>
+    </div><!-- worksheet_row -->
+</div><!-- retired clicker -->

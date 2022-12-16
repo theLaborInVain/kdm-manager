@@ -191,20 +191,6 @@
         border: 1px solid; 
     }
 
-    .gear_card_affinity_outer.right_affinity.affinity_paired_right,
-        .gear_card_affinity_outer.left_affinity.affinity_paired_left, 
-        .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {
-        border-width: 20px; 
-    }
-    .gear_card_affinity_outer.right_affinity.affinity_paired_right {
-        margin-left: -5px; 
-    }
-    .gear_card_affinity_outer.left_affinity.affinity_paired_left {
-        margin-left: 5px; 
-    }
-    .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {
-        margin-bottom: 5px; 
-    }
 
     .gear_card_add_affinity_interior {
         border-width: 1px; 

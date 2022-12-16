@@ -994,6 +994,11 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     $rootScope.toggleArrayItem = function(list, item) {
         // pushes 'item' onto 'list' if not present; splices it out if
         // present
+
+        if (list === undefined) {
+            throw "toggleArrayItem() requires 'list' to be defined!"
+        };
+
         var index = list.indexOf(item);
         var result = null;
         if (index === -1) {

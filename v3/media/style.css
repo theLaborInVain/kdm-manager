@@ -333,12 +333,6 @@ pre { white-space: pre-wrap; }
     flex-wrap: nowrap;
     width: 100%;
 }
-.gear_card_detail_region_top {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    width: 100%;
-}
 .gear_card_detail_region_bottom {
     width: 100%;
     display: flex;
@@ -347,27 +341,6 @@ pre { white-space: pre-wrap; }
     justify-content:
     flex-end;
 }
-.gear_card_combat_stat_col_negative_spacer {
-    height: 10%;
-    width: 45%;
-}
-.gear_card_detail_top_info .title {
-    font-weight: bold;
-    text-align: center;
-    font-family: 'Silverado';
-    white-space: nowrap; 
-}
-.gear_card_detail_top_info .keywords {
-    font-style: italic;
-    text-align: center;
-    margin-left: -9%;
-    margin-right: -9%;
-    height: 0; 
-}
-.gear_card_add_affinity_container {
-    display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; width: auto; margin-bottom: 2%; }
-.gear_card_add_affinity {width: 120px; height: 120px; border-radius: 1%; margin: 2%; margin: 0 auto; }
-.gear_card_add_affinity_interior {width: 80%; height: 80%; margin: 0 auto; border: 5px solid #fff; border-radius: 1%; margin-top: 7%; }
 .gear_card_detail_bottom_rules {
     font-weight: bold;
     text-align: center;
@@ -1224,8 +1197,6 @@ div#info_box h2 {margin-top: 0; border: 0 none; font-weight: normal; width: 40%;
     .gear_card_affinity_outer.left_affinity.affinity_paired_left {border-right: 15px solid #333; margin-left: 15%;}
     .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {border-left: 15px solid transparent; border-right: 15px solid transparent; }
     .gear_card_affinity_outer.bottom_affinity.affinity_paired_bottom {border-top: 15px solid #333; margin-bottom: 2%; }
-    .gear_card_add_affinity {width: 60px; height: 60px; }
-    .gear_card_add_affinity_interior {border-width: 2px; }
 
 
     /* expansion modal -tablet */
@@ -1965,8 +1936,6 @@ div#info_box h2 {margin-top: 0; border: 0 none; font-weight: normal; width: 40%;
     .gear_card_detail_bottom_rules {font-size: 11pt; }
     .gear_card_detail_bottom_desc {font-size: 10pt;}
     .gear_card_detail_bottom_desc hr {display: inherit;}
-    .gear_card_add_affinity {width: 40px; height: 40px; }
-    .gear_card_add_affinity_interior {margin-top: 5%; }
     .gear_card_detail_bottom_affinity_bonus {border-radius: 10px;}
     .gear_card_recipe {width: 255px; }
     .gear_card_recipe_title {margin-top: -3px; margin-left: -3px; margin-right: -3px;  }
