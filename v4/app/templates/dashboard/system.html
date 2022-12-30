@@ -40,18 +40,6 @@
                 </div>
             </div>
             <div class="kd worksheet_row">
-                <div
-                    class="kd checkbox"
-                    ng-class="{
-                        'checked': currentUser.verified_email === true,
-                    }"
-                >
-                </div>
-                <div class="kd checkbox_desc">
-                    Verified email
-                </div>
-            </div>
-            <div class="kd worksheet_row">
                 <div class="kd checkbox checked"></div>
                 <div class="kd checkbox_desc">
                     Registered user for {a currentUser.age a}
@@ -122,11 +110,68 @@
 
         <div
             class="dashboard_panel_card gear_card_gradient"
-            ng-if="!currentUser.verified_email"
         >
-            <h3 class="kd title">Verify Email Address</h3>
+            <h3 class="kd title">Email settings</h3>
 
-            <p>Coming soon!</p>
+            <div class="kd worksheet_row">
+                <div
+                    class="kd checkbox"
+                    ng-class="{
+                        'checked': currentUser.verified_email === true,
+                    }"
+                >
+                </div>
+                <div class="kd checkbox_desc">
+                    Verified email
+                </div>
+            </div>
+
+            <div
+                class="clickable kd worksheet_row"
+                ng-if="currentUser.verified_email"
+                ng-click="currentUser.receive_email_updates = !currentUser.receive_email_updates"
+            >
+                <div
+                    class="kd checkbox"
+                    ng-class="{
+                        'checked': currentUser.receive_email_updates === true,
+                    }"
+                >
+                </div>
+                <div class="kd checkbox_desc">
+                    Receive email updates
+                </div>
+            </div>
+
+            <p
+                ng-if="!currentUser.verificationEmailSent"
+            >
+                Click the button below to send an email to 
+                <b>{a currentUser.login a}</b> with an email verification link.
+            </p>
+            <p
+                ng-if="!currentUser.verificationEmailSent"
+            >
+                Once your email address has been verified by the KD:M API,
+                you will be able to opt in to receive email alerts about
+                application updates, etc.
+            </p>
+            <p
+                class="ng_fade"
+                ng-if="currentUser.verificationEmailSent"
+            >
+                Email sent! Please allow a few minutes for delivery.
+            </p>
+
+            <button
+                class="ng_fade kd capsule blue full_width"
+                ng-click="
+                    currentUser.verificationEmailSent = true;
+                    verifyEmail();
+                "
+            >
+                Send verification email!
+            </button>
 
         </div>
 

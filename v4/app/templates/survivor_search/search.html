@@ -1,0 +1,65 @@
+<!--
+
+    Survivor Search; new in v4 (based on/inspired by legacy)
+
+-->
+
+<div
+    class="modal hidden"
+    id="survivorSearch"
+    ng-if="ngVisible['survivorSearch']"
+    ng-click="ngHide('survivorSearch')"
+    ng-init="uiScratch = {resultsType: 'Brief'}"
+>
+    <div class="modal-content">
+
+        <div
+            class="kd worksheet_block flex"
+            ng-click="$event.stopPropagation()"
+        >
+                <div
+                    class="clickable kd worksheet_row"
+                    ng-repeat="option in ['Brief', 'Detailed']"
+                    ng-click="uiScratch.resultsType = option"
+                >
+                    <div
+                        class="kd checkbox"
+                        ng-class="{'checked': uiScratch.resultsType===option}"
+                    ></div>
+                    <div class="kd checkbox_desc">{a option a}</div>
+                </div>
+        </div>
+
+        <div class="survivor_card_container">
+        
+            <div
+                ng-repeat="survivor in settlement.user_assets.survivors track by $index"
+                ng-click="
+                    settlement.viewSurvivor = survivor;
+                    ngShow('survivorSheet');
+                    ngHide('survivorSearch');
+                    $event.stopPropagation();
+                "
+            >
+
+                <div ng-if="uiScratch.resultsType === 'Brief'">
+                    {% include 'survivor_search/survivor_slug.html' %}
+                </div>
+                <div ng-if="uiScratch.resultsType === 'Detailed'">
+                    {% include 'survivor_search/survivor_card.html' %}
+                </div>
+
+            </div><!-- repeater -->
+
+        </div>
+
+    </div> <!-- modal-content -->
+
+    <button
+        class="kd capsule full_width floating_close_modal_button"
+        ng-click="ngHide('survivorSearch')"
+    >
+        Close
+    </button>
+
+</div> <!-- modal newSurvivorModal-->

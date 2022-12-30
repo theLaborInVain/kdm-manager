@@ -8,22 +8,23 @@
         ng-init="expansion = kingdomDeath.expansions[resource.expansion]"
     >
 
-        <div
-            ng-if="resource.expansion"
-            class="kd card expansion_flair"
-            style="
-                background: #{a expansion.flair.bgcolor a};
-                border-color: #{a expansion.flair.border_color a};
-                color: #{a expansion.flair.color a};
-            "
-        >
-            {a expansion.name.substring(0,1) a}
-        </div>
 
         <div
             class="kd card face resource header"
             ng-class="{'expansion': expansion !== undefined, }"
         >
+            <div
+                ng-if="resource.expansion"
+                class="kd card expansion_flair"
+                style="
+                    background: #{a expansion.flair.bgcolor a};
+                    border-color: #{a expansion.flair.border_color a};
+                    color: #{a expansion.flair.color a};
+                "
+            >
+                {a expansion.name.substring(0,1) a}
+            </div>
+
             <div
                 class="kd card resource title_bar" 
                 ng-class="{'expansion': expansion !== undefined, }"
@@ -37,6 +38,8 @@
                     </span>
                 </div>
             </div><!-- header -->
+
+
         </div><!-- header -->
 
         <div class="kd card resource face footer">

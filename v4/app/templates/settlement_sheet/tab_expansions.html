@@ -37,7 +37,6 @@
             ng-if="x.ui.pretty_category === category"
             ng-click="
                 x.mandatory && $event.stopPropagation();
-                scratch.expansions_updated = true;
                 toggleArrayItem(settlement.sheet.expansions, x.handle);
                 postJSONtoAPI(
                     'settlement', 'set_expansions', settlement.sheet._id.$oid,
@@ -45,6 +44,7 @@
                     true, true, false
                 );
                 ngShow('fullPageLoader');
+                loadStorage(true);
             "
             ng-init="
                 x.mandatory = settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(x.handle) >= 0;

@@ -43,7 +43,7 @@
     </div>
 
     <div
-        class="v4_nav_dir clickable"
+        class="v4_nav_dir clickable kdm_manager_font"
         ng-if="VIEW === 'settlement_sheet'"
         ng-click="
             changeTab(0);
@@ -54,7 +54,7 @@
             'active': settlement && ngNavController.active === undefined && tabsObject.activeTab === 0,
         }"
     >
-        &#128463;
+       P 
     </div>
 
     <div
@@ -112,7 +112,8 @@
 		        {
         		    id: 0,
 		            name: 'Sheet',
-    	            icon: '&#128463;',
+    	            icon: 'P',
+                    'font': 'kdm_manager_font',
 		        },
 		        {
 		            id: 1,
@@ -122,7 +123,8 @@
 		        {
 		            id: 2,
 		            name: 'Timeline',
-					icon: '&#10711;',
+					icon: 'H',
+                    'font': 'kdm_manager_font',
 		        },
 		        {
 		            id: 3,
@@ -187,6 +189,7 @@
     ng-class="{'active': ngNavController.active === 'survivorsSummaryDir'}"
     class="v4_nav_directory"
 >
+
     <div
         class="v4_nav_folder clickable"
         ng-click="
@@ -199,6 +202,8 @@
         <div>+</div>
         <div class="font_small">New Survivor</div>
     </div>
+
+    <!--
     <div
         class="v4_nav_folder clickable"
     >
@@ -211,6 +216,23 @@
     >
         <div class="font_small">Vignette</div>
         <div>+V</div>
+        <div class="font_small">Survivors</div>
+    </div>
+    -->
+    <div
+        class="v4_nav_folder clickable"
+        ng-if="
+            settlement.user_assets.survivors.length > 0 &&
+            currentUser.favorite_survivors.length > 0
+        "
+        ng-click="
+            ngNavController.active = undefined;
+            $event.stopPropagation();
+            ngShow('favoriteSurvivors');
+        "
+    >
+        <div class="font_small">Favorite</div>
+        <div class="favorite_star"></div>
         <div class="font_small">Survivors</div>
     </div>
     <div
@@ -298,7 +320,8 @@
 <!-- THE FOLD ; nav bar templates follow -->
 
 <!-- survivor templates -->
-{% include 'survivor_search.html' %}
+{% include 'survivor_search/search.html' %}
+{% include 'survivor_search/favorites.html' %}
 {% include 'survivor_sheet/_base.html' %}
 {% include 'new_survivor.html' %}
 

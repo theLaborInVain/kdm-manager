@@ -17,8 +17,6 @@
 /*              */
 
 html, body {
-    color: #fff;
-    font-family: 'Ruda';
     height: 100%; 
     margin: 0;
     padding: 0;
@@ -38,38 +36,96 @@ button {
     color: #fff;
     cursor: pointer;
 }
-h1 {
-    font-family: 'Silverado';
+
+noscript {
+    background-color: #CC0000;
+    border: 0.2em solid #fff;
+    color: #fff;
+    display: block;
     margin: 0 auto;
-    margin-top: 15%;
-}
-h2 {
-    font-size: 1rem;
-    font-weight: normal;
-    margin: 1rem auto;
-    margin-top: 0; 
-    text-align: center;  
-    width: 90%;
-} 
-h3 {    /*  version tag */
-    font-size: 0.6rem;
-    position: absolute;
-    right: 3%;
+    margin-top: 3%;
+    padding: 1%;
+    text-align: center;
 }
 
 
+/*
+
+    HTML
+    - body
+    -- container
+    --- content divs
+
+*/
 
 
-/* mobile style */
 
+/*  spinners/loaders    */
+.spinner {
+    border: 0;
+}
+.tiny_loader img {
+    height: 1rem;
+}
+
+
+/*  body    */
+
+body.login {
+    align-items: center;
+    background: var(--color-kd-black-gradient);
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+body.login div.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/*  container   */
 .container {
-    background: radial-gradient(circle, #333, #000);
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: min-content;
 }
 
+
+/*  content divs    */
+
+/*  splash/titles   */
+
+.login_splash {
+    font-weight: normal;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+h1.login_splash {
+    margin-top: 6rem;
+}
+h2.login_splash {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+.login_version_tag {
+    font-size: var(--font-small);
+    position: absolute;
+    right: 3%;
+    top: 3%;
+}
+.login_subhead {
+    font-weight: normal;
+    text-align: center;
+    width: 75%;
+}
+
+
+/*  sign in controls    */
 
 button.sign_up {
     bottom: 2%;
@@ -111,12 +167,69 @@ input,
 button.submit {
     width: 100%;
 }
-.spinner {
+
+.login_label {
+    margin: -1rem auto auto 1.5rem;
+    position: absolute;
+}
+.login_lantern_loader img {
+    margin: 1rem;
+}
+.login_downtime_warning {
+    margin: 1rem 0 1rem 0;
+    width: 75%;
+}
+.login_field_error {
+    margin: -1rem 0 0 0;
+    text-align: center;
+}
+.login_inputs_container {
+    
+    margin-top: 3rem;
+    width: 75%;
+}
+.login_inputs_container input[type="submit"] {
+    margin: 2rem auto auto auto;
+    width: -webkit-fill-available;
+}
+.login_inputs_container input[type="email"],
+.login_inputs_container input[type="text"],
+    .login_inputs_container input[type="password"] {
     border: 0;
+    font-family: 'Silverado';
+    font-size: var(--font-large);
+    margin: 0 0 1rem 0;
+    padding-left: 1rem;
+    text-align: left;
 }
-.tiny_loader img {
-    height: 1rem;
+.login_remember_me {
+    display: flex;
 }
+.login_remember_me label {
+    width: 100%; 
+}
+.login_remember_me input[type="checkbox"]{
+    height: 2rem;
+    margin: auto;
+}
+.login_about_p {
+    text-align: left;
+    width: 90%;
+}
+
+/*  footer  */
+.login_footer_container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: auto 1rem 1rem 1rem;
+    width: 90%;
+}
+.login_footer_container * {
+    text-align: center;
+    width: 100%; 
+}
+
+
 
 .modal {
     align-items: center;
@@ -143,16 +256,6 @@ button.submit {
 }
 
 
-noscript {
-    background-color: #CC0000;
-    border: 0.2em solid #fff;
-    color: #fff;
-    display: block;
-    margin: 0 auto;
-    margin-top: 3%;
-    padding: 1%;
-    text-align: center;
-}
 
 
 /*  hide bottom buttons if keyboard is displayed */
@@ -179,6 +282,10 @@ noscript {
     input, button.submit {width: 55%; }
     button.submit {width: 60%; }
 
+    body.login div.container {
+        width: 75%;
+    }
+
     .user_inputs {margin-bottom: auto; }
 
     .modal p {margin: 0 auto; width: 70%; }
@@ -193,6 +300,11 @@ noscript {
     input,
         button.submit {
         width: 35%;
+    }
+
+    body.login div.container {
+        height: 70%;
+        width: 40%;
     }
 
     button.submit {
@@ -223,45 +335,3 @@ noscript {
     .modal_message input {width: 60%; }
     .modal_message button {width: 65%; }
 }
-
-
-
-/* general style - all breakpoints - last chance overwrites */
-
-.hidden {display: none; } 
-
-.kd_promo {
-    background: radial-gradient(circle, #5Dd7F2, #50CAF5, #3FACCF);
-    color: #fff;
-}
-.kd_alert {
-    background-color: #FF0040;
-    color: #fff;
-}
-
-.user_inputs {min-height: min-content; }
-.modal {
-    background-color: #000;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 10;
-}
-
-input {
-  border: 1px solid #000;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  -webkit-transition: all 0.30s ease-in-out;
-}
- 
-input:focus {
-    border: 1px solid #ffed52;
-    border: 1px solid rgba(255, 238, 81, 1);
-    box-shadow: 0 0 20px rgba(255, 238, 81, 1);
-    outline: none;
-}
-

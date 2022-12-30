@@ -1,0 +1,55 @@
+<!--
+
+    This 'slug' is meant to be a.) iterated as part of an ng-repeat and b.)
+    clicked/tapped to change the $scope.viewSurvivor to be this survivor
+
+    Compare this with the 'card', which is more detailed
+
+-->
+
+<div
+    class="clickable kd worksheet_block"
+    style="{a settlement.survivor_color_schemes[survivor.sheet.color_scheme].style_string a}"
+>
+
+    <div
+        class="kd survivor_sheet name_and_sex_container"
+    >
+        <div class="name">
+            {a survivor.sheet.name a}
+        </div>
+
+        <div class="sex">
+            <div
+                class="repeater"
+                ng-repeat="sex in ['M','F']"
+            >
+                <div>{a sex a}</div>
+                <div
+                    class="kd checkbox"
+                    ng-class="{'checked': sex === survivor.sheet.sex }"
+                >
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal_rule"></div>
+
+        <!-- stats repeater -->
+        <div class="font_small kd worksheet_row spaced">
+            <span
+                ng-repeat="
+                    attrib in [
+                        {'label': 'Hunt XP', 'key': 'hunt_xp'},
+                        {'label': 'Courage', 'key': 'Courage'},
+                        {'label': 'Understanding', 'key': 'Understanding'},
+                    ]
+                "
+            >
+                <b>{a attrib.label a}:</b> {a survivor.sheet[attrib.key] a}
+            </span>
+        </div>
+
+    </div><!-- name_and_sex_container -->
+
+</div>

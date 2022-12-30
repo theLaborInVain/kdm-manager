@@ -58,6 +58,13 @@
                 <b>{a expansion.name a}</b> - {a expansion.ui.pretty_category a}
 
                 <div>
+                    <!-- beta gear -->
+                    <span
+                        ng-if="expansion.beta_gear.length > 0"
+                    >
+                        <b>&beta;</b>: {a expansion.beta_gear.length a}
+                    </span>
+                    <!-- pattern gear -->
                     <span
                         ng-if="expansion.pattern_gear.length > 0"
                     >
@@ -71,6 +78,8 @@
                         <span class="kdm_manager_font">s</span>: {a expansion.strain_milestones.length a}
                     </span>
                 </div>
+
+
 
             </div> <!-- desc -->
 

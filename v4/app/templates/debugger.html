@@ -32,8 +32,10 @@
 
     <hr/>
 
+
     <div
         ng-repeat="(objectName, objectLoc) in {
+            'viewSurvivor': settlement.viewSurvivor.sheet._id.$oid,
             'ngRolledUp': ngRolledUp,
             'ngVisible': ngVisible,
             'ngCapsuleAlert': ngCapsuleAlert,

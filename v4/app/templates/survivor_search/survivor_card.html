@@ -1,0 +1,107 @@
+<!--
+
+    This 'card' is meant to be a.) iterated as part of an ng-repeat and b.)
+    clicked/tapped to change the $scope.viewSurvivor to be this survivor
+
+-->
+
+<div
+    class="clickable kd worksheet_block"
+    style="{a settlement.survivor_color_schemes[survivor.sheet.color_scheme].style_string a}"
+>
+
+    <div
+        class="kd survivor_sheet name_and_sex_container"
+    >
+        <div class="name">
+            {a survivor.sheet.name a}
+        </div>
+
+        <div class="sex">
+            <div
+                class="repeater"
+                ng-repeat="sex in ['M','F']"
+            >
+                <div>{a sex a}</div>
+                <div
+                    class="kd checkbox"
+                    ng-class="{'checked': sex === survivor.sheet.sex }"
+                >
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal_rule"></div>
+
+        <div
+            class="font_small"
+            ng-if="settlement.user_assets.players.length > 1"
+        >
+            {a survivor.sheet.email a}
+        </div>
+
+        <!-- stats repeater -->
+        <div class="font_small kd worksheet_row spaced">
+            <span
+                ng-repeat="
+                    attrib in [
+                        {'label': 'Hunt XP', 'key': 'hunt_xp'},
+                        {'label': 'Courage', 'key': 'Courage'},
+                        {'label': 'Understanding', 'key': 'Understanding'},
+                    ]
+                "
+            >
+                <b>{a attrib.label a}:</b> {a survivor.sheet[attrib.key] a}
+            </span>
+        </div>
+
+        <div class="horizontal_rule"></div>
+
+        <div
+            ng-repeat="attrib in [
+                {key: 'fighting_arts',label: 'Fighting Arts'},
+                {key: 'disorders', label: 'Disorders'},
+                {key: 'abilities_and_impairments', label: 'Abilities & Impairments'},
+            ]"
+            ng-if="survivor.sheet[attrib.key].length > 0"
+            class="font_small kd worksheet_row"
+        >
+            <b>{a attrib.label a}:&nbsp;</b>
+            <span
+                ng-repeat="asset_handle in survivor.sheet[attrib.key]"
+                ng-init="asset = settlement.game_assets[attrib.key][asset_handle]"
+            >
+                {a asset.name a}{a $last ? '' : ',&nbsp;' a}
+            </span>.
+        </div>
+
+        <div
+            class="horizontal_rule"
+            ng-if="
+                survivor.sheet.fighting_arts.length > 0 ||
+                survivor.sheet.disorders.length > 0 ||
+                survivor.sheet.abilities_and_impairments.length > 0
+            "
+        >
+        </div>
+
+        <div class="kd worksheet_row spaced">
+            <span
+                ng-repeat="attr in [
+                {short: 'MOV', long: 'Movement'},
+                {short: 'ACC', long: 'Accuracy'},
+                {short: 'STR', long: 'Strength'},
+                {short: 'EVA', long: 'Evasion'},
+                {short: 'LUCK', long: 'Luck'},
+                {short: 'SPD', long: 'Speed'},
+            ]"
+                class="survivor_search_attrib_container {a attr.long a}"
+            >
+                <span>{a survivor.sheet[attr.long] a}</span>
+                <b class="font_small">{a attr.short a}</b>
+            </span>
+        </div>
+
+    </div><!-- name_and_sex_container -->
+
+</div>

@@ -6,7 +6,10 @@
     ng-init="survivor = settlement.viewSurvivor"
     ng-click="ngHide('survivorSheet')"
 >
-    <div class="modal-content survivor_sheet" ng-click="$event.stopPropagation()">
+    <div
+        ng-click="$event.stopPropagation()"
+        class="modal-content survivor_sheet"
+    >
 
         <div class="kd worksheet_block survivor_sheet">
 

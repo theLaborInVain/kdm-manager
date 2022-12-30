@@ -286,15 +286,6 @@ input:active {  /* this is our on-click effect color */
     border-color: #fff;
 }
 
-.gear_card_combat_stat_shield {
-    background: #222;
-    background-color: #222;
-    color: #fff;
-}
-.gear_card_location_glyph {
-    color: #222;
-}
-
 .gear_card_combat_stat_footnote,
     .gear_card_footnote_character {
     background: #000;

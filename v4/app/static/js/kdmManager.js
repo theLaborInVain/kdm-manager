@@ -534,7 +534,43 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     };
 
 
-    $scope.updateSurvivorSheet = function(newSheet) {
+    $rootScope.createSurvivor = function(newSurvivorObject) {
+        // creates a new survivor; does a bunch of UI work
+
+
+        // 1.) construct the POST; do the post
+        var url = $rootScope.APIURL + 'new/survivor';
+        //var promise = $http.post(url, newSurvivor, $rootScope.CONFIG);
+        var promise = $rootScope.postJSONtoAPI(
+            'survivor', 'new', false,
+            newSurvivorObject,
+            true, true, true
+        )
+        // 2.) hide controls (takes the newSurvivorObject out of scope);
+        //  show the loader and wait
+        $rootScope.ngHide('newSurvivorCreationControls');
+        $rootScope.ngShow('newSurvivorCreationLoader');
+
+        // 3. ) process success/failure
+        promise.then(
+            function(payload) {
+                $rootScope.ngHide('newSurvivorCreationLoader');
+                if (!newSurvivorObject.newSurvivors) {
+                    newSurvivorObject.newSurvivors = [];
+                };
+                $rootScope.ngShow('newSurvivorCreateAnotherButton');
+                newSurvivorObject.newSurvivors.push(payload.data);
+            },
+            function(errorPayload) {
+                $rootScope.ngHide('newSurvivorCreationLoader');
+                $rootScope.ngHide('newSurvivorModal');
+                //postJSONtoAPI() should show the full tab API error at this point
+            }
+        );
+
+    };
+
+    $rootScope.updateSurvivorSheet = function(newSheet) {
         // overwrites a survivor sheet in the current scope with 'newSheet'
         var targetOid = newSheet._id.$oid
         var survivors = $scope.settlement.user_assets.survivors;
@@ -593,8 +629,12 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         // always serialize on response, regardless of asset type
         jsonObj.serialize_on_response = true;
 
-        // create the URL and do the POST
-        var endpoint = collection + "/" + action + "/" + objectOid;
+        // create the URL and do the POST; special carve-out for 'new'
+        var endpoint = collection + "/" + action + "/" + objectOid; 
+        if ( (objectOid === false) && (action === 'new') ) {
+            console.info('Creating new ' + collection + '...');
+            endpoint = 'new/' + collection;
+        };
         var url = $rootScope.APIURL + endpoint;
 
 		console.time(endpoint);
@@ -643,7 +683,13 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                     };
 
                 } else {
+                    console.error('API did not return an HTTP response! Got this instead:');
                     console.error(response);
+                    $rootScope.ngShow('apiErrorModal');
+                    $rootScope.apiError = {
+                        'status': 666,
+                        'response': 'The KD:M API returned the following:' + JSON.stringify(response),
+                    };
                 };
 				console.timeEnd(endpoint);
 
@@ -777,6 +823,18 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         );
 
         return userUpdatePromise;
+    };
+
+
+    $rootScope.verifyEmail = function() {
+        var reqURL = $rootScope.APIURL + 'user/send_verification_email/' + $rootScope.USER;
+        console.time(reqURL);
+        
+        var promise = $http.post(
+            reqURL,
+            {value: true},
+            $rootScope.CONFIG
+        )
     };
 
 

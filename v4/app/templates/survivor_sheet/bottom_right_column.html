@@ -3,6 +3,35 @@
     class="kd survivor_sheet worksheet_column"
 >
 
+    <!-- usability block: avatar, tags, favorite, color scheme, notes, etc. -->
+
+    {% include '/survivor_sheet/favorite.html' %}
+
+    <!-- color scheme -->
+    <select
+        class="kd capsule full_width"
+        ng-disabled="currentUser.subscriber.level < 1"
+        ng-model="survivor.sheet.color_scheme"
+        ng-options="c.handle as c.name for c in settlement.survivor_color_schemes"
+        style="{a settlement.survivor_color_schemes[survivor.sheet.color_scheme].style_string a}"
+        ng-change="
+            postJSONtoAPI(
+            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': 'color_scheme',
+                    'value': survivor.sheet.color_scheme
+                },
+                false, true, false
+            );
+        "
+    >
+        <option disabled value="">Set color scheme</option>
+    </select>
+
+
+    <!-- admin block: email, public, delete -->
+
     {% include '/survivor_sheet/email.html' %}
+
 
 </div> <!-- right column ends -->

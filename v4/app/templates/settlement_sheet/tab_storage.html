@@ -25,12 +25,14 @@
             "
         >
             <div class="kd worksheet_block_title">
+
                 {a s_type.name a}<span ng-if="s_type.name==='Resource'">s</span>
                 <span
                     ng-if="s_type.total"
                 >
                     - {a s_type.total a}
                 </span>
+
             </div>
 
             <div
@@ -143,7 +145,7 @@
                         <!-- detail roller -->
                         <div
                             id="{a storageAssetRollerId a}"
-                            class="roll_down_container rolled_up"
+                            class="roll_down_container rolled_up storage_asset_roller"
                             ng-class="{
                                 'rolled_down': ngRolledUp[storageAssetRollerId] === false
                             }"
@@ -222,5 +224,14 @@
         </div> <!-- storage_type -->
 
     </div> <!-- #editStorage ; storage_modal container -->
+
+    <div class="kd worksheet_block borderless" ng-if="settlementStorage">
+        <button
+            class="kd capsule yellow full_width"
+            ng-click="loadStorage(true)"
+        >
+            Reload storage
+        </button>
+    </div>
 
 </div> <!-- settlement sheet Storage tab ENDS here -->

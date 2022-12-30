@@ -1,0 +1,48 @@
+<!--
+
+    Survivor Search; new in v4 (based on/inspired by legacy)
+
+-->
+
+<div
+    class="modal hidden"
+    id="favoriteSurvivors"
+    ng-if="ngVisible['favoriteSurvivors']"
+    ng-click="ngHide('favoriteSurvivors')"
+>
+    <div class="modal-content">
+
+        <h3 class="kd title">Favorite Survivors</h3>
+        <p ng-if="currentUser.preferences.show_ui_tips">
+            Click the star icon on a survivor's sheet to add them to this list!
+        </p>
+
+        <div class="survivor_card_container">
+
+            <div
+                ng-repeat="survivor in settlement.user_assets.survivors track by $index"
+                ng-if="currentUser.favorite_survivors.indexOf(survivor.sheet._id.$oid) > -1"
+                ng-click="
+                    settlement.viewSurvivor = survivor;
+                    ngShow('survivorSheet');
+                    ngHide('favoriteSurvivors');
+                    $event.stopPropagation();
+                "
+            >
+
+                {% include 'survivor_search/survivor_card.html' %}
+
+            </div><!-- repeater -->
+
+        </div>
+
+    </div> <!-- kd_sheet_ui_outer_ring_container -->
+
+    <button
+        class="kd capsule full_width floating_close_modal_button"
+        ng-click="ngHide('favoriteSurvivors')"
+    >
+        Close
+    </button>
+
+</div> <!-- modal newSurvivorModal-->

@@ -336,90 +336,6 @@ font.inline_shield {
 
 
 
-/*  login.html  */
-
-body.login {
-    background: var(--color-kd-black-gradient);
-    background-color: #000;
-    color: #fff;
-}
-body.login div.container {
-    align-items: center; 
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto; 
-    max-width: 1300px;
-    min-height: 100%; 
-}
-.login_splash {
-    font-weight: normal;
-    margin: 0; 
-    text-align: center; 
-    text-transform: uppercase;
-}
-h1.login_splash {
-    margin-top: 6rem;
-}
-h2.login_splash {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-}
-.login_label {
-    margin: -1rem auto auto 1.5rem;
-    position: absolute; 
-}
-.login_subhead {
-    font-weight: normal;
-    text-align: center; 
-    width: 75%;
-}
-.login_version_tag {
-    position: absolute;
-    right: 3%;
-}
-.login_lantern_loader img {
-    margin: 1rem; 
-}
-.login_downtime_warning {
-    margin: 1rem 0 1rem 0;
-    width: 75%; 
-}
-.login_field_error {
-    margin: -1rem 0 0 0;
-    text-align: center;
-}
-.login_inputs_container {
-    margin-top: 3rem;
-    width: 75%;  
-}
-.login_inputs_container input[type="submit"] {
-    margin: 2rem auto auto auto; 
-    width: -webkit-fill-available; 
-}
-.login_inputs_container input[type="email"],
-.login_inputs_container input[type="text"],
-    .login_inputs_container input[type="password"] {
-    background-color: #000;
-    border: 0; 
-    font-family: 'Silverado';
-    font-size: var(--font-large);
-    margin: 0 0 1rem 0;
-    padding-left: 1rem; 
-    text-align: left;
-}
-.login_about_p {
-    text-align: left;
-    width: 90%; 
-}
-.login_footer_container {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    margin: 2rem 1rem 1rem 1rem; 
-    width: 90%;
-}
-
 /*  gear_lookup.html    */
 input[type="radio"].gear_lookup_attrib_toggle {
     display: inherit;
@@ -555,134 +471,7 @@ input[type="radio"].gear_lookup_attrib_toggle {
     width: 100%;
 }
 
-    /*  weapon/item cards */
-.gear_card_detail_top_info {
-    font-size: 0.75rem;
-    height: 50%;
-    overflow: visible;
-    width: 100%;
-}
-.gear_card_combat_stat_col {
-    font-family: 'Arial';
-    font-size: 1.25rem;
-    font-weight: bold;
-    display: flex;
-    flex-wrap: wrap; 
-    height: 100%;
-    margin-left: -3%;
-    width: 45%;
-}
-.gear_card_combat_stat_activation,
-    .gear_card_combat_stat_footnote {
-    display: flex;
-    flex-wrap: nowrap;
-    margin-left: 15%;
-    padding: 4%;
-    width: 1.5rem;
-}
-.gear_card_combat_stat_activation {
-    border-radius: 5vw;
-    flex-direction: column;
-    padding-bottom: 5%;
-    text-align: center;
-}
-.gear_card_combat_stat_footnote {
-    align-items: flex-end;
-    border-radius: 10vw;
-    justify-content: center; 
-    height: 4rem;
-    margin-top: -2.25rem;
-    padding-bottom: 0.5rem;
-}
-.gear_card_combat_stat_col hr.three_dee {
-    border: 0;
-    border-bottom: 1px solid;
-    box-sizing: border-box;
-    height: 0.15rem;
-    margin: 0.25rem 0 0.25rem -10%;;
-    width: 1.75rem; 
-}
-.gear_card_combat_stat_activation_detail {
-    border: 0;
-    border-radius: inherit;
-    margin: 0 auto;
-    width: 100%;
-    overflow: visible;
-}
-.gear_card_combat_stat_activation_detail hr {
-    border: 0;
-    height: 0.1rem;
-    margin: 0 0 0.25rem 0;
-}
-.gear_card_combat_stat_activation_icon {
-    font-family: 'kdm-font-10';
-}
-.gear_card_combat_stat_activation_icon::before {
-    content: 'a';
-    font-size: 0.8em; 
-    border-radius:100%;
-    position: absolute;
-    margin: 0.1em; 
-}
-.gear_card_accuracy_detail {
-    align-items: baseline;
-    display: flex;
-    justify-content: center;
-    width: 150%;
-}
-.gear_card_accuracy_detail::after {
-    content: "+";
-    text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333;
-    line-height: 1.5;
-    margin-bottom: -1rem;
-}
 
-
-    /*  armor cards */
-.gear_card_combat_stat_shield {
-    font-family: 'Silverado';
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 100%;
-    height: 3rem;
-    font-size: 2rem;
-    width: 50%;
-    text-align: center;
-    display: inline-block;
-    margin-right: 0.25rem;
-    line-height: 150%;
-}
-.gear_card_location_glyph {
-    font-size: 1.25rem;
-    font-family: 'kdm-font-2';
-}
-
-/*  gear card footnote   */
-
-.gear_card_footnote {
-    border: 0.2rem solid;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: space-evenly;
-    margin: 3% auto;
-    width: 85%;
-}
-.gear_card_footnote_character {
-    align-items: flex-end;
-    border-radius: 0 0 10vw 10vw;
-    display: flex;
-    font-family: 'Arial';
-    font-size: 1.25rem;
-    justify-content: center;
-    margin: -1px 0 1rem 0;
-    padding: 4%;
-    width: 1rem;
-}
-.gear_card_footnote_description {
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    width: 65%;
-}
 
 /*  gear card recipes   */
 
@@ -1115,6 +904,9 @@ input[type="radio"].gear_lookup_attrib_toggle {
     text-align: center; 
     width: 33%;
 }
+.survivor_sheet.attributes.tumbler_container > div > button.capsule {
+    margin: 1rem 0 1rem 0;
+}
 
 
 /* hit locations */
@@ -1425,6 +1217,9 @@ input[type="radio"].gear_lookup_attrib_toggle {
 }
 
 /*  dashboard_rollup styles (the clickers on the dash) */
+body.dashboard {
+    margin-top: -2rem;
+}
 div.dashboard_menu {
     margin: 0 auto;
     max-width: 40rem;
@@ -1437,7 +1232,6 @@ div.dashboard_menu {
 }
 
 .dashboard_menu:first-child {
-    margin-top: -7%; 
 }
 .dashboard_rollup {
     align-items: flex-end; 
@@ -1522,16 +1316,21 @@ div.dashboard_menu {
 #dashboardCreateNewSettlement {
     margin: 1rem auto 2rem auto;
 }
+
+    /*  dashboard buttons   */
 .dashboard_button_list button {
     width: 80%;
     text-align: left;
     padding: 3%;
 }
+.dashboard_settlement_list_settlement_button,
+    .dashboard_accordion.rolled_down .kd.capsule {  /* carve-out for dash buttons */
+    margin: 1rem;
+}
 .dashboard_settlement_list_settlement_button {
     border: 0; 
     border-radius: var(--border-radius-sheet);
     box-shadow: var(--box-shadow-default);
-    margin: 3%;
     padding: 0.25rem 1rem 0.25rem 1rem;
 } 
 .dashboard_settlement_launch_button_settlement_name {
@@ -1543,6 +1342,8 @@ div.dashboard_menu {
     margin: 0.25rem;
     padding: 0.25rem;
 }
+
+    /*  dashboard preferences */
 .dashboard_preference_elections_container {
     display: flex;
     flex-direction: column;
@@ -1696,6 +1497,9 @@ h3.new_survivor_sheet {
 /*
     timeline.html 
 */
+.font_medium.hourglass {
+    font-size: 1.25rem;
+}
 .timeline_ly_repeater {
     transition: 1s;
 }
@@ -1810,80 +1614,6 @@ h3.new_survivor_sheet {
     SURVIVOR SEARCH app
 
 */
-#survivorSearchModalOpener {
-    height: 6vh;
-    box-sizing: border-box;
-    left: 20%;
-    position: fixed;
-    text-align: center;
-    top: 1%;
-    width: calc(100% - 40%);
-}
-.survivor_search_modal_content {
-    border: 0.1em solid;
-    border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-    border-top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin: auto;
-    padding: 10vh 0 0 0; 
-    position: absolute;
-    top: 0;
-    width: 95%; 
-}
-.survivor_search_modal_content:after {
-    bottom: -10vh; 
-    content: "\00a0"; /*    white space; element needs content to work */
-    position: absolute;
-}
-.survivor_search_button {
-    height: fit-content;
-    margin: 3%;
-}
-.survivor_search_button_inner {
-    margin: 0.5em;
-    border: 0.5em solid;
-    padding: 0.5em;
-}
-.survivor_search_survivor_name_container {
-    border-bottom: 0.1em solid;
-    display: flex;
-    align-items: flex-end;
-}
-.survivor_search_survivor_name {
-    width: 70%;
-    font-family: 'Silverado';
-}
-.survivor_search_survivor_sex {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 30%;
-    margin-bottom: 1%; 
-}
-.survivor_search_survivor_sex * {
-    margin-right: 3%; 
-}
-.survivor_search_survivor_sex .kd_sheet_ui_box {
-    height: 1.5vh;
-    width: 1.5vh;
-}
-.survivor_search_survivor_sex .kd_sheet_ui_box:last-child {
-    margin-right: 0; 
-}
-
-.survivor_search_survivor_assets {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline; 
-    margin-top: 2%;
-    margin-bottom: 2%;
-    font-size: 0.8em;
-    text-indent: -1vw;
-    margin-left: 1vw; 
-}
 .survivor_search_attrib_container {
     align-items: center;
     display: flex;
@@ -1895,15 +1625,9 @@ h3.new_survivor_sheet {
     padding-top: 1%;
 }
 
-.survivor_search_results_warning {
-    border-top: 1px solid;
-    box-sizing: border-box;
-    font-style: Italic;
-    margin: 3% auto;
-    margin-bottom: 0;
-    padding: 1%; 
-    text-align: center;
-    width: 95%;
+.survivor_card_container {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /*
@@ -2539,6 +2263,9 @@ h3.new_survivor_sheet {
     display: flex;
     margin-right: 3vw;
     white-space: nowrap;  
+}
+.storage_asset_roller.rolled_down {
+    margin-top: 1rem;
 }
 
 .inventory_row_detail_keywords,

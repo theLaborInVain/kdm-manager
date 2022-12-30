@@ -21,8 +21,17 @@
         </div>
 
         <div class="kd card gear face">
+
             <!-- top half -->
             <div class="kd card gear face header">
+
+                <!-- blank column -->
+                <div
+                    ng-if="!gear.location && !gear.strength"
+                    class="kd card gear title_gutter"
+                >
+                </div>
+
                 <!-- armor stat info-->
                 <div
                     ng-if="gear.location"
@@ -49,15 +58,20 @@
                         <span ng-if="gear.aux_location == 'waist'">e</span>
                     </div>
                 </div>
+
                 <!-- attack stat column -->
                 <div
                     ng-if="gear.strength"
                     class="kd card gear weapon_stats"
                 >
+
                    <div
                        class="gear_card_combat_stat_activation"
+                       ng-class="{
+                        'with_footnote': gear.footnote,
+                       }"
                    >
-                       <div class="kd card gear activation_icon">a</div>
+                       <div class="kd card gear activation_icon"></div>
 
                        <hr class="three_dee" />
 
@@ -66,25 +80,32 @@
                        <div
                            class="gear_card_combat_stat_activation_detail"
                        >
+
                            <span class="gear_card_accuracy_detail">
                                {a gear.accuracy a}
                            </span>
+
                            <hr/>
+
                            {a gear.strength a}
+
                        </div>
+
                    </div>
 
-                   <div
-                       class="gear_card_combat_stat_footnote"
-                       ng-if="gear.footnote"
-                   >
-                       {a gear.footnote.char  a}
-                   </div>
+                    <div
+                        class="gear_card_combat_stat_footnote"
+                        ng-if="gear.footnote"
+                    >
+                        {a gear.footnote.char  a}
+                    </div>
+
                 </div>
+
 
                 <!-- title -->
                 <div class="kd card gear title_bar">
-                    <div class="font_large silverado">
+                    <div class="gear_title">
                         {a gear.name a}
                     </div>
                     <div>
@@ -93,20 +114,37 @@
                         </span>
                     </div>
                 </div>
-            </div>
+
+                <!-- right top colum, e.g. pattern logo, etc. -->
+                <div class="kd card gear title_gutter">
+                    <div
+                        ng-if="gear.pattern_id"
+                        class="gear_card_pattern_stamp"
+                    >
+                    </div>
+                </div>
+
+            </div><!-- kd card gear face header -->
+
             <!-- bottom half -->
             <div class="kd card gear face footer">
-                <!-- additional affinity -->
 
-                 <div
-                    class="
-                        kd card gear add_affinity
-                        affinity_{a affinity_color a}
-                    "
-                    ng-repeat="affinity_color in gear.add_affinity"
-                 >
-                    <div></div>
+                <!-- additional affinity -->
+                <div
+                    class="kd card gear add_affinity_container"
+                    ng-if="gear.add_affinity"
+                >
+                    <div
+                        class="
+                            kd card gear add_affinity
+                            affinity_{a affinity_color a}
+                        "
+                        ng-repeat="affinity_color in gear.add_affinity"
+                     >
+                        <div></div>
+                    </div>
                 </div>
+
                 <!-- rules -->
                 <div>
                     <span
