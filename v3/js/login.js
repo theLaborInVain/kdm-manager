@@ -267,12 +267,14 @@ app.controller("helpController", function($scope, $http) {
     $scope.resetRequest = {};
     $scope.resetPassword = function(api_url) {
         $scope.loading();
-        data = {'username': $scope.resetRequest.resetPasswordEmail};
+        data = {
+            'username': $scope.resetRequest.resetPasswordEmail,
+            'app_url': 'https://kdm-manager.com'
+        };
         $http({
             method: 'POST',
             url: api_url + "reset_password/request_code",
-            data: data,
-            app_url: 'https://kdm-manager.com'
+            data: data
         }).then(function successCallback(response) {
                 $scope.loading('off');
                 var r = response.data;
