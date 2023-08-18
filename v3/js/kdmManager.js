@@ -775,10 +775,12 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
         function(errorPayload) {
             console.error("[USER] Could not retrieve user information!");
             console.error("[USER] " + errorPayload.status + " -> " + errorPayload.data);
-            var err_msg = "User info could not be retrieved!";
+            var err_msg = "User info could not be retrieved! Ending user session...";
             $scope.showAPIerrorModal(err_msg);
-
-		}
+            sleep(3000).then(() => {
+                $scope.signOut();
+            });
+        }
     );
 
 
