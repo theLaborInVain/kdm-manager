@@ -59,8 +59,14 @@
             </div>
             <div
                 class="kd checkbox_desc"
-                ng-bind-html="notification.body|trustedHTML"
             >
+                <b
+                    ng-bind-html="notification.title|trustedHTML"
+                ></b>
+                <span
+                    class="kd checkbox_desc"
+                    ng-bind-html="notification.body|trustedHTML"
+                ></span>
             </div>
         </div>
 

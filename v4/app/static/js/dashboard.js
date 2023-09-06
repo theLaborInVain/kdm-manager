@@ -62,7 +62,7 @@ app.controller("dashboardController", function($scope, $rootScope, $http) {
 
 		// finally, handling for users who have zero of their own settlements
         if ($scope.dashboard.user.settlements.length === 0) {
-	        $scope.rollUp('campaignsDiv');   // this will hide it, because it's visible on-load
+//	        $scope.rollUp('campaignsDiv');   // this will hide it, because it's visible on-load
             $scope.rollUp('settlementsDiv');
         };
 

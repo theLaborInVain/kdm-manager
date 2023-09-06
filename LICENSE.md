@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Timothy O'Connell
+Copyright (c) 2023 The Labor in Vain, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,4 +23,6 @@ SOFTWARE.
 Game assets contained within this software are the sole property of Kingdom
 Death and may not be reproduced or transmitted.
 
-The "Silverado MediumCondensed" font is licensed through Myfonts.com under the terms of the ([Web Font Pay Once](https://www.myfonts.com/viewlicense.php?lid=1630) license) for use by [The Labor in Vain](https://www.myfonts.com/viewlicense.php?lid=1630).
+The "Silverado MediumCondensed" font is licensed through Myfonts.com under the
+terms of the ([Web Font Pay Once](https://www.myfonts.com/viewlicense.php?lid=1630) license) 
+for use by [The Labor in Vain](https://www.myfonts.com/viewlicense.php?lid=1630).

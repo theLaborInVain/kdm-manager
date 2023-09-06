@@ -1,5 +1,5 @@
 # [https://kdm-manager.com](https://kdm-manager.com)
-* Webapp: [AngularJS](https://angularjs.org/) (1.5.4)
+* Webapp: [AngularJS](https://angularjs.org/) (1.5.9)
 * Webserver: [NGINX](https://www.nginx.com/) + [Gunicorn](http://gunicorn.org/)
 * API: [Flask](http://flask.pocoo.org/)
 

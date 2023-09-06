@@ -129,12 +129,25 @@
             <div
                 class="clickable kd worksheet_row"
                 ng-if="currentUser.verified_email"
-                ng-click="currentUser.receive_email_updates = !currentUser.receive_email_updates"
+                ng-click="
+                    currentUser.preferences.receive_email_updates = !currentUser.preferences.receive_email_updates;
+                    updateCurrentUser(
+                        'set_preferences',
+                        {
+                            preferences: [
+                                {
+                                    handle: 'receive_email_updates',
+                                    value: currentUser.preferences.receive_email_updates
+                                },
+                            ]
+                        }
+                    );
+            "
             >
                 <div
                     class="kd checkbox"
                     ng-class="{
-                        'checked': currentUser.receive_email_updates === true,
+                        'checked': currentUser.preferences.receive_email_updates,
                     }"
                 >
                 </div>
@@ -144,13 +157,19 @@
             </div>
 
             <p
-                ng-if="!currentUser.verificationEmailSent"
+                ng-if="
+                    !currentUser.verificationEmailSent &&
+                    !currentUser.verified_email
+                "
             >
                 Click the button below to send an email to 
                 <b>{a currentUser.login a}</b> with an email verification link.
             </p>
             <p
-                ng-if="!currentUser.verificationEmailSent"
+                ng-if="
+                    !currentUser.verificationEmailSent &&
+                    !currentUser.verified_email
+                "
             >
                 Once your email address has been verified by the KD:M API,
                 you will be able to opt in to receive email alerts about
@@ -165,6 +184,10 @@
 
             <button
                 class="ng_fade kd capsule blue full_width"
+                ng-if="
+                    !currentUser.verificationEmailSent &&
+                    !currentUser.verified_email
+                "
                 ng-click="
                     currentUser.verificationEmailSent = true;
                     verifyEmail();
