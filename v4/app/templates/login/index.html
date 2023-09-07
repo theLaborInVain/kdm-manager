@@ -27,6 +27,7 @@
                     'kd_red_text':
                         latestRelease && latestRelease.versionString !== '{{VERSION}}',
                 }"
+                ng-init="checkApiKey()"
             >
 
                 v.{{VERSION}}
@@ -49,6 +50,8 @@
                 >
                     released on {a latestRelease.published_on.$date|date:'EEEE, yyyy-MM-dd' a}.
                 </span>
+
+                <p ng-if="!validApiKey">Invalid API key!</p>
 
             </h3>
 

@@ -89,6 +89,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         $http({
             method:'GET',
             url: statURL,
+            headers: $rootScope.CONFIG.headers
         }).then(
             function successCallback(response) {
                 $rootScope.apiStat = response.data;

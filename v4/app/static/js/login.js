@@ -1,6 +1,32 @@
-app.controller("loginController", function($scope, $http) {
+app.controller("loginController", function($scope, $http, $rootScope) {
 
-    $scope.resetPasswordRequest = {};
+    $scope.checkApiKey = function() {
+
+        $scope.validApiKey = true;
+
+        var checkURL = $rootScope.APIURL + 'check_api_key';
+        console.time(checkURL);
+
+        $http({
+            method: 'GET',
+            url: checkURL,
+            headers: $rootScope.CONFIG.headers
+        }).then(
+            function successCallback(response) {
+                console.timeEnd(checkURL);
+                console.info(
+                    'Valid API key in use! ' + JSON.stringify(response.data)
+                );
+            }, function errorCallback(response) {
+                $scope.validApiKey = false;
+                console.error('Could not verify API key!');
+                console.error(response);
+                console.timeEnd(checkURL);
+            }
+        );
+
+    };
+
 
     $scope.requestPasswordReset = function() {
 		// sends a request to the API; shows a message if successful
