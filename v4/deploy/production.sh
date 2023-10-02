@@ -11,4 +11,4 @@ cd ..
 # start the gunicorn process in production mode
 source venv/bin/activate
 export FLASK_ENV=production
-venv/bin/gunicorn -b localhost:$PORT -w $WORKERS app:app
+venv/bin/gunicorn -b localhost:$PORT -w $WORKERS --forwarded-allow-ips "*" app:app

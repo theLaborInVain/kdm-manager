@@ -24,5 +24,5 @@
 @import url("//hello.myfonts.net/count/329bc2");
 
   
-@font-face {font-family: 'SilveradoRR-MediumCondensed';src: url('webfonts/329BC2_0_0.eot');src: url('webfonts/329BC2_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329BC2_0_0.woff2') format('woff2'),url('webfonts/329BC2_0_0.woff') format('woff'),url('webfonts/329BC2_0_0.ttf') format('truetype');}
+@font-face {font-family: 'SilveradoRR-MediumCondensed';src: url('webfonts/329BC2_0_0.eot');src: url('webfonts/329BC2_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/329BC2_0_0.woff2') format('woff2'),url('webfonts/329BC2_0_0.woff') format('woff'),url('webfonts/329BC2_0_0.ttf') format('truetype'); font-display: swap;}
  

@@ -5,6 +5,11 @@ SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 start_venv() {
 
+    local flask_env=$1
+    if [ -z "$flask_env" ]; then
+        local flask_env="development"
+    fi
+
     # change to the directory where server.sh lives
     pushd $SCRIPTPATH > /dev/null
 
@@ -23,7 +28,7 @@ start_venv() {
     fi
     source $SCRIPTPATH/venv/bin/activate
 
-    export FLASK_ENV=development
+    export FLASK_ENV=$flask_env
     export FLASK_DEBUG=1
     export FLASK_RUN_PORT=8014
     export FLASK_RUN_HOST='0.0.0.0'
@@ -39,5 +44,5 @@ start_venv() {
 
 }
 
-start_venv
+start_venv $1
 flask run

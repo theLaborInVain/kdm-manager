@@ -66,6 +66,8 @@ def login():
 
     # 2.) if we're already logged in, forward us to the dash
     if flask_login.current_user.is_authenticated:
+        msg = "'%s' is authenticated! Redirecting to dashboard..."
+        app.logger.info(msg % flask_login.current_user)
         return flask.redirect(flask.url_for('dashboard'))
 
     # 3.) process the form, see if it validates
@@ -209,6 +211,8 @@ def almanac():
 @flask_login.login_required
 def dashboard():
     ''' Renders the dashboard for the user. Includes default app references. '''
+    msg = "Loading dashboard for %s"
+    app.logger.info(msg % flask_login.current_user)
     prefs = users.Preferences()
     return flask.render_template(
         'dashboard/_base.html',
