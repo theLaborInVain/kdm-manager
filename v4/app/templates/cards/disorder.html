@@ -8,17 +8,26 @@
         ng-init="expansion = kingdomDeath.expansions[disorder.expansion]"
     >
 
-        {% include 'cards/expansion_flair.html' %}
 
-        <div class="kd card face disorder header">
-            <div class="kd card face disorder title_bar">
+        <div
+            class="kd card face disorder header"
+            ng-class="{'expansion': expansion}"
+        >
+
+            {% include 'cards/expansion_flair.html' %}
+
+            <div
+                class="kd card face disorder title_bar"
+                ng-class="{'expansion': expansion}"
+            >
                 <div
                     class="kd card disorder title"
+                    ng-class="{'expansion': expansion}"
                     ng-class="{'kd_red_text': disorder.constellation}"
                 >
                     {a disorder.name a}
                 </div>
-                <div></div>
+                <div class="kd card disorder subtitle"></div>
             </div><!-- title_bar -->
         </div><!-- header -->
 

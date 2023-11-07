@@ -288,6 +288,22 @@
         <div class="font_small">Help</div>
     </div>
 
+    <div
+        class="v4_nav_folder clickable"
+        title="Rules search - subscribers only!"
+        ng-class="{
+            'disabled': currentUser.subscriber.level < 1,
+        }"
+        ng-click="
+            ngNavController.active = undefined;
+            $event.stopPropagation();
+            ngShow('rulesModal');
+        "
+    >
+        <div>&#x2714;</div>
+        <div class="font_small">Rules</div>
+    </div>
+
     {% if VIEW != 'almanac' %}
     <div
         class="v4_nav_folder clickable"
@@ -331,4 +347,5 @@
 <!-- control templates -->
 {%  include 'errors/report_error.html' %}
 {%  include 'help.html' %}
+{%  include 'rules.html' %}
 

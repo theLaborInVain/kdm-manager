@@ -141,7 +141,7 @@
 
                 <div
                     class="dashboard_preference_block_group"
-                    ng-repeat="group in user.preferences"
+                    ng-repeat="group in userPreferences"
                     ng-init="group.visibleElements = 0"
                 >
                     <h2
@@ -153,12 +153,23 @@
                     <div
                         class="ng_fade dashboard_preference"
                         ng-repeat="pref in group.items"
-                        ng-if="user.user.subscriber.level >= pref.patron_level ||
-                            pref.beta == user.user.preferences.beta
-                        "
+                        ng-if="user.user.subscriber.level >= pref.subscriber_level"
                         ng-init="group.visibleElements = group.visibleElements + 1"
                     >
-                        <p class="dashboard_preference_description" ng-bind-html="pref.desc|trustedHTML"></p>
+                        <p
+                            class="dashboard_preference_description"
+                            ng-bind-html="pref.desc|trustedHTML"
+                        >
+                        </p>
+
+                        <span
+                            class="hidden"
+                            ng-if="user.user.preferences[pref.handle] === undefined"
+                            ng-init="setPref(pref, pref.default)"
+                        >
+                            HACK CITY!!!1
+                        </span>
+
                         <div 
                             class="dashboard_preference_elections_container"
                         >
@@ -174,8 +185,8 @@
                                 <div
                                     class="kd_sheet_ui_box"
                                     ng-class="{
-                                        'checked': pref.value === option[1]}
-                                    "
+                                        'checked': user.user.preferences[pref.handle] === option[1],
+                                    }"
                                 ></div>
                                 <div>
                                     {{ pref[option[0]] }}

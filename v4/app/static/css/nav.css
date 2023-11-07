@@ -27,6 +27,11 @@
     color: var(--color-kd-death-grey);
     cursor: not-allowed;
 }
+.v4_nav_folder.disabled {
+    color: var(--color-kd-kickstarter-grey);
+    border-color: var(--color-kd-kickstarter-grey);
+    cursor: not-allowed;
+}
 
 .v4_nav_dir_closer {
     height: 100%;

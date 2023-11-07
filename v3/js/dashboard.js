@@ -93,6 +93,81 @@ app.controller("dashboardController", function($scope, $http) {
         
     };
 
+	// user preferences start here
+
+    $scope.userPreferences = [
+        // each dict is a 'group'
+        {
+            'name': 'Settlement/Survivor Creation',
+            // each item is a preference
+            'items': [
+                {
+					'handle': 'random_names_for_unnamed_assets',
+                    "desc": "Let the Manager choose random names for Settlements/Survivors without names?",
+                    "affirmative": "Choose randomly",
+                    "negative": "Use 'Unknown' and 'Anonymous'",
+                    'subscriber_level': 0,
+                    'beta': false,
+                    'default': true,
+                },
+				{
+					'handle': 'apply_new_survivor_buffs',
+			        "desc": "Automatically apply settlement bonuses to new, newborn and current survivors where appropriate?",
+        			"affirmative": "Automatically apply",
+			        "negative": "Do not apply",
+                    'subscriber_level': 0,
+                    'default': true,
+				},
+            ],
+        },
+		{
+			'name': 'Interface',
+			'items': [
+                {
+                    'handle': "show_endeavor_token_controls",
+                    "desc": "Show Endeavor Token controls on Campaign Summary view?",
+                    "affirmative": "Show controls",
+                    "negative": "Hide controls",
+                    "subscriber_level": 0,
+                    'default': true,
+                },
+                {
+                    'handle': "show_remove_button",
+                    "desc": "Show controls for removing Settlements and Survivors?",
+                    "affirmative": "Show the Delete button",
+                    "negative": "Hide the Delete button",
+                    "subscriber_level": 0,
+                    'default': false,
+                },
+                {
+                    'handle': "show_ui_tips",
+                    "desc": "Display in-line help and user interface tips?",
+                    "affirmative": "Show UI tips",
+                    "negative": "Hide UI tips",
+                    "subscriber_level": 0,
+                    'default': true,
+                },
+                {
+                    'handle': "night_mode",
+                    "desc": "UI Color Theme:",
+                    "affirmative": "Dead Guardian (high contrast)",
+                    "negative": "Glowing Center (default)",
+                    "subscriber_level": 2,
+                    'default': false,
+                },
+                {
+                    'handle': "show_dashboard_alerts",
+                    "desc": "Display webapp alerts on the Dashboard?",
+                    "name": "Display webapp alerts on the Dashboard?",
+                    "affirmative": "Show alerts",
+                    "negative": "Hide alerts",
+                    "subscriber_level": 2,
+                    'default': true,
+                },
+			],
+		},
+    ];
+
     $scope.setPref = function(pref, setting){
         pref.value = setting;
         js_obj = {preferences: [{handle: pref.handle, value: setting}]};

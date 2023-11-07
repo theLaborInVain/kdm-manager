@@ -18,6 +18,8 @@
             sex: 'R',
             origin: 'new',
             public: false,
+            random_name: currentUser.preferences.random_names_for_unnamed_assets,
+            apply_new_survivor_buffs: currentUser.preferences.apply_new_survivor_buffs,
         };
     "
 >
@@ -40,7 +42,15 @@
                 ng-if="newSurvivorObject.newSurvivors.length > 0"
             >
 
-                <div ng-repeat="survivor in newSurvivorObject.newSurvivors">
+                <div
+                    ng-repeat="survivor in newSurvivorObject.newSurvivors"
+                    ng-click="
+						settlement.viewSurvivor = survivor;
+	                    ngShow('survivorSheet');
+    	                ngHide('newSurvivorModal');
+        	            $event.stopPropagation();
+					"
+                >
 
                     {% include 'survivor_search/survivor_card.html' %}
     

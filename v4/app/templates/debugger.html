@@ -5,6 +5,10 @@
 >
 
     <div>user: {{current_user.login}}</div>
+    <div>
+        subscriber level:
+        <input type="number" ng-model="currentUser.subscriber.level" />
+    </div>
     <div>endpoint: {{request.endpoint}}</div>
 
     <hr/>
@@ -44,7 +48,7 @@
     >
         {a objectName a}:
         <table>
-            <tr ng-repeat="(key, value) in objectLoc">
+            <tr ng-repeat="(key, value) in objectLoc track by $index">
                 <td>{a key a}</td>
                 <td>{a value a}</td>
             </tr>

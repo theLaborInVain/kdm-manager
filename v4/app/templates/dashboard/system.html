@@ -271,6 +271,31 @@
 
                     <p> {{ pref.desc|safe }} </p>
 
+                    <!--  set unset prefs to default on the page and in the API -->
+                    <center
+                        ng-if="
+                            currentUser.preferences.{{pref.handle}} === undefined &&
+                            currentUser.subscriber.level >= {{ pref.subscriber_level }}
+                        "
+                        ng-init="
+                            currentUser.preferences.{{pref.handle}} = {{pref.default}};
+                            updateCurrentUser(
+                                'set_preferences',
+                                {
+                                    'preferences': [
+                                        {
+                                            'handle': '{{pref.handle}}',
+                                            'value': '{{ pref.default }}' === 'True'
+                                        },
+                                    ]
+                                }
+                            );
+                        "
+                    >
+                        <img class="tiny_loader" src="/static/media/loading_io.gif" />
+                        Setting default value...
+                    </center>
+
                     <div
                         class="kd worksheet_block borderless"
                         ng-class="{
@@ -299,6 +324,7 @@
                                 );
                             "
                         >
+
 
                             <div
                                 class="kd checkbox"

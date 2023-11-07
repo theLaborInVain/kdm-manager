@@ -304,6 +304,7 @@
                                                     s.sheet.weapon_proficiency_type
                                                 ].name}}</b> proficiency:
                                                 {{s.sheet['Weapon Proficiency']}}
+                                                {{settlement.game_assets.gear[s.sheet.weapon_proficiency_sealed].name}}
                                             </div>
                                         </div> <!-- attr_holder -->
 
@@ -438,7 +439,7 @@
                                                         ng-click="rollUp(survivalBoxID)"
                                                     >
                                                         <input
-                                                            disabled
+                                                            readonly
                                                             class="survival_box_number"
                                                             type="number"
                                                             ng-model="s.sheet.survival"
@@ -535,7 +536,7 @@
                                                         ng-click="rollUp(A + 'BoxID' + s.sheet._id.$oid)"
                                                     >
                                                         <input
-                                                            disabled
+                                                            readonly
                                                             class="attribute_box_number"
                                                             type="number"
                                                             ng-value="s.sheet[A] + s.sheet.attribute_detail[A].tokens + s.sheet.attribute_detail[A].gear"
@@ -633,7 +634,7 @@
                                                         ng-click="rollUp(brainBoxID)"
                                                     >
                                                         <input
-                                                            disabled
+                                                            readonly 
                                                             class="hitbox_shield brain clickable"
                                                             type="number"
                                                             ng-model="s.sheet.Insanity"
@@ -785,7 +786,7 @@
                         ng-click="rollUp(ctrlBoxID)"
                     >
                         <input
-                            disabled
+                            readonly
                             class="hitbox_shield clickable"
                             type="number"
                             min="0"
@@ -1520,7 +1521,7 @@
                     ng-click="addToken()"
                     class="endeavor_controls_toggle settlement_sheet_block_group clickable"
                 >
-                    <h3>- Endeavor Tokens -</h3>
+                    <h3>- Manage Endeavor Tokens -</h3>
                     <div
      	                class="ng_fade kd_sheet_ui_row_tip"
                      	ng-if="user.user.preferences.show_ui_tips"

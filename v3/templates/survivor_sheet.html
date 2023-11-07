@@ -261,7 +261,7 @@
                 ng-click="rollUp('survivalControl')"
             />
                 <input
-                    disabled
+                    readonly 
                     class="survivor_sheet survival_box_number"
                     type="number"
                     ng-model="survivor.sheet.survival"
@@ -397,14 +397,18 @@
 	    <div
 	        class="attributes_container survivor_sheet"
     	>
+
 	        <div
+				id="{{targetElementId + 'Clicker'}} "
 	            ng-repeat="A in ['Movement','Accuracy','Strength','Evasion','Luck','Speed']"
+                ng-init="targetElementId = A + 'AttributeControlBox'"
             	ng-class="{last: $last}"
-        	    ng-click="rollUp(A + 'AttributeControlBox')"
+        	    ng-click="rollUp(targetElementId)"
+                title="{{ targetElementId }}"
     	        class="attribute_box clickable {{A}}"
 	        >
 	            <input
-                    disabled
+					readonly
     	            class="attribute_box_number"
         	        type="number"
 	                ng-value="
@@ -427,6 +431,7 @@
                 <span class="font_small">
     	            {{A}}
                 </span>
+
 	        </div> <!-- attributes repeater -->
 	    </div> <!-- attributes container -->
 
@@ -507,7 +512,7 @@
             >
 
                 <input
-                    disabled
+                    readonly
                     id="insanityBox"
                     type="number"
                     class="survivor_sheet_hitbox hitbox_shield brain"
@@ -661,8 +666,7 @@
                     ng-click="rollUp(ctrlBoxID)"
                 >
                     <input
-                    ng-click="rollUp(ctrlBoxID)"
-                        disabled
+                        readonly
                         class="survivor_sheet_hitbox hitbox_shield"
                         type="number"
                         min="0"
@@ -1106,8 +1110,11 @@
                 class="kd_sheet_ui_row"
                 ng-if="survivor.sheet.weapon_proficiency_type !== null"
             >
-                <div>
+                <div ng-if="!survivor.sheet.weapon_proficiency_sealed">
                     <b>Type:&nbsp;</b> {{settlement.game_assets.weapon_proficiency_types[survivor.sheet.weapon_proficiency_type].name}}
+                </div>
+                <div ng-if="survivor.sheet.weapon_proficiency_sealed">
+                    <b>Type:&nbsp;</b> {{settlement.game_assets.gear[survivor.sheet.weapon_proficiency_sealed].name}}
                 </div>
             </div>
         </div> <!-- survivor_sheet_kd_sheet_ui_box -->
@@ -1116,7 +1123,10 @@
             class="kd_sheet_ui_roll_down rolled_up"
         >
           <div class="kd_sheet_ui_roll_down_controls integrated">
-                <div class="kd_sheet_ui_row dynamic_tip">
+                <div
+                    class="kd_sheet_ui_row dynamic_tip"
+                    ng-if="!survivor.sheet.weapon_proficiency_sealed"
+                >
                     <div class="dynamic_tip_container">
                         <span
                             class="kd_sheet_ui_box small"
@@ -1155,9 +1165,25 @@
                         ng-model="survivor.sheet.weapon_proficiency_type"
                         ng-options="dict.handle as dict.name for dict in settlement.game_assets.weapon_proficiency_types"
                         ng-selected="survivor.sheet.weapon_proficiency_type"
+                        ng-if="!survivor.sheet.weapon_proficiency_sealed"
                     >
                         <option disabled value="">Type</option>
                     </select>
+                    <select
+                        class="kd capsule full_width"
+                        ng-if="settlement.sheet._additional_survivor_sheet_requirements.sealed_gear"
+                        ng-model="survivor.sheet.weapon_proficiency_sealed"
+                        ng-options='gear.handle as gear.name for gear in settlement.game_assets.gear | hasAttribute: "sealed_gear"'
+                    >
+                        <option disabled value="">Sealed Gear</option>
+                    </select>
+                    <button
+                        class="kd capsule full_width"
+                        ng-if="survivor.sheet.weapon_proficiency_sealed"
+                        ng-click="survivor.sheet.weapon_proficiency_sealed = null"
+                    >
+                        Remove Sealed Gear {{survivor.sheet.weapon_proficiency_sealed }}
+                    </button>
                     <button
                         class="kd_kickstarter_button kd_blue"
                         ng-click="
@@ -2062,6 +2088,8 @@
                     title="Click or tap to remove '{{settlement.game_assets.abilities_and_impairments[ai_handle].name}}'"
                 >
 
+
+                    <!-- generic AI remover -->
                     <p
                         class="clickable hover_highlight"
                         ng-if="ai_handle !== 'partner'"
@@ -2101,7 +2129,7 @@
                                 clickable
                                 settlement_sheet_gradient
                             "
-                            ng-if="survivor.sheet.partner_id == undefined"
+                            ng-if="!survivor.sheet.partner_id"
                             ng-click="showHide('partnerSelect')"
                         >
                             Select a Partner

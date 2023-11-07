@@ -5,6 +5,13 @@ DEFAULTS = {
 }
 
 OPTIONS = {
+#    "test_9": {
+#        "desc": "TEST PREFRENCE THIS IS NOT REAL",
+#        "affirmative": "Enable",
+#        "negative": "Disable",
+#        'default': False,
+#    },
+
     "beta": {
         "desc": "Enable Beta (&beta;) features of the Manager?",
         "affirmative": "Enable",
@@ -54,10 +61,10 @@ OPTIONS = {
     },
 
     # interface - survivor sheet
-    "show_epithet_controls": {
+    "show_tag_controls": {
         "type": "survivor_sheet",
-        "desc": "Use survivor epithets (tags)?",
-        "affirmative": "Show controls on Survivor Sheets",
+        "desc": "Use survivor tags?",
+        "affirmative": "Show controls and tags on Survivor Sheets",
         "negative": "Hide controls and tags on Survivor Sheets",
     },
 
@@ -68,7 +75,6 @@ OPTIONS = {
         "affirmative": "Show alerts",
         "negative": "Hide alerts",
         "subscriber_level": 2,
-        'default': True,
     },
     "show_remove_button": {
         "type": "ui",
@@ -83,14 +89,12 @@ OPTIONS = {
         "affirmative": "Show UI tips",
         "negative": "Hide UI tips",
         "subscriber_level": 2,
-        'default': True,
     },
     "show_welcome_modal": {
         "type": "ui",
         "desc": "Show the welcome modal on sign-in?",
         "affirmative": "Show when I am not the creator of any settlements",
         "negative": "Never show",
-        'default': True,
     },
 }
 

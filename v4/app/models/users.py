@@ -211,7 +211,6 @@ class User(flask_login.UserMixin):
             return response.text
 
 
-
     #
     #   helpers
     #
@@ -249,9 +248,17 @@ class Preferences:
         self.logger = utils.get_logger()
 
         # set constants
-        constants = models.get_asset_dicts('preferences')
+        constants = models.get_asset_dicts('preferences') # self.DEFAULTS, etc.
         for key, value in constants.items():
             setattr(self, key, value)
+
+        # use constants to enhance self.OPTIONS to include defaults
+        for option, option_dict in self.OPTIONS.items():
+            option_dict['handle'] = option
+            for key, value in self.DEFAULTS.items():
+                if option_dict.get(key, None) is None:
+                    option_dict[key] = value
+
 
 
     def dump(self, return_type=None):
@@ -259,12 +266,6 @@ class Preferences:
         by default; set 'return_type' to a type (e.g. dict) to get that type
         back instead. """
 
-        # apply defaults
-        for option, option_dict in self.OPTIONS.items():
-            option_dict['handle'] = option
-            for key, value in self.DEFAULTS.items():
-                if option_dict.get(key, None) is None:
-                    option_dict[key] = value
 
         # add options to types
         for type_handle, type_dict in self.TYPES.items():

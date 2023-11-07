@@ -1,0 +1,63 @@
+<div
+    id="rulesModal"
+    ng-if="ngVisible['rulesModal']"
+    class="modal-black hidden"
+>
+
+    <div
+        class="kd_sheet_ui_outer_ring_container"
+    >
+
+        <div
+            class="kd_sheet_ui_inner_ring_container help_container"
+        >
+
+            <div
+                class="kd worksheet_block flex"
+            >
+                <div class="kd worksheet_row">
+                    <input
+                        type="text"
+                        placeholder="Search rules"
+                        ng-model="scratch.rulesSearchText"
+                    />
+                    <div>X</div>
+                </div>
+            </div>
+
+            <div class="rules_outer_container">
+                <div
+                    ng-repeat="rule in assetArrayToList(kingdomDeath.rules) | filter:scratch.rulesSearchText"
+                    class="kd glossary container ng_fade"
+                >
+    
+                    <div
+                        class="kd glossary rule_card"
+                        ng-click="rule.showDetail = !rule.showDetail"
+                        title="Tap / click to show additional details!"
+                    >
+                        <b>{a rule.name a}: </b>
+                        <span ng-bind-html="rule.desc|trustedHTML"></span>
+                    </div>
+
+                    <div
+                        ng-if="rule.showDetail"
+                    >
+                        {a rule a}
+                    </div>
+
+                </div><!-- repeater/container -->
+            </div><!-- column container -->
+
+        </div><!-- inner ring container -->
+
+    </div><!-- outer ring container -->
+
+    <button
+        class="kd_kickstarter_button floating_close_modal_button"
+        ng-click="ngHide('rulesModal')"
+    >
+        Close
+    </button>
+
+</div><!-- modal-black -->

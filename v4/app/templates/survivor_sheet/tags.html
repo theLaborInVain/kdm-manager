@@ -1,14 +1,16 @@
 <!-- favorite -->
 <div
     class="survivor_sheet border_box wrap"
-    ng-if="currentUser.preferences.show_epithet_controls"
+    ng-if="currentUser.preferences.show_tag_controls"
 >
+    
     <div
         class="clickable kd worksheet_row"
     >
         <div ng-click="">&nbsp;&#43;</div>
         <div class="kd checkbox_desc">Add tag</div>
     </div><!-- worksheet_row -->
+
     <div
         class="kd worksheet_row caption"
         ng-if="survivor.sheet.tags.length > 0"
@@ -18,8 +20,9 @@
             ng-init="tag = settlement.game_assets.tags[t]"
         >
             <div
-                ng-click="tag.armDelete = true"
-                ng-if="!tag.armDelete"
+                ng-click="
+                    tag.armDelete = !tag.armDelete;
+                "
                 class="clickable survivor_tag hover_highlight_red"
                 style="
                     background: #{a tag.bgcolor a};
@@ -27,13 +30,16 @@
                     color: #{a tag.color a};
                 "
             >
+                <div
+                    ng-if="tag.armDelete"
+                    class="clickable survivor_tag click_to_remove"
+                    ng-click="
+                        $event.stopPropagation();
+                    "
+                >
+                    &#x274C;
+                </div>
                 {a tag.name a}
-            </div>
-            <div
-                ng-if="tag.armDelete"
-                class="clickable survivor_tag click_to_remove"
-            >
-                &#x274C; {a tag.name a}
             </div>
         </div>
     </div>

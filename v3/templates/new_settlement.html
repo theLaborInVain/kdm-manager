@@ -12,13 +12,35 @@
     ng-init="
         setView('newSettlement');
         initializeUser('$user_id','get','$api_url');
+		newSettlement = {
+		    'name': null,
+			'campaign': 'people_of_the_lantern',
+			'macros': [],
+			'expansions': [],
+			'survivors': [],
+        };
     "
 >
+
+    <div
+        class="hidden"
+        ng-if="user"
+		ng-init="newSettlement.random_name = user.user.preferences.random_names_for_unnamed_assets"
+    >
+    </div>
+    <div
+        ng-if="!user"
+        class="corner_loading_spinner tiny_loader ng_fade"
+    >
+        Loading user data...
+        <img src="/media/loading_io.gif" />
+    </div>
 
     <!-- settlement name -->
     <div
         id="newSettlementSettlementName"
         class="kd_sheet_ui_inner_ring_container new_settlement_form"
+        ng-if="newSettlement && user"
     >
         <div
             id="newSettlementName"
@@ -30,8 +52,12 @@
         ></div>
     </div>
 
-    <!-- campaign -->
-    <div class="kd_sheet_ui_inner_ring_container new_settlement_form">
+
+    <!-- campaign --> 
+    <div
+		class="kd_sheet_ui_inner_ring_container new_settlement_form"
+		ng-if="newSettlement && user"
+	>
         <h3>Campaign</h3>
         <p class="kd_sheet_ui_row_tip" ng-if="user.user.preferences.show_ui_tips">
             Choosing an expansion campaign automatically enables expansion
@@ -70,7 +96,10 @@
 
 
     <!-- Expansions -->
-    <div class="kd_sheet_ui_inner_ring_container new_settlement_form">
+    <div
+		class="kd_sheet_ui_inner_ring_container new_settlement_form"
+		ng-if="newSettlement"
+	>
         <h3>Expansions</h3>
         <p class="kd_sheet_ui_row_tip" ng-if="user.user.preferences.show_ui_tips">
             Enable expansion content by toggling items below. Expansion
@@ -116,7 +145,10 @@
 
 
     <!-- macros + pre-fab survivors -->
-    <div class="kd_sheet_ui_inner_ring_container new_settlement_form">
+    <div
+		class="kd_sheet_ui_inner_ring_container new_settlement_form"
+		ng-if="newSettlement"
+	>
 
         <h3>Survivors</h3>
 
@@ -174,10 +206,13 @@
 
 
     <!-- submitter -->
+
     <button
         id="createNewSettlementButton"
         class="kd_kickstarter_button ng_fade kd_blue"
-        ng-if="new_settlement_assets !== undefined"
+        ng-if="
+			new_settlement_assets !== undefined && newSettlement && user
+		"
         ng-disabled="scratch.disableCreateNewSettlementButton"
         ng-click="
             scratch.disableCreateNewSettlementButton;

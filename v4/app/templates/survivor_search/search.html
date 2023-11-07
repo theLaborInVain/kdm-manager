@@ -33,7 +33,7 @@
         <div class="survivor_card_container">
         
             <div
-                ng-repeat="survivor in settlement.user_assets.survivors track by $index"
+                ng-repeat="survivor in settlement.user_assets.survivors track by survivor.sheet._id.$oid"
                 ng-click="
                     settlement.viewSurvivor = survivor;
                     ngShow('survivorSheet');

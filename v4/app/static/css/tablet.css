@@ -76,4 +76,11 @@
         width: 50%;
     }
 
+
+    /*  rules.html  */
+    .rules_outer_container {
+        column-count: 2;
+        column-gap: 0.5rem;
+    }
+
 }

@@ -103,6 +103,18 @@ app.filter('orderObjectBy', function() {
   };
 });
 
+app.filter('hasAttribute', function() {
+  return function(assets, attribute) {
+    var filtered = [];
+    angular.forEach(assets, function(asset) {
+        if (asset[attribute] !== undefined) {
+            filtered.push(asset);
+        };
+    });
+	return filtered;
+  };
+});
+
 app.filter('hasKeyword', function() {
   return function(assets, keyword) {
     var filtered = [];
@@ -192,7 +204,6 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
     };
     $rootScope.rollUp = function(e_id) {
         var e = $rootScope.getRollDownContainer(e_id);
-
         if (e.classList.contains('rolled_up') == true) {
             e.classList.remove('rolled_up');
             $rootScope.ngRolledUp[e_id] = false;
@@ -1202,13 +1213,24 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
             return false;
         };
 
-        // get auth header
-        var config = {
-            "headers": {
-                "Authorization": $scope.jwt,
-                "API-Key": $scope.api_key,
-            }
-        };
+        // custom config so we can POST null/None values up to the API
+		var config = {
+			headers: {
+				"Authorization": $scope.jwt,
+				"API-Key": $scope.api_key
+			},
+			transformRequest: function (data) {
+				return angular.toJson(data, function (key, value) {
+					if (value === null) {
+						return 'null';
+					};
+					if (value === undefined) {
+						return 'null';
+					};
+				return value;
+				});
+			}
+		};
 
         // create the URL and do the POST
         var endpoint = collection + "/" + action + "/" + asset_id;
@@ -1217,6 +1239,8 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
 
         res.success(function(data, status, headers, config) {
             console.warn("postJSONtoAPI(/'" + endpoint + "') call successful!");
+			console.warn('content was: ' + JSON.stringify(json_obj));
+			console.warn(res);
             console.timeEnd('postJSONtoAPI(' + collection + ', ' + action + ')');
             if (update_sheet === true) {
                 console.warn('Updating ' + collection + ' sheet from response!');
@@ -1234,6 +1258,8 @@ app.controller('rootController', function($scope, $rootScope, $http, $log, $time
             $scope.errorAlert();
             console.error("postJSONtoAPI('" + endpoint + "') call has FAILED!!!");
             console.error(data);
+			console.error('content was: ' + JSON.stringify(json_obj));
+			console.error(res);
             $scope.showAPIerrorModal(data, config.url);
             $scope.hideCornerLoader();
         });
@@ -1442,10 +1468,25 @@ app.controller("updateExpansionsController", function($scope) {
     };
     $scope.scratch['expansions_updated'] = false; 
     $scope.toggleExpansion = function(e_handle, index) {
+        console.warn("Toggling expansion handle: '" + e_handle + "'...");
+
+        // first thing we need is the settlement_sheet_init of the campaign definition:
+        var settlementSheetInit = $scope.settlement.game_assets.campaign.settlement_sheet_init;
+        if (settlementSheetInit === undefined) {
+            console.info("Cannot find 'settlement_sheet_init' for campaign! Backing off...");
+            settlementSheetInit = $scope.settlement.game_assets.campaign.asset.settlement_sheet_init;
+        };
+
+        // die if we don't have it
+        if (settlementSheetInit === undefined) {
+            console.error($scope.settlement.game_assets.campaign);
+            throw "Settlement game assets 'campaign' does not include the 'settlement_sheet_init' element!" 
+        };
+
         // figure out if its mandatory
         var mandatoryExpansion = false;
-        if ($scope.settlement.game_assets.campaign.settlement_sheet_init.expansions != undefined) {
-            if ($scope.settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(e_handle) != -1){
+        if (settlementSheetInit.expansions !== undefined) {
+            if (settlementSheetInit.expansions.indexOf(e_handle) != -1){
                 mandatoryExpansion = true;
             };
         };
@@ -1462,7 +1503,6 @@ app.controller("updateExpansionsController", function($scope) {
 
         // otherwise, lock and load (or unload)
         $scope.scratch['expansions_updated'] = true;
-//        console.error('updated: ' + $scope.scratch.expansions_updated);
         if ($scope.settlement.sheet.expansions.indexOf(e_handle) === -1) {
             $scope.settlement.sheet.expansions.push(e_handle);
             $scope.postJSONtoAPI('settlement', 'add_expansions', {'expansions': [e_handle]}, false,true,true);
@@ -1536,7 +1576,9 @@ app.controller('newSurvivorController', function($scope, $http) {
             mother: $scope.scratch.newSurvivorMother,
             primary_donor_parent: $scope.scratch.primaryDonor,
             email: $scope.scratch.newSurvivorEmail,
-            'public': $scope.scratch.newSurvivorPublic, 
+            'public': $scope.scratch.newSurvivorPublic,
+            random_name: $scope.user.user.preferences.random_names_for_unnamed_assets,
+            apply_new_survivor_buffs: $scope.user.user.preferences.apply_new_survivor_buffs,
         }
 //        console.warn(json_post);
 
@@ -1804,6 +1846,8 @@ app.controller('addManySurvivorsController', function($scope, $http) {
             father: $scope.scratch.manySurvivorsFather,
             mother: $scope.scratch.manySurvivorsMother,
             settlement_id: $scope.settlement.sheet._id.$oid,
+            random_name: $scope.user.user.preferences.random_names_for_unnamed_assets,
+            apply_new_survivor_buffs: $scope.user.user.preferences.apply_new_survivor_buffs,
         }
 //        console.warn(json_post);
         var config = {"headers": {"Authorization": $scope.jwt}};

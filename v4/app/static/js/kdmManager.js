@@ -803,7 +803,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
         var reqURL = $rootScope.APIURL + 'user/' + method + '/' + $rootScope.USER;
         console.time(reqURL);
-        
+        console.info(updateJson);        
         var userUpdatePromise = $http.post(
             reqURL,
             updateJson,
@@ -911,6 +911,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                     $rootScope.latestRelease.versionString
                 );
             }, function errorCallback(response) {
+                $rootScope.latestRelease = 'UNKNOWN';
                 console.error('Could not retrieve release info!');
                 console.error(response);
                 console.timeEnd(reqURL);
@@ -1003,6 +1004,18 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
             console.warn('Created list of ' + newList.length + ' objects...');
             list = newList;
         };
+
+        // make sure we have dateKey in each item before we sort
+        for(var i = 0, size = list.length; i < size ; i++){
+            var item = list[i];
+            if (item[dateKey] === undefined) {
+                console.warn(`${item.handle} has no ${dateKey} value!`);
+                console.warn(`Setting ${item.handle}.${dateKey} to ${Date()}!`);
+                item[dateKey] = {};
+                item[dateKey].$date = new Date();
+            }
+        }
+
         return list.sort(
             function(a, b) {
                 return b[dateKey].$date - a[dateKey].$date;
@@ -1044,9 +1057,9 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
     $rootScope.dumpJSONtoTab = function(jsonToDump) {
         var output = JSON.stringify(jsonToDump, null, 2);
-        var x = window.open();
+        var x = window.open()
         x.document.open();
-        x.document.write('<html><body><pre>' + output + '</pre></body></html>');
+        x.document.write(`<pre>${output}</pre>`);
         x.document.close();
     };
 
@@ -1069,6 +1082,14 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         };
 
         return result;
+    };
+
+    $rootScope.assetArrayToList = function(assetArray) {
+        // returns a list based on an asset array, e.g. rules, gear, etc.
+        const keyValueArray = Object.keys(assetArray).map(key => (
+            assetArray[key]
+        ));
+        return keyValueArray;
     };
 
 

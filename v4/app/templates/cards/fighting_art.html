@@ -8,18 +8,28 @@
         ng-init="expansion = kingdomDeath.expansions[fighting_art.expansion]"
     >
 
-        {% include 'cards/expansion_flair.html' %}
 
-        <div class="kd card face fighting_art header">
-            <div class="kd card face fighting_art title_bar">
+        <div 
+            class="kd card face fighting_art header"
+            ng-class="{'expansion':  expansion}"
+        >
+
+            {% include 'cards/expansion_flair.html' %}
+
+            <div
+                class="kd card face fighting_art title_bar"
+                ng-class="{'expansion':  expansion}"
+            >
                 <div
                     class="kd card fighting_art title"
+                    ng-class="{'expansion':  expansion}"
                     ng-class="{'kd_red_text': fighting_art.constellation}"
                 >
                     {a fighting_art.name a}
                 </div>
                 <div
                     class="kd card fighting_art subtitle"
+                    ng-class="{'expansion':  expansion}"
                     ng-if="fighting_art.sub_type !== 'strain'"
                 >
                     {a fighting_art.sub_type_pretty a}

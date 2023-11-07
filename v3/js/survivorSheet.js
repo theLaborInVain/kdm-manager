@@ -385,14 +385,29 @@ app.controller("survivorSheetController", function($scope) {
             attrPromise.then(
                 function(payload) {
                     js_obj = {'handle': $scope.survivor.sheet.weapon_proficiency_type};
-                    $scope.postJSONtoAPI('survivor', 'set_weapon_proficiency_type', js_obj, false, false, false);
+                    $scope.postJSONtoAPI('survivor', 'set_weapon_proficiency_type', js_obj, false, false, true);
                 },
                 function(errorPayload) {
                     console.error('Could not set weapon proficiency type!');
                 }
             );
         };
-        
+        // sealed
+        attrPromise.then(
+            function(payload) {
+                var sealed_value = $scope.survivor.sheet.weapon_proficiency_sealed;
+                if (sealed_value === undefined) {sealed_value = null};
+                js_obj = {
+                    attribute: 'weapon_proficiency_sealed',
+                    value: sealed_value
+                };
+                console.warn(js_obj);
+                $scope.postJSONtoAPI('survivor', 'set_attribute', js_obj, false, false, true);
+            },
+            function(errorPayload) {
+                console.error('Could not set weapon proficiency to sealed!');
+            }
+        );
     };
 
     // set the scratch.whateverAI variables. Call this whenever we have a change
