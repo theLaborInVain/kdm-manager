@@ -1,0 +1,55 @@
+<!-- 
+
+	This is the Expert Mode table for Gear/Resource cards that appear on 
+	Settlement Storage (or anywhere else).
+
+-->
+
+<div
+    class="expert_mode_container"
+    ng-if="currentUser.preferences.enable_expert_mode"
+>
+    <div
+        class="expert_mode_metadata_table font_small"
+    >   
+        <div>
+            Type: <b>{a asset.type_pretty a} ({a asset.sub_type_pretty a})</b>
+        </div>
+        <div ng-if="asset.expansion">
+            Expansion: <b>{a kingdomDeath.expansions[asset.expansion].name a}</b>
+            ({a kingdomDeath.expansions[asset.expansion].released.$date|date: 'yyyy' a})
+        </div>
+        <div
+            ng-repeat="keyword in asset.keywords"
+        >
+            <i>{a keyword a}</i>: {a kingdomDeath.rules[keyword].desc a}
+        </div>
+        <div ng-if="asset.rarity">
+            {a asset.copies a} copies; deck size: {a asset.cards_in_deck a}
+        </div>
+        <div ng-if="asset.rarity">
+            Rarity: {a asset.rarity.rating a} ({a asset.rarity.probability a})
+        </div>
+        <div
+            ng-if="asset.patch_level"
+            ng-init="patchVersion = kingdomDeath.versions[asset.patch_level]"
+        >
+            Patch level: {a patchVersion.selector_text a}
+        </div>
+        <div
+            ng-if="asset.min_version"
+            ng-init="minVersion = kingdomDeath.versions[asset.min_version]"
+        >
+            Minimum game version: {a minVersion.selector_text a}
+        </div>
+    </div>
+
+    <div
+        ng-if="asset.related_rules && currentUser.preferences.enable_expert_mode"
+        ng-init="rulesDict = kingdomDeath.rules[rules_handle]"
+        ng-repeat="rules_handle in asset.related_rules"
+        class="expert_mode_rules_block font_small"
+    >
+        <b>{a rulesDict.name a}:</b> <span ng-bind-html="rulesDict.desc|trustedHTML"></span>
+    </div>
+</div>

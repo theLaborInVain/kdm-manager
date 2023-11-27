@@ -54,6 +54,20 @@ app.directive("contenteditable", function() {
   };
 });
 
+// filter a list of objects down to ones that have a single attribute
+//	regardless of that attribute's value
+app.filter('hasAttribute', function() {
+  return function(assets, attribute) {
+    var filtered = [];
+    angular.forEach(assets, function(asset) {
+        if (asset[attribute] !== undefined) {
+            filtered.push(asset);
+        };
+    });
+    return filtered;
+  };
+});
+
 app.controller('rootScopeController', function($scope, $rootScope, $http, $timeout) {
 
     // primary init starts here; auth/token methods follow
@@ -731,8 +745,10 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 		promise.then(
 			function successCallback(response) {
                 $scope.settlement = response.data;
+                $scope.settlement.currentUser = {}; // for the decoration later
                 console.timeEnd(reqURL);
                 $rootScope.ngHide('fullPageLoader', false, true);
+                $rootScope.decorateSettlement();
 			},
 			function errorCallback(response) {
                 console.error('Could not retrieve settlement from API!');
@@ -746,8 +762,17 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 
     }; // initializeSettlement end
 
+    // initialized settlement special sauce
+    $rootScope.decorateSettlement = function() {
+        // tunes up $scope.settlement to have some special stuff
+        $rootScope.setSettlementCurrentUserFavorites();
+    };
 
-
+    $rootScope.setSettlementCurrentUserFavorites = function() {
+        if ($scope.currentUser !== undefined) {
+           $scope.settlement.currentUser.favoriteSurvivors = $scope.currentUser.favorite_survivors.filter(item => $scope.settlement.user_assets.survivor_oids_list.includes(item))
+        };
+    };
 
     // set methods
     $rootScope.setApiAlerts = function() {

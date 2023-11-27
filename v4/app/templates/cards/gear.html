@@ -118,8 +118,12 @@
                 <!-- right top colum, e.g. pattern logo, etc. -->
                 <div class="kd card gear title_gutter">
                     <div
-                        ng-if="gear.pattern_id"
+                        ng-if="
+                            gear.sub_type === 'pattern' ||
+                            gear.sub_type === 'seed_pattern'
+                        "
                         class="gear_card_pattern_stamp"
+                        ng-class="{'seed': gear.sub_type === 'seed_pattern'}"
                     >
                     </div>
                 </div>

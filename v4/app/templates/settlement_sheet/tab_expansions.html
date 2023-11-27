@@ -33,11 +33,14 @@
 
         <div
             class="clickable"
-            ng-repeat="(handle, x) in kingdomDeath.expansions"
-            ng-if="x.ui.pretty_category === category"
+            ng-class="{
+                'disabled': expansion.mandatory || currentUser.subscriber.level < expansion.subscriber_level,
+            }"
+            ng-repeat="(handle, expansion) in kingdomDeath.expansions"
+            ng-if="expansion.ui.pretty_category === category"
             ng-click="
-                x.mandatory && $event.stopPropagation();
-                toggleArrayItem(settlement.sheet.expansions, x.handle);
+                $event.stopPropagation();
+                toggleArrayItem(settlement.sheet.expansions, expansion.handle);
                 postJSONtoAPI(
                     'settlement', 'set_expansions', settlement.sheet._id.$oid,
                     {'expansions': settlement.sheet.expansions},
@@ -47,29 +50,44 @@
                 loadStorage(true);
             "
             ng-init="
-                x.mandatory = settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(x.handle) >= 0;
+                expansion.mandatory = settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(expansion.handle) >= 0;
             "
         >
+            <span
+                class="hidden"
+                ng-init="expansion.disabled = expansion.mandatory || currentUser.subscriber.level < expansion.subscriber_level"
+            >
+             HACK CITY!!!1
+            </span>
         
-            <!-- update the item to have x.mandatory = true if it's in the list -->
+            <!-- update the item to have expansion.mandatory = true if it's in the list -->
             <div
+                ng-if="expansion"
                 class="kd worksheet_row"
-                ng-class="{
-                    'disabled': x.mandatory,
-                }"
+                ng-class="{'disabled': expansion.disabled}"
             >
 
                 <div
                     class="kd checkbox"
+                    ng-if="
+                        currentUser.subscriber.level >= expansion.subscriber_level ||
+                        expansion.subscriber_level === undefined
+                    "
                     ng-class="{
-                        'checked': settlement.sheet.expansions.indexOf(x.handle) != -1,
-                        'red': x.mandatory,
+                        'checked': settlement.sheet.expansions.indexOf(expansion.handle) != -1,
+                        'red': expansion.mandatory,
                     }"
                 ></div>
 
                 <div
+                    class="kd lockbox kdm_manager_font"
+                    ng-if="currentUser.subscriber.level < expansion.subscriber_level"
+                >
+                    l
+                </div>
+                <div
                     class="kd checkbox_desc"
-                    ng-bind-html="x.name|trustedHTML"
+                    ng-bind-html="expansion.name|trustedHTML"
                 >
                 </div>
 
@@ -77,16 +95,18 @@
 
             <div
                 class="font_small kd worksheet_row caption"
-                ng-if="x.subtitle"
-                ng-bind-html="x.subtitle|trustedHTML"
+                ng-class="{'disabled': expansion.disabled, }"
+                ng-if="expansion.subtitle"
+                ng-bind-html="expansion.subtitle|trustedHTML"
             >
             </div>
             
             <div
                 class="font_small kd worksheet_row caption"
-                ng-if="x.mandatory"
+                ng-class="{'disabled': expansion.disabled, }"
+                ng-if="expansion.mandatory"
             >
-                The <b>{a x.name a}</b> ({a x.released.$date|date:'yyyy' a})
+                The <b>{a expansion.name a}</b> ({a expansion.released.$date|date:'yyyy' a})
                 expansion is required by the <b>{a settlement.game_assets.campaign.name a}</b>
                 campaign and cannot be removed!
             </div>

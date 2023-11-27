@@ -23,6 +23,7 @@
             {'name': 'settlement', obj: settlement},
             {'name': 'kingdomDeath', obj: kingdomDeath},
             {'name': 'currentUser', obj: currentUser},
+            {'name': 'settlementStorage', obj: settlementStorage},
         ]"
   	    ng-click="dumpJSONtoTab(jsonObj.obj)"
 	    ng-if="jsonObj.obj"
@@ -33,6 +34,14 @@
         </button>
         &nbsp;
     </span>
+
+    <hr/>
+
+    Expert mode: 
+    <input
+        type="checkbox"
+        ng-model="currentUser.preferences.enable_expert_mode"
+    />
 
     <hr/>
 

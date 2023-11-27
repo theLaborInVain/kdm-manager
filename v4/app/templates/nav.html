@@ -212,20 +212,25 @@
         <div>++</div>
         <div class="font_small">Many Survivors</div>
     </div>
+    -->
     <div
         class="v4_nav_folder clickable"
+        ng-class="{
+            'disabled': currentUser.subscriber.level < 1,
+        }"
+        ng-click="
+            ngNavController.active = undefined;
+            $event.stopPropagation();
+            ngShow('addVignetteSurvivorModal');
+        "
     >
         <div class="font_small">Vignette</div>
         <div>+V</div>
         <div class="font_small">Survivors</div>
     </div>
-    -->
     <div
         class="v4_nav_folder clickable"
-        ng-if="
-            settlement.user_assets.survivors.length > 0 &&
-            currentUser.favorite_survivors.length > 0
-        "
+        ng-if="settlement.currentUser.favoriteSurvivors.length > 0"
         ng-click="
             ngNavController.active = undefined;
             $event.stopPropagation();
@@ -341,6 +346,7 @@
 {% include 'survivor_search/favorites.html' %}
 {% include 'survivor_sheet/_base.html' %}
 {% include 'new_survivor.html' %}
+{% include 'add_vignette_survivor.html' %}
 
 <!-- settlement templates -->
 

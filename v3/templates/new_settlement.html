@@ -123,16 +123,33 @@
         >
             <h4>{{category}}</h4>
             <div
-                class="new_settlement_asset_clicker clickable"
-                ng-class="{active: newSettlement.expansions.indexOf(expansion.handle) != -1}"
+                class="clickable new_settlement_asset_clicker"
+                ng-class="{
+                    active: newSettlement.expansions.indexOf(expansion.handle) != -1,
+                    'subscribers_only': user.user.subscriber.level < expansion.subscriber_level,
+                    'disabled': user.user.subscriber.level < expansion.subscriber_level,
+                }"
                 ng-repeat="expansion in new_settlement_assets.expansions"
                 ng-if="expansion.ui.pretty_category === category"
-                ng-click="toggleAttrib('expansions',expansion.handle)"
+                ng-click="toggleAttrib('expansions', expansion.handle)"
             >
                 <div
                     class="kd_sheet_ui_box"
+                    ng-if="
+                        user.user.subscriber.level >= expansion.subscriber_level ||
+                        expansion.subscriber_level === undefined
+                    "
                     ng-class="{checked: newSettlement.expansions.indexOf(expansion.handle) != -1}"
-                ></div>
+                >
+                </div>
+
+                <div
+                    class="kdm_manager_font locked_expansion"
+                    ng-if="user.user.subscriber.level < expansion.subscriber_level"
+                >
+                    l
+                </div>
+
                 <span ng-bind-html="expansion.name|trustedHTML"></span>
                 <p
                     ng-if="expansion.subtitle"

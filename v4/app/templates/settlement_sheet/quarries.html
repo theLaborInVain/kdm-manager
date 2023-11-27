@@ -5,6 +5,7 @@
 -->
 <div
    class="kd_sheet_ui_border_box"
+   ng-if="kingdomDeath.monsters"
 >
 
     <div
@@ -21,7 +22,7 @@
         </p>
 
         <div
-            class="ng_fade clickable kd worksheet_row lined"
+            class="ng_fade clickable kd worksheet_row lined principle"
             ng-repeat="q in settlement.sheet.quarries"
             ng-click="
                 settlement.sheet.quarries.splice($index, 1);
@@ -36,6 +37,9 @@
             <div class="kd checkbox checked"></div>
             <div class="kd checkbox_desc">
                 {a kingdomDeath.monsters[q].name a}
+            </div>
+            <div>
+                Node {a kingdomDeath.monsters[q].node a}
             </div>
         </div>
 

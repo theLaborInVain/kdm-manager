@@ -47,6 +47,7 @@
                             ng-class="{
                                 enabled: settlement.sheet.expansions.indexOf(x.handle) != -1,
                                 mandatory_expansion: x.mandatory === true,
+								disabled: user.user.subscriber.level < x.subscriber_level
                             }"
                             ng-init="x.mandatory = false"
                             ng-click="toggleExpansion(x.handle, settlement.sheet.expansions.indexOf(x.handle))"
@@ -70,7 +71,19 @@
                                         checked: settlement.sheet.expansions.indexOf(x.handle) != -1,
                                         'kd_red_box': x.mandatory,
                                     }"
+									ng-if="
+										user.user.subscriber.level >= x.subscriber_level ||
+										x.subscriber_level === undefined
+									"
                                 ></div>
+
+				                <div
+				                    class="kdm_manager_font"
+				                    ng-if="user.user.subscriber.level < x.subscriber_level"
+				                >
+				                    l
+				                </div>
+
                                 <div
                                     class="kd checkbox_desc"
                                     ng-bind-html="x.name|trustedHTML"

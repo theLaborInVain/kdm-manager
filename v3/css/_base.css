@@ -1886,6 +1886,10 @@ h3.new_survivor_sheet {
 }
 .new_settlement_form h4 {margin-left: 3%; }
 .new_settlement_asset_clicker {margin: 7%;}
+.locked_expansion {
+    display: inline-block;
+    margin: auto 4% auto auto; 
+}
 #createNewSettlementButton {margin-top: 6%; margin-bottom: 6%;}
 
 

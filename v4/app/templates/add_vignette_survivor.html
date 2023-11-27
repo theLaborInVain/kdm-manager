@@ -1,0 +1,79 @@
+<!--
+
+
+    DO NOT SET DEFAULT NEW SURVIVOR VALUES OUTSIDE OF THE MODAL INIT
+
+-->
+
+
+<div
+    class="modal hidden"
+    id="addVignetteSurvivorModal"
+    ng-if="ngVisible['addVignetteSurvivorModal']"
+    ng-init="setVsurvivorExpansions(kingdomDeath.survivors)"
+>
+
+    <div class="kd_sheet_ui_outer_ring_container">
+   
+        <div class="kd_sheet_ui_inner_ring_container">
+
+            <h3 class="kd title">New Vignette Survivor</h3>
+
+            <p>
+                Adding a Vignette Survivor from an expansion that is not currently
+                included in the Settlement's Expansion content will add that
+                expansion automatically!
+            </p>
+
+            <div
+                ng-repeat="expansion_handle in vSurvivorExpansionHandles"
+            >
+
+                <div
+                    ng-if="survivor.expansion === expansion_handle"
+                    ng-repeat="survivor in kingdomDeath.survivors"
+                    ng-init="survivorButtonId = survivor.handle + 'VigSurvButtonId'"
+
+				>
+					<div
+	                    class="kd vignette_survivor_card_container clickable"
+						ng-click="ngShowHide(survivorButtonId);"
+	                    ng-class="{
+							'yellow': ngVisible[survivorButtonId] === true,
+						}"
+    	            >
+        		        {% include '/cards/survivor.html' %}
+					</div><!-- clicker -->
+
+	                <button
+    	                id="{a survivorButtonId a}"
+        	            class="kd capsule full_width blue"
+            	        ng-if="ngVisible[survivorButtonId] === true"
+                	    ng-click="
+	                        ngHide(survivorButtonId);
+                            postJSONtoAPI(
+                                'settlement', 'add_survivor', settlement.sheet._id.$oid,
+                                {handle:  survivor.handle}, true, true, true
+                            );
+        	            "
+            	    >
+                        Add {a survivor.name a} to settlement
+    	            </button>
+
+                </div><!-- vSurvivor container -->
+
+            </div><!-- expansion repeater -->
+
+        </div> <!-- kd_sheet_ui_inner_ring_container -->
+
+    </div> <!-- kd_sheet_ui_outer_ring_container -->
+
+
+    <button
+        class="kd_kickstarter_button floating_close_modal_button"
+        ng-click="ngHide('addVignetteSurvivorModal')"
+    >
+        Close
+    </button>
+
+</div> <!-- modal newSurvivorModal-->

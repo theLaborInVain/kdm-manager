@@ -12,6 +12,8 @@
     --border-radius-card: 1rem;
     --border-radius-sheet: 0.5rem;
     --box-shadow-material-design: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    --box-shadow-default: 0 0 0.5em 0 #999;
+    --worksheet-underline: 0.1rem solid #ccc;
 }
 
 /*  CSS RESET */
@@ -1043,6 +1045,20 @@ input[type="radio"].gear_lookup_attrib_toggle {
     transition: 1s;
 }
 
+
+/*  survivor sheet - bottom tabs */
+
+.survivor_sheet.checklist {
+    border: var(--border-survivor-sheet);
+    padding: 0 1rem 1rem 1rem;
+}
+.survivor_sheet.checklist .kd.worksheet_row {
+    border-bottom: var(--worksheet-underline);
+    margin-bottom: 1rem;
+}
+.survivor_sheet.checklist .kd.worksheet_row:last-child {
+    border-bottom: none;
+}
 
 /*                                      */
 /*  modal - re-usable modal elements    */
@@ -2267,6 +2283,14 @@ h3.new_survivor_sheet {
     margin-bottom: 2%; 
 }
 
+.storage_asset_card_and_expert_mode_container {
+    align-items: center; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly; 
+}
+
+
 /*  SETTLEMENT SHEET left panel - mobile */
 
 
@@ -3245,4 +3269,31 @@ input.survivor_owner_email:invalid {
     min-height: 10rem;
     padding: 1% 2% 1% 2%;
     width: 100%; 
+}
+
+
+/*  EXPERT MODE */
+.expert_mode_metadata_table {
+    background: rgba(255,255,255,0.5);
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem 1rem 1rem 1rem;
+    width: 2.5in;
+}
+.expert_mode_metadata_table div {
+    border-bottom: 0.1rem solid var(--color-kd-pale-grey);
+    padding: 0.15rem;
+    width: 100%;
+}
+
+.expert_mode_rules_block {
+    background: #fff;
+    border-radius: var(--border-radius-card);
+    box-shadow: var(--box-shadow-default);
+    margin: 1rem auto;
+    padding: 0.5rem;
+    width: 2.5in;
+}
+.expert_mode_rules_block ul li{
+    margin-left: 1rem;
 }

@@ -69,6 +69,12 @@ OPTIONS = {
     },
 
     # interface
+    "show_welcome_modal": {
+        "type": "ui",
+        "desc": "Show the welcome modal on sign-in?",
+        "affirmative": "Show when I am not the creator of any settlements",
+        "negative": "Never show",
+    },
     "show_dashboard_alerts": {
         "type": "ui",
         "desc": "Display webapp alerts on the Dashboard?",
@@ -90,11 +96,13 @@ OPTIONS = {
         "negative": "Hide UI tips",
         "subscriber_level": 2,
     },
-    "show_welcome_modal": {
+    "enable_expert_mode": {
         "type": "ui",
-        "desc": "Show the welcome modal on sign-in?",
-        "affirmative": "Show when I am not the creator of any settlements",
-        "negative": "Never show",
+        "desc": "Enable Expert Mode (shows additional game asset meta data)?",
+        "affirmative": "Enable",
+        "negative": "Disable",
+        "subscriber_level": 2,
+        'default': False,
     },
 }
 

@@ -1,0 +1,145 @@
+<!--
+
+    This type of card uses KD styles and shows a card representing a survivor,
+    e.g. a vignette survivor or...any survivor we want to represent in card
+    form.
+
+-->
+
+<div
+    class="kd vignette_survivor_card"
+>
+
+    <div
+        class="ly"
+        ng-if="survivor.ly"
+    >
+        &#8987; {a  survivor.ly  a}
+    </div>
+
+    <div
+        class="title_bar"
+    >
+        <div class="name font_large silverado">
+            {a  survivor.attribs.name  a}
+            <div class="subtitle font_medium">
+                {a  survivor.subtitle  a}
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="avatar_bar"
+    >
+        <div
+            class="survival_actions"
+        >
+            <div
+                class="survival_action"
+                ng-repeat="action in survivor.attribs.fixed_survival_actions"
+            >
+                <div class="kd checkbox tiny checked"></div>
+                <div class="capitalize">{a action a}</div>
+            </div>
+
+        </div>
+        <div
+            class="avatar"
+        >
+            <img
+                class="survivor_avatar_image"
+                ng-src="/static/media/default_avatar_{a survivor.attribs.sex a}.png"
+            />
+        </div>
+        <div
+            class="hit_locations"
+        >
+            <div class="hit_location insanity">
+                Insanity
+                <div
+                    class="kd inline_shield tiny"
+                >
+                    <span ng-if="survivor.attribs.Insanity">
+                       {a  survivor.attribs.Insanity  a}
+                    </span>
+                    <span ng-if="!survivor.attribs.Insanity">
+                       0
+                    </span>
+                </div>
+            </div>
+            <div
+                ng-repeat="loc in [
+                    {name: 'Head', glyph: 'b'},
+                    {name: 'Arms', glyph: 'd'},
+                    {name: 'Body', glyph: 'c'},
+                    {name: 'Waist', glyph: 'e'},
+                    {name: 'Legs', glyph: 'f'},
+                ]"
+                class="hit_location"
+            >
+                <font class="kdm_font_2">{a  loc.glyph  a}</font>
+                <div
+                    class="kd inline_shield tiny"
+                >
+                    <span ng-if="survivor.attribs[loc.name]">
+                       {a  survivor.attribs[loc.name]  a}
+                    </span>
+                    <span ng-if="!survivor.attribs[loc.name]">
+                       0
+                    </span>
+                </div>
+            </div><!-- glyph repeater -->
+        </div>
+    </div>
+
+    <div
+        class="kd attributes_table"
+    >
+        <div
+            class="large_cell"
+        >
+            <div class="title">Survival</div>
+            <font ng-if="survivor.attribs.survival">
+                {a survivor.attribs.survival a}
+            </font>
+            <font ng-if="!survivor.attribs.survival">
+                0
+            </font>
+        </div>
+        <div
+            class="cell"
+            ng-repeat="attrib in [
+                'Movement',
+                'Accuracy',
+                'Strength',
+                'Evasion',
+                'Luck',
+                'Speed',
+                'Courage',
+                'Understanding'
+             ]"
+        >
+            <div class="title">{a  attrib.substring(0,3)  a}</div>
+            <span ng-if="survivor.attribs[attrib]">
+                {a survivor.attribs[attrib] a}
+            </span>
+            <span
+                ng-if="
+                    !survivor.attribs[attrib] &&
+                    attrib !== 'Movement'
+                "
+            >
+                0
+            </span>
+            <span
+                ng-if="
+                    !survivor.attribs[attrib] &&
+                    attrib === 'Movement'
+                "
+            >
+                5
+            </span>
+        </div>
+    </div> <!-- attributes table -->
+
+</div> <!-- vignette survivor card -->

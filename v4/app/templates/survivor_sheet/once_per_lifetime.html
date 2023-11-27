@@ -1,0 +1,32 @@
+<!-- OPL -->
+<div
+    class="survivor_sheet checklist"
+>
+    <h3 class="kd title">Once Per Lifetime</h3>
+    <div
+        class="clickable kd worksheet_row"
+        ng-repeat="(handle, dict) in settlement.game_assets.once_per_lifetime"
+        ng-click="
+            survivor.sheet[handle] = !survivor.sheet[handle];
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': handle,
+                    'value': survivor.sheet[handle]
+                },
+                false, true, false
+            );
+        "
+    >
+        <div
+            class="kd checkbox"
+            ng-class="{'checked': survivor.sheet[handle]}"
+        ></div>
+        <div
+            class="kd checkbox_desc"
+            ng-bind-html="dict.name|trustedHTML"
+        >
+        </div>
+    </div>
+
+</div><!-- container box -->

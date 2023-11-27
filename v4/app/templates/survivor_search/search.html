@@ -19,7 +19,7 @@
         >
                 <div
                     class="clickable kd worksheet_row"
-                    ng-repeat="option in ['Brief', 'Detailed']"
+                    ng-repeat="option in ['Brief', 'Card', 'Detailed']"
                     ng-click="uiScratch.resultsType = option"
                 >
                     <div
@@ -44,6 +44,14 @@
 
                 <div ng-if="uiScratch.resultsType === 'Brief'">
                     {% include 'survivor_search/survivor_slug.html' %}
+                </div>
+                <div ng-if="uiScratch.resultsType === 'Card'">
+                    <div
+                        class="kd vignette_survivor_card_container"
+                        ng-init="survivor.attribs = survivor.sheet"
+                    >
+                        {% include 'cards/survivor.html' %}
+                    </div>
                 </div>
                 <div ng-if="uiScratch.resultsType === 'Detailed'">
                     {% include 'survivor_search/survivor_card.html' %}

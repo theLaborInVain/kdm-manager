@@ -18,7 +18,7 @@
     id="settlementSheetTimelineTab"
     class="view_tab"
     ng-show='tabsObject.activeTab === 2'
-    ng-if="settlement.sheet"
+    ng-if="settlement.sheet && kingdomDeath.events"
     ng-init="
         timelineUi = {'rollers': [], };
         eventTypeIterationOrder = [

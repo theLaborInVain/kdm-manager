@@ -118,4 +118,19 @@ app.controller("settlementSheetController", function($scope, $rootScope, $http) 
     };
 
 
+    // vignette survivors
+
+    $scope.setVsurvivorExpansions = function(vSurvivors) {
+        // 'vSurvivors' is a list of vignette survivor assets; this function
+        // returns a list of expansion handles
+    
+        var vignetteExpansions = new Set();
+        for (const [handle, dict] of Object.entries(vSurvivors)) {
+            vignetteExpansions.add(dict.expansion);
+        };
+
+        $scope.vSurvivorExpansionHandles = Array.from(vignetteExpansions);
+    }
+
+
 }); // settlementSheetController ends

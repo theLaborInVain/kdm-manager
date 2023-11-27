@@ -152,19 +152,24 @@
                         >
 
                             <!-- resource or gear card from sub template -->
-                            <div
-                                ng-if="asset.type !== 'gear' && ngRolledUp[storageAssetRollerId] === false"
-                                ng-init="resource = asset"
-                            >
-                                {% include 'cards/resource.html' %}
-                            </div>
+                            <div class="storage_asset_card_and_expert_mode_container">
+                                <div
+                                    ng-if="asset.type !== 'gear' && ngRolledUp[storageAssetRollerId] === false"
+                                    ng-init="resource = asset"
+                                >
+                                    {% include 'cards/resource.html' %}
+                                </div>
 
-                            <div
-                                ng-if="asset.type === 'gear' && ngRolledUp[storageAssetRollerId] === false"
-                                ng-init="gear = asset"
-                            >
-                                {% include 'cards/gear.html' %}
-                            </div>
+                                <div
+                                    ng-if="asset.type === 'gear' && ngRolledUp[storageAssetRollerId] === false"
+                                    ng-init="gear = asset"
+                                >
+                                    {% include 'cards/gear.html' %}
+                                </div>
+
+                                {% include 'expert_mode_table.html' %}
+
+                            </div><!-- end card/expert  mode holder -->
 
                             <!-- add/remove resource/gear from storage -->
                             <div

@@ -67,6 +67,13 @@
         ng-init="newSettlement = {'expansions': [], 'macros': []}"
     >
         <!-- settlement name -->
+	    <div
+    	    class="hidden"
+        	ng-if="currentUser"
+	        ng-init="newSettlement.random_name = currentUser.preferences.random_names_for_unnamed_assets"
+    	>
+	    </div>
+
         <div
             id="newSettlementSettlementName"
             class="kd worksheet_block"
@@ -154,10 +161,10 @@
             <div 
                 ng-repeat="category in [
                     'KD Collection',
+                    'Advanced KDM',
                     'Quarry',
                     'Nemesis',
                     'White Box',
-                    'Advanced KDM',
                     'Enhancement'
                 ]" 
                 class="ng_fade new_settlement_asset_clicker_container"
@@ -168,19 +175,42 @@
                     class="clickable"
                     ng-if="expansion.ui.pretty_category === category"
                     ng-click="toggleArrayItem(newSettlement.expansions, expansion.handle)"
+                    ng-class="{
+                        'disabled': currentUser.subscriber.level < expansion.subscriber_level
+                    }"
                 >
-                    <div class="kd worksheet_row">
+                    <div
+                        class="kd worksheet_row"
+                        ng-class="{
+                            'disabled': currentUser.subscriber.level < expansion.subscriber_level
+                        }"
+                    >
                         <div
                             class="kd checkbox"
                             ng-class="{'checked': newSettlement.expansions.indexOf(expansion.handle) !== -1}"
+                            ng-if="
+                                currentUser.subscriber.level >= expansion.subscriber_level ||
+                                expansion.subscriber_level === undefined
+                            "
                         ></div>
+                        <div
+                            class="kd lockbox kdm_manager_font"
+                            ng-if="currentUser.subscriber.level < expansion.subscriber_level"
+                        >
+                            l
+                        </div>
                         <div
                             class="kd checkbox_desc"
                             ng-bind-html="expansion.name|trustedHTML"
                         >
                         </div>
                     </div>
-                    <div class="kd worksheet_row">
+                    <div
+                        class="kd worksheet_row"
+                        ng-class="{
+                            'disabled': currentUser.subscriber.level < expansion.subscriber_level
+                        }"
+                    >
                         <div
                             ng-if="expansion.subtitle"
                             class="font_small"

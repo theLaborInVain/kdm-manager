@@ -20,6 +20,7 @@
                 <b>Type:</b>
                 <select
                     class="hunt_xp_picker"
+                    ng-if="!survivor.sheet.weapon_proficiency_sealed"
                     ng-model="survivor.sheet.weapon_proficiency_type"
                     ng-options="
                         dict.handle as dict.name for dict in
@@ -39,8 +40,36 @@
                     "
                 >
                 </select>
+
+                <!-- sealed gear -->
+                <select
+                    class="hunt_xp_picker"
+                    ng-if="survivor.sheet.weapon_proficiency_sealed"
+                    ng-model="survivor.sheet.weapon_proficiency_type_sealed"
+                    ng-options="
+                        gear.handle as  gear.name for gear in
+                        settlement.game_assets.gear |hasAttribute: 'sealed_gear'
+                    "
+                    ng-selected="survivor.sheet.weapon_proficiency_type"
+                    ng-change="
+                        postJSONtoAPI(
+                            'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                            {
+                                'attribute': 'weapon_proficiency_type_sealed',
+                                'value': survivor.sheet.weapon_proficiency_type_sealed,
+                                'handle': survivor.sheet.weapon_proficiency_type_sealed
+                            },
+                            false, true, true
+                        );
+                    "
+                >
+                </select>
+                <!-- sealed gear -->
+
             </div>
             <div class="hunt_xp_picker_caption">Select before hunt</div>
+
+
         </div><!-- left col -->
 
         <div class="right_column">
@@ -108,6 +137,28 @@
         >
             &#x25BC;
         </button>
+
+        <!--  sealed gear support -->
+        <button
+            class="kd capsule full_width"
+            ng-class="{'yellow': survivor.sheet.weapon_proficiency_sealed}"
+            ng-if="settlement.sheet._additional_survivor_sheet_requirements.sealed_gear"
+            ng-click="
+                survivor.sheet.weapon_proficiency_sealed = !survivor.sheet.weapon_proficiency_sealed; 
+                postJSONtoAPI(
+                    'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                    {
+                        'attribute': 'weapon_proficiency_sealed',
+                        'value': survivor.sheet.weapon_proficiency_sealed,
+                        'handle': survivor.sheet.weapon_proficiency_sealed
+                    },
+                    false, true, true
+                );
+                "
+        >
+            Sealed gear
+        </button>
+        <!-- end sealed gear support -->
 
         <button
             class="kd capsule blue full_width"
