@@ -2283,14 +2283,6 @@ h3.new_survivor_sheet {
     margin-bottom: 2%; 
 }
 
-.storage_asset_card_and_expert_mode_container {
-    align-items: center; 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly; 
-}
-
-
 /*  SETTLEMENT SHEET left panel - mobile */
 
 
@@ -3273,6 +3265,12 @@ input.survivor_owner_email:invalid {
 
 
 /*  EXPERT MODE */
+.game_asset_card_and_expert_mode_container {
+    align-items: center; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly; 
+}
 .expert_mode_metadata_table {
     background: rgba(255,255,255,0.5);
     display: flex;

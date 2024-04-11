@@ -118,48 +118,12 @@
                 </div>
 
                 <div
-                    class="kd card container bridge"
-                    title="{a ai.name a} ({a fighting_art.sub_type_pretty a})"
+                    class="game_asset_card_and_expert_mode_container"
+                    ng-init = "asset = settlement.game_assets.abilities_and_impairments[aiHandle]"
                 >
-
-                    <div
-                        class="kd card face"
-                        ng-init="expansion = kingdomDeath.expansions[fighting_art.expansion]"
-                    >
-
-                        {% include 'cards/expansion_flair.html' %}
-
-                        <div class="kd card face header">
-                            <div class="kd card title_bar">
-                                <div
-                                    class="font_large"
-                                    ng-class="{'kd_red_text': ai.constellation}"
-                                >
-                                    {a ai.name a}
-                                </div>
-                                <div
-                                    class="kd card subtitle"
-                                >
-                                    - {a ai.sub_type_pretty a} -
-                                </div>
-                            </div><!-- title_bar -->
-                        </div><!-- header -->
-
-                        <div ng-if="ai.bleeding_tokens" class="kd card bleeding_token_container">
-                            <div
-                                ng-repeat="token in range(ai.bleeding_tokens)"
-                                class="kd bleeding_token active"
-                            >
-                            </div>
-                        </div>
-
-
-                        <div class="kd card body" ng-bind-html="ai.desc|trustedHTML">
-                        </div>
-
-                    </div><!-- kd card face -->
-                </div><!-- kd card container -->
-
+                    {% include 'cards/abilities_and_impairments.html' %}
+                    {% include 'expert_mode_table.html' %}
+                </div>
 
                 <button
                     class="kd capsule pink full_width"

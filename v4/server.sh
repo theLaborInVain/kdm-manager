@@ -35,14 +35,44 @@ start_venv() {
     export FLASK_RUN_CERT=deploy/dev_cert.pem
     export FLASK_RUN_KEY=deploy/dev_key.pem
 
+}
+
+start_flask_app() {
+
     PYTHON_VERS=`python --version`
     echo -e " * interpreter $PYTHON_VERS"
     echo -e "\nPIP:"
     pip freeze $1 | while read x; do echo -e " * $x"; done
     echo -e
     echo -e "Flask server:"
+    flask run &
+    FLASKPID=$!
+    sleep 3
+}
+
+start_angular_app() {
+
+    echo -e "\nAngular server:"
+    cd kdm-ng
+    ng serve &
+    ANGULARPID=$!
 
 }
 
+function ctrl_c_handler() {
+    echo -e "\n\nCtrl+C detected!"
+    echo -e " * Killing Flask pid $FLASKPID"
+    kill $FLASKPID
+#    echo -e " * Killing Angular pid $ANGULARPID"
+#    kill $ANGULARPID
+    echo -e "\nExiting...\n"
+    exit 1
+}
+
 start_venv $1
-flask run
+start_flask_app
+#start_angular_app
+
+trap ctrl_c_handler SIGINT
+
+wait

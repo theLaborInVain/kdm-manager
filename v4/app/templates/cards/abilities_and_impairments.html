@@ -1,0 +1,54 @@
+<!-- A&I card! Not exactly canon but... -->
+<div
+    class="kd card container bridge"
+    title="{a ai.name a} ({a ai.sub_type_pretty a})"
+>
+    <div
+        class="kd card face"
+        ng-init="expansion = kingdomDeath.expansions[ai.expansion]"
+    >
+
+
+        <div 
+            class="kd card face header"
+            ng-class="{'expansion':  expansion}"
+        >
+
+            {% include 'cards/expansion_flair.html' %}
+
+            <div
+                class="kd card face title_bar"
+                ng-class="{'expansion': expansion}"
+            >
+                <div
+                    class="kd card title"
+                    ng-class="{
+                        'expansion': expansion,
+                        'kd_red_text': ai.constellation,
+                    }"
+                >
+                    {a ai.name a}
+                </div>
+                <div
+                    class="kd card subtitle"
+                    ng-class="{'expansion': expansion}"
+                >
+                    {a ai.ai_type a}
+                </div>
+            </div><!-- title_bar -->
+        </div><!-- header -->
+
+        <div ng-if="ai.bleeding_tokens" class="kd card bleeding_token_container">
+            <div
+                ng-repeat="token in range(ai.bleeding_tokens)"
+                class="kd bleeding_token active"
+            >
+            </div>
+        </div>
+
+        <!-- body -->
+        <div class="kd card body" ng-bind-html="ai.desc|trustedHTML">
+        </div>
+
+    </div>
+</div><!-- end of card container -->
