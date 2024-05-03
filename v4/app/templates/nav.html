@@ -104,7 +104,11 @@
     class="v4_nav_directory"
 >
 
-    <!-- hack city!!! initialize tabs in HTML instead of JS -->
+    <!--
+        hack city!!! initialize tabs in HTML instead of JS 
+        
+        !! tab HTML is imported in the _base.html !!
+    -->
 	<span
 		class="hidden"
 		ng-init="
@@ -131,6 +135,18 @@
 		            name: 'Event Log',
                     font: 'kdm_font',
 					icon: 'g',
+		        },
+		        {
+		            id: 4,
+		            name: 'Groups',
+                    font: 'kdm_manager_font',
+					icon: 'bb',
+		        },
+		        {
+		            id: 664,
+		            name: 'Gear',
+                    font: 'silverado',
+					icon: 'G',
 		        },
 		        {
 		            id: 665,
@@ -168,19 +184,6 @@
         <div class="{a tab.font a}">{a tab.icon a}</div>
         <div class="font_small">{a tab.name a}</div>
     </div>
-
-    <!-- hard-coded refresh button for the settlement sheet
-    <div
-        class="v4_nav_folder clickable"
-        ng-click="
-            ngShow('fullPageLoader');
-            initializeSettlement(settlement.sheet._id.$oid);
-        "
-    >
-        <div>&#8634;</div>
-        <div class="font_small">Refresh</div>
-    </div>
-    -->
 
 </div> <!-- navSettlementSheetDir -->
 

@@ -1,0 +1,26 @@
+<div
+    id="settlementSheetGearLookupTab"
+    class="view_tab"
+    ng-if="settlement.sheet && settlement.game_assets && kingdomDeath"
+    ng-show="tabsObject.activeTab === 664"
+>
+
+    <h3 class="kd title">Gear lookup</h3>
+
+    <p
+        class="kd_sheet_ui_row_tip"
+        ng-if="currentUser.preferences.show_ui_tips"
+    >
+		Settlement gear lookup only includes gear belonging to active 
+		expansions. Use the controls below to filter results.
+    </p>
+
+    <div
+        ng-init="setGearLookup()"
+    >
+
+        {% include 'gear_lookup.html' %}
+
+    </div>
+
+</div> <!-- tab -->

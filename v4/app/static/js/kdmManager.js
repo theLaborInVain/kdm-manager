@@ -54,9 +54,9 @@ app.directive("contenteditable", function() {
   };
 });
 
-// filter a list of objects down to ones that have a single attribute
-//	regardless of that attribute's value
 app.filter('hasAttribute', function() {
+    // filter a list of objects down to ones that have a single attribute
+    //	regardless of that attribute's value
   return function(assets, attribute) {
     var filtered = [];
     angular.forEach(assets, function(asset) {
@@ -68,7 +68,31 @@ app.filter('hasAttribute', function() {
   };
 });
 
-app.controller('rootScopeController', function($scope, $rootScope, $http, $timeout) {
+
+app.filter('filterByValue', function() {
+    // filter a dict using search text, e.g. the way you would filter an
+    // array, except it works on a dict/object
+    return function(input, searchText) {
+        if (!input || typeof input !== 'object') {return input;};
+        if (typeof searchText !== 'string') {return input;}
+        var result = {};
+        angular.forEach(input, function(value, key) {
+	        if (typeof value === 'object') {
+               // Recursively search within nested object
+ 	           var nestedResult = input(value, searchText);
+    	   		   if (Object.keys(nestedResult).length > 0) {
+		       		result[key] = nestedResult;
+        		}
+			} else if (key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 ||
+                value.toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
+                result[key] = value;
+            }
+        });
+        return result;
+    };
+});
+
+app.controller('rootScopeController', function($scope, $rootScope, $http, $timeout, $filter) {
 
     // primary init starts here; auth/token methods follow
 
@@ -607,6 +631,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
 			reinit = true,
 			showAlert = true,
 			updateSheet = false,
+            postProcessFunctions = null,
 		) 
 		{
 		// welcome to the new version of postJSONtoAPI()!
@@ -670,6 +695,12 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
                                 $scope.updateSurvivorSheet(response.data.sheet)
                             }, 500)
                         };
+                    });
+                };
+                if (Array.isArray(postProcessFunctions)){
+                    console.info("POST successful. Executing " + postProcessFunctions.length + " post-process functions...")
+                    postProcessFunctions.forEach(function(func) {
+                        func(true);
                     });
                 };
 				console.timeEnd(endpoint);
@@ -1117,6 +1148,9 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         return keyValueArray;
     };
 
+    $scope.getKeyAtIndex = function(items, index) {
+        return Object.keys(items)[index];
+    };
 
     // JS method injection; angular and unleaded
     $rootScope.objectKeys = Object.keys;

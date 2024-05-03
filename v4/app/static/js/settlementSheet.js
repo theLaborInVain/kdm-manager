@@ -32,7 +32,7 @@ app.controller("settlementSheetController", function($scope, $rootScope, $http) 
     //  storage applet / tab
     //
 
-    $scope.loadStorage = function(reload) {
+    $rootScope.loadStorage = function(reload) {
         // load settlement storage!
 
         // remove and reload if if requested
@@ -115,6 +115,37 @@ app.controller("settlementSheetController", function($scope, $rootScope, $http) 
             }
         );
 
+    };
+
+
+    // load Gear lookup
+
+    $rootScope.setGearLookup = function(reload) {
+        // sets $scope.gearLookup
+
+        // remove and reload if if requested
+        if (reload === true) {
+            $scope.gearLookup = undefined;
+        };
+
+        // load it here
+
+        if ($scope.gearLookup === undefined) {
+            var reqUrl = $rootScope.APIURL + 'settlement/gear_lookup/' + $scope.settlement.sheet._id.$oid;
+            console.time(reqUrl);
+
+            var promise = $http.get(reqUrl, $rootScope.CONFIG);
+            promise.then(
+                function(payload) {
+                    $scope.gearLookup = payload.data;
+                    console.timeEnd(reqUrl);
+                },
+                function(errorPayload) {
+                    console.error("Could not load settlement gear from API!" + errorPayload);
+                    console.timeEnd(reqUrl);
+                }
+            );
+        };
     };
 
 

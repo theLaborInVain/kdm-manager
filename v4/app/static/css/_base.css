@@ -291,7 +291,6 @@ button:active,
 /*
 
     CARDS - all cards, including gear cards
-    gear_lookup.html
 
 */
 
@@ -339,35 +338,6 @@ font.inline_shield {
 
 
 
-/*  gear_lookup.html    */
-input[type="radio"].gear_lookup_attrib_toggle {
-    display: inherit;
-}
-.gear_lookup_loading {
-    margin-bottom: 3vh;
-    text-align: center;
-    transition: 1s;
-    width: 100%;
-}
-.gear_lookup_search_box {
-    border:0;
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 6%;
-    text-align: center;
-    width: 95%;
-}
-.gear_lookup_card_repeater {
-    margin: 0 auto;
-    margin-bottom: 2%;
-    width: 90%;
-}
-.gear_card_container {
-    border: 0.1rem solid;
-    border-radius: 1rem;
-    margin: 0 auto; 
-    min-height: fit-content;
-}
 
     /*  card 'border' regions */
 
@@ -3209,6 +3179,12 @@ input.survivor_owner_email:invalid {
 }
 
 
+/*  gear_lookup.html    */
+.gear_lookup_search_box {
+    margin: 0.5 inherit 0.5rem inherit;
+}
+
+
 /*      help.html   */
 .help_section {
     break-inside: avoid; 
@@ -3270,6 +3246,9 @@ input.survivor_owner_email:invalid {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly; 
+}
+.game_asset_card_and_expert_mode_container.almanac {
+    margin-top: 3rem;
 }
 .expert_mode_metadata_table {
     background: rgba(255,255,255,0.5);

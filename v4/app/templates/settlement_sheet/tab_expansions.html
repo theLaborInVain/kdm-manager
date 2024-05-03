@@ -44,10 +44,10 @@
                 postJSONtoAPI(
                     'settlement', 'set_expansions', settlement.sheet._id.$oid,
                     {'expansions': settlement.sheet.expansions},
-                    true, true, false
+                    true, true, true,
+                    [loadStorage, setGearLookup]
                 );
                 ngShow('fullPageLoader');
-                loadStorage(true);
             "
             ng-init="
                 expansion.mandatory = settlement.game_assets.campaign.settlement_sheet_init.expansions.indexOf(expansion.handle) >= 0;

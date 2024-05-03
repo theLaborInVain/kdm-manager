@@ -9,10 +9,6 @@
     is organized in chronological order according to the date it was released.
     </p>
 
-    <p>
-    Expansion content with a checked box includes a quarry monster; if the
-    checked box is red, it includes a nemesis monster.
-    </p>
 
     <div
         class="kd worksheet_block"
@@ -27,11 +23,11 @@
             class="kd worksheet_block_title"
             ng-init="sortedExpansions = sortObjectsByDate(kingdomDeath.expansions, 'released')"
         >
-            Monster {a version.version_string a}
+            {a version.name a}
         </div>
 
         <div class="kd worksheet_row lined">
-            {a version.released_summary a}: {a version.desc a}
+            {a version.released_summary a}: {a version.version_string a}
         </div>
 
         <div
@@ -44,17 +40,31 @@
                 expansion.released.$date < version.eol.$date 
             "
         >
-            <div class="kd checkbox"></div>
+            <div class="kd checkbox"
+                ng-if="
+                    expansion.ui.pretty_category !== 'Nemesis' &&
+                    expansion.ui.pretty_category !== 'White Box'
+                "
+            >
+            </div>
+            <div
+                class="kdm_manager_font"
+                ng-if="expansion.ui.pretty_category === 'Nemesis'"
+            >
+                N
+            </div>
+            <div
+                class="kdm_manager_font"
+                ng-if="expansion.ui.pretty_category === 'White Box'"
+            >
+                b
+            </div>
+
+
             <div class="font_small">
                 {a expansion.released.$date|date: "yyyy-MM" a}
             </div>
             <div class="font_small kd checkbox_desc">
-                <span
-                    class="kdm_manager_font"
-                    ng-if="expansion.ui.pretty_category === 'Nemesis'"
-                >
-                    N
-                </span>
                 <b>{a expansion.name a}</b> - {a expansion.ui.pretty_category a}
 
                 <div>

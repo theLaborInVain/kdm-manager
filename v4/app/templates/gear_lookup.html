@@ -1,0 +1,115 @@
+<!--
+
+    gearLookup must be initialized before importing this template!
+
+    It should be a list/array of gear dictionaries/hashes
+
+-->
+
+<div
+    ng-init="
+        gearLookupUi = {
+            filter: undefined,
+        }
+    "
+>
+
+    <input
+        class="kd capsule full_width gear_lookup_search_box"
+        placeholder="Click or tap here to filter"
+        ng-model="gearLookupUi.filter"
+        ng-click="gearLookupUi.filter = undefined"
+    />
+
+    <!-- lookup repeater -->
+    <div
+        ng-if="gearLookup"
+        class="kd worksheet_block gear_lookup_table"
+    >
+
+        <div
+            ng-repeat="gear in gearLookup | filter:gearLookupUi.filter:strict"
+        >
+            <div
+                class="kd worksheet_row lined clickable"
+                ng-click="
+                    gearLookupUi.asset = gear;
+                    gearLookupUi.index = $index;
+                    ngShow('gearLookupModalDisplayer');
+                "
+                ng-class="{'pattern_orange': gear.sub_type==='seed_pattern'}"
+            >
+                <div
+                    class="kd checkbox"
+                    ng-if="
+                        gear.sub_type !== 'pattern' &&
+                        gear.sub_type !== 'seed_pattern'
+                    "
+                >
+                </div>
+                <div
+                    ng-if="
+                        gear.sub_type === 'pattern' ||
+                        gear.sub_type === 'seed_pattern'
+                    "
+                    class="kd kdm_manager_font"
+                >
+                    p
+                </div>
+
+                <div class="kd checkbox_desc">
+                    {a gear.name a}
+                    <span ng-if="gear.pattern_id">
+                        ({a gear.pattern_id a})
+                    </span>
+                </div>
+            </div>
+
+        </div> <!-- gear repeater -->
+
+    </div> <!-- worksheet block -->
+
+    <!-- modal gear card disaplyer -->
+    <div
+        id="gearLookupModalDisplayer"
+        ng-if="ngVisible['gearLookupModalDisplayer']"
+        ng-click="ngHide('gearLookupModalDisplayer')"
+        class="modal-black hidden"
+    >
+
+        <div class="modal-content" ng-click="$event.stopPropagation()">
+
+            <div
+                class="corner_close_modal clickable"
+                ng-click="ngHide('gearLookupModalDisplayer')"
+            >
+            </div>
+        
+            <div
+                ng-init="
+                    gear = gearLookupUi.asset;
+                    asset = gearLookupUi.asset
+                "
+            >
+                <div
+                    class="game_asset_card_and_expert_mode_container almanac"
+                    ng-init="forceExpertMode = true"
+                >
+                    {% include 'cards/gear.html' %}
+                    {% include 'expert_mode_table.html' %}
+                </div>
+
+            </div>
+
+        <button
+            class="kd capsule full_width"
+            ng-click="ngHide('gearLookupModalDisplayer')"
+        >
+            Close            
+        </button>
+
+        </div><!-- modal inner -->
+
+    </div> <!-- modal displayer -->
+
+</div> <!-- outermost scope -->

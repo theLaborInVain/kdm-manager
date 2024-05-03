@@ -1,0 +1,15 @@
+/*  Desktop styles here */
+
+@media only screen and (min-width: 1600px) {
+
+
+    .kd.worksheet_block.gear_lookup_table {
+        column-count: 6;
+        column-gap: 1rem;
+    }
+
+    .kd.worksheet_block.gear_lookup_table .kd.worksheet_row {
+        break-inside: avoid; 
+    }
+
+}

@@ -7,7 +7,10 @@
 
 <div
     class="expert_mode_container"
-    ng-if="currentUser.preferences.enable_expert_mode"
+    ng-if="
+        currentUser.preferences.enable_expert_mode ||
+        forceExpertMode
+    "
 >
     <div
         class="expert_mode_metadata_table font_small"
@@ -45,7 +48,7 @@
     </div>
 
     <div
-        ng-if="asset.related_rules && currentUser.preferences.enable_expert_mode"
+        ng-if="currentUser.preferences.enable_expert_mode || forceExpertMode"
         ng-init="rulesDict = kingdomDeath.rules[rules_handle]"
         ng-repeat="rules_handle in asset.related_rules"
         class="expert_mode_rules_block font_small"
