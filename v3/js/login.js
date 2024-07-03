@@ -2,6 +2,10 @@ var app = angular.module('login', []);
 
 app.controller("globalController", function($scope, $http) {
 
+    $scope.loadURL = function(destination) {
+        // allows us to use ng-click to re-direct to URLs
+        window.location = destination;
+    };
 
     $scope.getElement = function(elementId) {
         var element = document.getElementById(elementId);

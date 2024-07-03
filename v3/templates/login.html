@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruda&display=swap" />
     <link rel="stylesheet" href="/css/login.css?v=$version" />
     <link rel="stylesheet" href="/css/color.css?v=$version" />
+    <link rel="stylesheet" type="text/css" href="$api_url/kingdomDeath.css?v=$version">
 
  </head>
 
@@ -42,10 +43,8 @@
     ng-init="init('$api_url')"
  >
 
-  <div class="container">
+  <div class="login container">
 
-    <h1 class="clickable" ng-click="showSignInControls()">https://KDM-Manager.com</h1>
-    <h2 class="clickable" ng-click="showSignInControls()">$title</h2>
     <h3
         class="version_tag"
         ng-class="{
@@ -69,6 +68,8 @@
             released on {{latestRelease.published_on.$date|date:'EEEE, yyyy-MM-dd'}}.
         </span>
     </h3>
+    <h1 class="clickable" ng-click="showSignInControls()">https://KDM-Manager.com</h1>
+    <h2 class="clickable" ng-click="showSignInControls()">$title</h2>
 
     <noscript>
         <p><b>JavaScript is disabled!</b></p>
@@ -152,7 +153,7 @@
             id="signInEmail"
             type="email"
             placeholder="Email"
-            class="email"
+            class="login_control email"
             ng-model="signInEmail"
             autofocus
             validate
@@ -162,18 +163,48 @@
             id="signInPassword"
             type="password"
             placeholder="Password"
-            class="password"
+            class="login_control password"
             ng-model="signInPassword"
         />
 
         <button
             id="signInButton"
-            class="submit kd_promo"
+            class="login_control submit"
             ng-click="signIn(signInEmail, signInPassword)"
             ng-disabled="!signInEmail"
+            ng-class="{
+                'kd_promo': signInEmail && signInPassword,
+                'cancel': !signInEmail || !signInPassword,
+            }"
+
         >
             Sign In
         </button>
+
+        <div
+            class="v4_headsup clickable"
+            ng-click="loadURL('https://dev.kdm-manager.com')"
+        >
+            <div class="kd capsule yellow full_width">
+                A new version of KDM Manager is coming!
+                Click here to try it out before the official release.
+            </div>
+        </div>
+
+
+        <div class="signup_and_help_bar">
+            <button
+                class="sign_up clickable"
+                ng-click="showNewUserControls()"
+                ng-if="apiStat !== undefined && apiStat !== false"
+            >
+                Not registered? <b>Sign Up</b>.
+            </button>
+
+            <button class="help clickable" ng-click="showHelpControls()">
+                Help!
+            </button>
+        </div>
 
     </div>
 
@@ -183,10 +214,18 @@
         class="user_inputs hidden"
         ng-controller="newUserController"
     >
-        <input id="newUserEmail" type="email" placeholder="New user email" class="email" ng-model="newUserEmail" autofocus/>
-        <input type="password" placeholder="Password" class="password" ng-model="newUserPassword"/>
-        <input type="password" placeholder="Password (again)" class="password" ng-model="newUserPasswordAgain"/>
-        <button class="submit kd_promo" ng-click="register('$api_url')">Register</button>
+        <input id="newUserEmail" type="email" placeholder="New user email" class="login_control email" ng-model="newUserEmail" autofocus/>
+        <input type="password" placeholder="Password" class="login_control password" ng-model="newUserPassword"/>
+        <input type="password" placeholder="Password (again)" class="login_control password" ng-model="newUserPasswordAgain"/>
+        <button class="login_control submit kd_promo" ng-click="register('$api_url')">Register</button>
+            <button
+                class="login_control submit cancel"
+                ng-click="
+                    hideControls('new_user_controls');
+                    showSignInControls()"
+            >
+                Close
+            </button>
     </div>
     <div id="pw_match_error" class="modal hidden">
         <div class="modal_message">
@@ -219,7 +258,13 @@
                 ng-if="apiStat !== undefined && apiStat !== false"
             >
                 <p class="disclaimer">Forgot your password? Enter your email address below and click "Reset Password" to recieve an email with instructions on how to reset it:</p>
-                <input id="resetPasswordEmail" type="email" placeholder="Email" class="email" ng-model="resetRequest.resetPasswordEmail" />
+                <input
+                    id="resetPasswordEmail"
+                    type="email"
+                    placeholder="Email"
+                    class="login_control email"
+                    ng-model="resetRequest.resetPasswordEmail"
+                />
                 <button class="submit kd_alert" ng-click="resetPassword('$api_url')"> Reset Password </button>
             </div>
 
@@ -257,7 +302,7 @@
             <p>&nbsp;</p>
 
             <button
-                class="submit kd_promo"
+                class="submit cancel"
                 ng-click="
                     hideControls('help_controls');
                     showSignInControls()"
@@ -294,18 +339,6 @@
             </button>
         </div>
     </div>
-
-    <button
-        class="sign_up clickable"
-        ng-click="showNewUserControls()"
-        ng-if="apiStat !== undefined && apiStat !== false"
-    >
-        Not registered? <b>Sign Up</b>.
-    </button>
-
-    <button class="help clickable" ng-click="showHelpControls()">
-        Help!
-    </button>
 
   </div> <!-- container -->
  </body>
