@@ -28,9 +28,12 @@ if __name__ == "__main__":
 
     # initialize a session and render some HTML
     S = Session(params)
-    if S.session is None:
+    if S.session == 'PASSWORD_RESET':
+        # HTML gets printed over in session.py
+        current_view = "password_reset"
+    elif S.session is None:
         current_view = "login"
-        output = login.render()
+        login.render()
     else:
         S.process_params()
         current_view = S.current_view

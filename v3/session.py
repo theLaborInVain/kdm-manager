@@ -164,13 +164,20 @@ class Session:
         # ok, if this is a recovery request, let's try to do that
         if 'recovery_code' in self.params:
             self.logger.info("Password Recovery Code sign-in initiated!")
-            user = mdb.users.find_one({'recovery_code': self.params["recovery_code"].value})
+            user = mdb.users.find_one(
+                {'recovery_code': self.params["recovery_code"].value}
+            )
             if user is None:
-                self.logger.info("Password Recovery Code not found (possibly expired). Aborting attempt.")
+                msg = "Password Recovery Code not found. Aborting attempt."
+                self.logger.info(msg)
             else:
-                self.logger.info("Rendering Password Recovery controls for '%s'" % user["login"])
-                login.render("reset", user["login"], self.params['recovery_code'].value)
-
+                msg = "Rendering Password Recovery controls for '%s'"
+                self.logger.info(msg, user["login"])
+                login.render(
+                    "reset", user["login"], self.params['recovery_code'].value
+                )
+                self.session = "PASSWORD_RESET"
+                return
 
         #
         #   normal session types

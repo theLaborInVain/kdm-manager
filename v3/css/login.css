@@ -40,6 +40,13 @@ button {
     color: #fff;
     cursor: pointer;
 }
+
+.clickable {
+    cursor: pointer;
+    transition: 0.25s;
+    outline: none;
+}
+
 h1 {
     font-family: 'Silverado';
     margin: 0 auto;
