@@ -193,6 +193,25 @@
     ng-class="{'active': ngNavController.active === 'survivorsSummaryDir'}"
     class="v4_nav_directory"
 >
+    <div
+        ng-repeat="group in settlement.sheet.survivor_groups |orderBy: 'sort_order'"
+        class="v4_nav_folder clickable"
+        ng-click="
+            ngNavController.active = undefined;
+            ngNavController.currentSurvivorGroup = group;
+            $event.stopPropagation();
+            ngShow('survivorGroupSearch');
+        "
+        title="Tap or click to view survivors in the {a group.name a} group."
+    >
+        <div
+            class="v4_nav_folder_flair_triangle"
+            ng-if="group.color"
+            style="border-top-color: {a group.color a}"
+        ></div>
+        <div>{a group.name.substring(0,2) a}</div>
+        <div class="font_small">{a group.name a}</div>
+    </div>
 
     <div
         class="v4_nav_folder clickable"
@@ -201,6 +220,7 @@
             $event.stopPropagation();
             ngShow('newSurvivorModal');
         "
+        title="Tap or click to create a new survivor."
     >
         <div class="font_small">Create</div>
         <div>+</div>
@@ -345,6 +365,7 @@
 <!-- THE FOLD ; nav bar templates follow -->
 
 <!-- survivor templates -->
+{% include 'survivor_search/group.html' %}
 {% include 'survivor_search/search.html' %}
 {% include 'survivor_search/favorites.html' %}
 {% include 'survivor_sheet/_base.html' %}

@@ -1,0 +1,39 @@
+<!-- favorite -->
+<div
+    class="survivor_sheet checklist"
+>
+    
+    <h3 class="kd title">Groups</h3>
+
+    <div
+        class="hidden"
+        ng-if="!survivor.sheet.groups"
+        ng-init="survivor.sheet.groups = []"
+    >
+        HACK CITY!
+    </div>
+
+    <div
+        class="clickable kd worksheet_row"
+        ng-repeat="group in settlement.sheet.survivor_groups |orderBy: 'sort_order'"
+        ng-click="
+            toggleArrayItem(survivor.sheet.groups, group.handle);
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': 'groups',
+                    'value': survivor.sheet.groups
+                },
+                false, true, false
+            );            
+        "
+    >
+        <div
+            class="kd checkbox"
+            ng-class="{'checked': survivor.sheet.groups.indexOf(group.handle) !== -1}"
+        >
+        </div>
+        <div class="kd checkbox_desc">{a group.name a}</div>
+    </div>
+
+</div><!-- end of box -->

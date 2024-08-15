@@ -5,9 +5,10 @@
 
     <!-- usability block: avatar, tags, favorite, color scheme, notes, etc. -->
 
-    {% include '/survivor_sheet/tags.html' %}
+
 
     {% include '/survivor_sheet/favorite.html' %}
+
 
     <!-- color scheme -->
     <select
@@ -29,6 +30,10 @@
     >
         <option disabled value="">Set color scheme</option>
     </select>
+
+    {% include '/survivor_sheet/groups.html' %}
+
+    {% include '/survivor_sheet/tags.html' %}
 
 
     <!-- admin block: email, public, delete -->

@@ -359,6 +359,7 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
     };
 
 
+
 	//
     // tabs!
 	//
@@ -463,6 +464,13 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
             $rootScope.ngRolledUp[e_id] = true;
         };
     };
+    $rootScope.ngRollUpAll = function(rollGroup=[]) {
+        // rolls up all in the rollGroup (i.e. closes it all out)
+        for (var i = 0; i < rollGroup.length; i++) {
+            $rootScope.ngRollUp(rollGroup[i]);
+        };
+
+    };
     $rootScope.ngRollDown = function(e_id) {
         // forces an element into the down position
         var e = $rootScope.getRollDownContainer(e_id);
@@ -504,6 +512,46 @@ app.controller('rootScopeController', function($scope, $rootScope, $http, $timeo
         };
 
     };
+
+    // other UX/UI
+
+	$rootScope.swapSortOrder = function(list, item, direction) {
+		// direction is 1 or -1; item has to have 'sort_order' attrib
+
+	    if (typeof item.sort_order === 'undefined') {
+	        console.error('Item does not have a sort_order attribute:', item);
+	        return;
+	    }
+		direction = parseInt(direction, 10);	// force direction to int
+
+		// get the target item, i.e. the one whose place we're taking
+	    var targetIndex = item.sort_order + direction;
+    	var targetItem = null;
+	    for (var i = 0; i < list.length; i++) {
+    	    if (list[i].sort_order === targetIndex) {
+        	    targetItem = list[i];
+	            break;
+	        }
+	    }
+
+		// catch logic glitches; fail bigly
+		if (item === targetItem) {
+			console.error('item is ' + item.handle + ' sort order: ' + item.sort_order);
+			console.error('target is ' + targetItem.handle + ' sort order: ' + targetItem.sort_order);
+			throw('Cannot swap order! Item and target are the same!')
+		}
+
+//		console.warn('MOVING ' + item.handle + ' FROM ' + item.sort_order + ' TO ' + targetIndex);
+//		console.warn(item.handle + ' HAS ' + item.sort_order);
+//		console.warn(targetItem.handle + ' HAS ' + targetItem.sort_order);
+
+	    if (targetIndex >= 0 && targetIndex < list.length) {
+	        var temp = item.sort_order;
+    	    item.sort_order = targetIndex;
+        	targetItem.sort_order = temp;
+	    };
+	};
+
 
 
     //

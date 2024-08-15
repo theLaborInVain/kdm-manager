@@ -1,0 +1,92 @@
+<!--
+
+    Group search is dynamic and queries a specific group
+
+-->
+
+<div
+    class="modal hidden"
+    id="survivorGroupSearch"
+    ng-if="ngVisible['survivorGroupSearch']"
+    ng-click="ngHide('survivorGroupSearch')"
+>
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+
+        <h3 class="kd title">{a ngNavController.currentSurvivorGroup.name a}</h3>
+            <p ng-bind-html="ngNavController.currentSurvivorGroup.desc|trustedHTML">
+        </p>
+
+        <div class="survivor_card_container">
+
+            <div
+                ng-repeat="survivor in settlement.user_assets.survivors track by $index"
+                ng-if="survivor.sheet.groups.indexOf(ngNavController.currentSurvivorGroup.handle) !== -1"
+                ng-click="
+                    settlement.viewSurvivor = survivor;
+                    ngShow('survivorSheet');
+                    ngHide('survivorGroupSearch');
+                    $event.stopPropagation();
+                "
+            >
+
+                {% include 'survivor_search/survivor_card.html' %}
+
+            </div><!-- repeater -->
+
+        </div>
+
+    <hr>
+
+    <h3 class="kd title">Group list</h3>
+    <p ng-if="currentUser.preferences.show_ui_tips">
+        Controls below show group membership in list form; tap or click to
+        add or remove survivors from the 
+        <b>{a ngNavController.currentSurvivorGroup.name a}</b>
+        group.
+    </p>
+
+    <div
+        class="clickable kd worksheet_row lined principle"
+        ng-repeat="survivor in settlement.user_assets.survivors track by $index"
+        ng-click="
+            toggleArrayItem(survivor.sheet.groups, ngNavController.currentSurvivorGroup.handle);
+            postJSONtoAPI(
+                'survivor', 'set_attribute', survivor.sheet._id.$oid,
+                {
+                    'attribute': 'groups',
+                    'value': survivor.sheet.groups
+                },
+                false, true, true
+            );
+        "
+    >
+        <div
+            class="kd checkbox"
+            ng-class="{
+                'checked': survivor.sheet.groups.indexOf(ngNavController.currentSurvivorGroup.handle) !== -1
+            }">
+        </div>
+        <div
+            class="kd checkbox_desc"
+        >
+            <span class="silverado">{a survivor.sheet.name a} </span>
+        </div>
+            <span>
+                <b>{a survivor.sheet.effective_sex a}</b> |
+                XP:{a survivor.sheet.hunt_xp a} |
+                U:{a survivor.sheet.Understanding a} |
+                C:{a survivor.sheet.Courage a} 
+           </span>
+    </div>
+
+
+    </div> <!-- kd_sheet_ui_outer_ring_container -->
+
+    <button
+        class="kd capsule full_width floating_close_modal_button"
+        ng-click="ngHide('survivorGroupSearch')"
+    >
+        Close
+    </button>
+
+</div> <!-- modal newSurvivorModal-->

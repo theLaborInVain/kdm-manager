@@ -68,10 +68,23 @@
     height: 5rem;
     font-size: var(--font-large);
     justify-content: center; 
+    position: relative;
     margin: 0.5rem;
     width: 5rem; 
 }
 
+.v4_nav_folder_flair_triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-right: 1.5rem solid transparent;
+    border-top: 1.5rem solid; /* Create the triangle using bottom border color */
+    border-bottom: 0; /* No top border */
+    border-left: 0; /* No right border */
+    pointer-events: none; /* Prevents flair from interfering with flex content */
+}
 
             /*  TABLET  */
 

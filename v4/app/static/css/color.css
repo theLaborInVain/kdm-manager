@@ -148,6 +148,9 @@ input:active {  /* this is our on-click effect color */
 .hover_highlight_red:hover {
     background: radial-gradient(#ffefef, #fefefe);
 }
+.inset_shadow {
+    box-shadow: inset #ccc 0 0 1rem;
+}
 
     /*  DEPRECATED  gradients */
 .campaign_summary_gradient {background: linear-gradient(to right, #EFCE98, #F5E9D2, #fefeee, #F5E9D2, #EFCE98)}
@@ -233,9 +236,7 @@ input:active {  /* this is our on-click effect color */
 .timeline_row_container.current_ly {border-color: #f00; }
 .current_ly_container_row {background: radial-gradient(#fff,#ffffee);}
 .timeline_event_rm_button {background-color: #666; color: #fff; }
-.timeline_ly_repeater.active {
-    box-shadow: inset #ccc 0 0 1rem;
-}
+
 
 /* asset emulation - fun stuff */
 .kd_promo {color: #fff; background: radial-gradient(circle, #5Dd7F2, #50CAF5, #3FACCF); }

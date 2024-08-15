@@ -3,10 +3,205 @@
     class="view_tab"
     ng-if="settlement.sheet && settlement.game_assets && kingdomDeath"
     ng-show="tabsObject.activeTab === 4"
+    ng-init="
+        survivorGroupsUIHelper = {};
+        survivorGroupsRollers = [];
+        originalListOfGroups = ngCopy(settlement.sheet.survivor_groups);
+    "
 >
 
     <h3 class="kd title">Survivor Groups</h3>
 
-    {a settlement.sheet.survivor_groups a}
+    <p ng-if="currentUser.preferences.show_ui_tips">
+        Controls below are used to customize survivor group
+        names, colors, descriptions and sort order. Tap or click the "head"
+        icon on the navigation bar to view survivor groups.
+    </p>
+
+    <div
+        ng-repeat="group in settlement.sheet.survivor_groups |orderBy: 'sort_order'"
+        ng-init="
+            containerId = group.handle + '_group_container';
+            survivorGroupsRollers.push(containerId);
+        "
+        ng-class="{
+            'inset_shadow': ngRolledUp[containerId] === false,
+        }"
+    >
+
+        <div
+            class="clickable kd worksheet_row principle"
+            ng-click="ngRoll(containerId, survivorGroupsRollers)"
+        >
+            <div
+                class="kd checkbox"
+                style="background: {a group.color a}"
+            >
+            </div>
+            <span class="font_large silverado kd">{a group.name a}</span>
+
+            <span class="font_large silverado"></span>
+
+            <span
+                class="roll_content_arrow"
+                ng-class="{'open': ngRolledUp[containerId] === false}"
+            >
+                &#x25BC;
+            </span>
+
+        </div> <!-- Group name clicker -->
+
+        <div
+            id="{a containerId a}"
+            class="roll_down_container rolled_up"
+            ng-class="{
+                'rolled_down': ngRolledUp[containerId] === false,
+            }"
+            ng-click="$event.stopPropagation"
+        >
+
+
+            <div class="kd worksheet_row centered_inputs">
+                <input
+                    class="kd capsule full_width"
+                    ng-model="group.name"
+                    placeholder="Group name"
+                    title="Tap or click here to set the group's name."
+                />
+                <input
+                    type="color"
+                    name="favcolor"
+                    ng-model="group.color"
+                    title="Tap or click here to set the group's color."
+                />
+                <div
+                    class="kd checkbox"
+                    ng-click="group.color = undefined"
+                    title="Tap or click here to remove the group's color."
+                ></div>
+            </div>
+
+            <div class="kd worksheet_row">
+                <div
+                    contenteditable="true"
+                    class="survivor_sheet_new_note_input"
+                    placeholder="{a group.name a} group description"
+                    ng-model="group.desc"
+                >
+                </div>
+            </div>
+
+            <div
+                class="kd worksheet_row"
+            >
+                <button
+                    class="kd capsule"
+                    ng-class="{'blue': !$first}"
+                    ng-disabled = "$first"
+                    ng-click="swapSortOrder(settlement.sheet.survivor_groups, group, -1)"
+                    title="Sort the survivor group higher"
+                >
+                    &#x25B2; 
+                </button>
+                <button
+                    class="kd capsule"
+                    ng-class="{'pink': !$last}"
+                    ng-disabled = "$last"
+                    ng-click="swapSortOrder(settlement.sheet.survivor_groups, group, 1)"
+                    title="Sort the survivor group lower"
+                >
+                    &#x25BC;
+                </button>
+            </div><!-- order changes -->
+
+            <button
+                class="kd capsule pink full_width"
+                ng-if="!group.deleteArmed && group.handle.substring(0,1) !== '_'"
+                ng-click="group.deleteArmed = true"
+            >
+                Delete group
+            </button>
+
+            <div
+                ng-if="group.deleteArmed"
+                class="kd worksheet_row"
+            >
+                <button
+                    class="kd capsule red"
+                >
+                    DELETE
+                </button>
+                <button
+                    class="kd capsule"
+                    ng-click="group.deleteArmed = undefined"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </div>
+
+    </div><!-- repeater for groups -->
+
+
+    <div class="kd worksheet_block borderless">
+        <button
+            ng-disabled="ngEquals(originalListOfGroups, settlement.sheet.survivor_groups)"
+            class="kd capsule full_width"
+            ng-class="{
+                'blue': !ngEquals(originalListOfGroups, settlement.sheet.survivor_groups)
+            }"
+            ng-click="
+                postJSONtoAPI(
+                    'settlement', 'set_survivor_groups', settlement.sheet._id.$oid,
+                    {'survivor_groups': settlement.sheet.survivor_groups},
+                    true, true, false
+                );
+                ngRollUpAll(survivorGroupsRollers);
+           "
+        >
+            Save changes
+        </button>
+
+        <button
+            ng-disabled="ngEquals(originalListOfGroups, settlement.sheet.survivor_groups)"
+            class="kd capsule full_width"
+            ng-click="
+                settlement.sheet.survivor_groups = originalListOfGroups;
+                ngRollUpAll(survivorGroupsRollers);
+           "
+        >
+            Undo/revert changes
+        </button>
+
+        <button
+            class="kd capsule full_width yellow"
+            ng-if="!survivorGroupsUIHelper.armReset"
+            ng-click="survivorGroupsUIHelper.armReset = true"
+           title="Tap or click this button to restore settlement survivor groups to their default settings."
+        >
+            Reset to defaults
+        </button>
+
+        <button
+            class="kd capsule full_width red"
+            ng-if="survivorGroupsUIHelper.armReset"
+            ng-click="
+                postJSONtoAPI(
+                    'settlement', 'set_survivor_groups', settlement.sheet._id.$oid,
+                    {'survivor_groups': 'DEFAULT'},
+                    true, true, false
+                );
+                survivorGroupsUIHelper.armReset = undefined;
+                ngRollUpAll(survivorGroupsRollers);
+           "
+           title="Tap or click this button to restore settlement survivor groups to their default settings."
+        >
+            RESET & DELETE CHANGES
+        </button>
+
+    </div>
+
 
 </div> <!-- tab -->
