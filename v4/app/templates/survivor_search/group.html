@@ -16,7 +16,7 @@
             <p ng-bind-html="ngNavController.currentSurvivorGroup.desc|trustedHTML">
         </p>
 
-        <div class="survivor_card_container">
+        <div class="survivor_card_container" ng-init="ngNavController.currentSurvivorGroup.count = 0">
 
             <div
                 ng-repeat="survivor in settlement.user_assets.survivors track by $index"
@@ -27,11 +27,20 @@
                     ngHide('survivorGroupSearch');
                     $event.stopPropagation();
                 "
+                ng-init="ngNavController.currentSurvivorGroup.count = ngNavController.currentSurvivorGroup.count + 1"
             >
 
                 {% include 'survivor_search/survivor_card.html' %}
 
             </div><!-- repeater -->
+
+
+        <div
+            class="kd worksheet_row"
+            ng-if="ngNavController.currentSurvivorGroup.count === 0"
+        >
+            No survivors found! Use controls below to add survivors to this group.
+        </div>
 
         </div>
 
@@ -39,8 +48,7 @@
 
     <h3 class="kd title">Group list</h3>
     <p ng-if="currentUser.preferences.show_ui_tips">
-        Controls below show group membership in list form; tap or click to
-        add or remove survivors from the 
+        Tap or click to add or remove survivors to or from the 
         <b>{a ngNavController.currentSurvivorGroup.name a}</b>
         group.
     </p>
@@ -56,7 +64,7 @@
                     'attribute': 'groups',
                     'value': survivor.sheet.groups
                 },
-                false, true, true
+                false, true, false
             );
         "
     >

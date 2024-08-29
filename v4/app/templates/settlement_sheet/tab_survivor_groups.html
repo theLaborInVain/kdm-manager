@@ -81,6 +81,7 @@
                 ></div>
             </div>
 
+
             <div class="kd worksheet_row">
                 <div
                     contenteditable="true"
@@ -90,6 +91,29 @@
                 >
                 </div>
             </div>
+
+            <!-- checkbox options -->
+            <div
+                class="kd worksheet_row"
+                ng-repeat=" option in [
+                    {attrib: 'show_on_survivor_sheet', name: 'Show group on Survivor Sheets',
+                    tooltip: 'this group appears on the Survivor Sheet'},
+                    {attrib: 'allow_dead_survivors', name: 'Allow dead survivors to join',
+                    tooltip: 'dead survivors can join this group'},
+                ]"
+                ng-click="group[option.attrib] = !group[option.attrib]"
+                title="Tap or click here to set whether {a option.tooltip a}."
+            >
+                <div
+                    class="kd checkbox"
+                    ng-class="{'checked': group[option.attrib]}"
+                >
+                </div>
+                <div class="kd checkbox_desc">
+                    {a option.name a}
+                </div>
+            </div>
+            <!-- checkbox options -->
 
             <div
                 class="kd worksheet_row"

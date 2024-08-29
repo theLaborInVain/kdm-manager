@@ -11,18 +11,17 @@
         <div
             class="kd_sheet_ui_inner_ring_container help_container"
         >
-
-            <div
-                class="kd worksheet_block flex"
-            >
-                <div class="kd worksheet_row">
-                    <input
-                        type="text"
-                        placeholder="Search rules"
-                        ng-model="scratch.rulesSearchText"
-                    />
-                    <div>X</div>
-                </div>
+            <div class="kd worksheet_row">
+                <input
+                    type="text"
+                    class="kd capsule search_input"
+                    placeholder="Search rules"
+                    ng-model="scratch.rulesSearchText"
+                />
+                <div
+                    class="clickable kd capsule x"
+                    ng-click="scratch.rulesSearchText = undefined"
+                >X</div>
             </div>
 
             <div class="rules_outer_container">

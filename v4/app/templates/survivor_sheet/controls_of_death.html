@@ -1,0 +1,148 @@
+<!-- controls of DEATH -->
+<div
+    class="clickable survivor_sheet border_box"
+>
+    <div
+        class="clickable kd worksheet_row"
+        ng-click="ngShow('survivorCoDControls')"
+    >
+        <div
+            class="kd checkbox red"
+            ng-class="{'checked': survivor.sheet.dead}"
+        ></div>
+        <div
+            class="kd checkbox_desc"
+        >
+            Dead
+        </div>
+    </div>
+</div>
+
+<!-- modal starts here -->
+<div
+    id="survivorCoDControls"
+    class="modal hidden"
+    ng-if="ngVisible['survivorCoDControls']"
+    ng-click="ngHide('survivorCoDControls')"
+    ng-init="survivor.originalCOD = survivor.sheet.cause_of_death"
+>
+
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+
+        <div
+            class="corner_close_modal"
+            ng-click="ngHide('survivorCoDControls')"
+        >
+        </div>
+
+        <h3 class="kd title">Controls of Death</h3>
+
+        <div
+            class="kd worksheet_row lined"
+            ng-if="survivor.sheet[dAttr.key]"
+            ng-repeat="dAttr in [
+                {key: 'died_in', name: 'Died in LY '},
+                {key: 'died_on', name: 'Died on ', type: 'date'},
+            ]"
+        >
+            <div>
+                <b>{a dAttr.name a}</b>
+            </div>
+            <div ng-if="dAttr.type !== 'date'">
+                {a survivor.sheet[dAttr.key] a}
+            </div>
+            <div ng-if="dAttr.type === 'date'">
+                {a survivor.sheet[dAttr.key].$date |date: 'EEEE, yyyy-mm-dd' a}
+            </div>
+        </div>
+
+        <div class="kd worksheet_row"></div>
+
+        <!-- vanilla controls -->
+        <div
+            ng-if="
+                survivor.sheet.cause_of_death === undefined ||
+                settlement.game_assets.causes_of_death.indexOf(survivor.sheet.cause_of_death) !== -1
+            "
+        >
+        <select
+            class="kd capsule full_width"
+            ng-model="survivor.sheet.cause_of_death"
+            ng-options="c.name as c.name disable when c.disabled for c in settlement.game_assets.causes_of_death"
+            ng-selected="survivor.sheet.cause_of_death"
+            ng-class="{'red': survivor.sheet.cause_of_death}"
+        >
+            <option disabled value="">Choose Cause of Death</option>
+        </select>
+        <button
+            class="kd capsule full_width"
+            ng-click="
+                survivor.sheet.cause_of_death = 'Enter custom cause of death'
+            "
+        >
+            Custom cause of death
+        </button>
+        </div>
+        <!-- end of vanilla controls -->
+
+        <!-- custom controls -->
+        <div
+            ng-if="
+                survivor.sheet.cause_of_death &&
+                settlement.game_assets.causes_of_death.indexOf(survivor.sheet.cause_of_death) === -1
+            "
+        >
+        <input
+            type="text"
+            class="kd capsule full_width"
+            ng-model="survivor.sheet.cause_of_death"
+        />
+        <button
+            class="kd capsule full_width"
+            ng-click="survivor.sheet.cause_of_death = undefined"
+        >
+            Reset/clear cause of death
+        </button>
+        </div>
+        <!-- end of custom controls -->
+
+
+        <button
+            class="kd capsule full_width"
+            ng-class="{
+                'blue': survivor.sheet.cause_of_death &&
+                survivor.sheet.cause_of_death !== survivor.originalCOD
+          }"
+            ng-disabled="
+                !survivor.sheet.cause_of_death ||
+                survivor.sheet.cause_of_death === survivor.originalCOD
+            "
+            ng-click="
+                survivor.sheet.dead = 'weiner';
+                survivor.originalCOD = survivor.sheet.cause_of_death;
+                postJSONtoAPI(
+                    'survivor', 'controls_of_death', survivor.sheet._id.$oid,
+                    {
+                        'dead': true,
+                        'cause_of_death': survivor.sheet.cause_of_death
+                    },
+                    false, true, true
+                );
+            "
+        >
+            Save
+        </button>
+
+        
+<!--
+        orig: {a survivor.originalCOD a}
+        sheet: {a survivor.sheet.cause_of_death a}
+-->
+
+
+    </div> <!-- modal-content -->
+
+</div>
+<!-- end modal -->
+
+

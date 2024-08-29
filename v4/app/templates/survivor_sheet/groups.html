@@ -16,6 +16,11 @@
     <div
         class="clickable kd worksheet_row"
         ng-repeat="group in settlement.sheet.survivor_groups |orderBy: 'sort_order'"
+        ng-if="group.show_on_survivor_sheet"
+        ng-disabled="!group.allow_dead_survivors && survivor.sheet.dead"
+        ng-class="{
+            'disabled': !group.allow_dead_survivors && survivor.sheet.dead,
+        }"
         ng-click="
             toggleArrayItem(survivor.sheet.groups, group.handle);
             postJSONtoAPI(

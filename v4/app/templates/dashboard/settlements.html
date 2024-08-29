@@ -84,7 +84,7 @@
                 {{current_user.settlements_created}} < 3 ||
                 {{current_user.subscriber.level}} > 0
             "
-            ng-click="loadURL('/new')"
+            ng-click="loadUrl('/new')"
         >
             + Create New Settlement
         </button>
@@ -97,7 +97,7 @@
                 ng-repeat="s in dashboard.user.settlements | orderBy: '-'"
                 ng-click="
                     showFullPageLoader();
-                    loadURL('/settlement/' + s._id.$oid);
+                    loadUrl('/settlement/' + s._id.$oid);
                 "
                 class="dying_lantern dashboard_settlement_list_settlement_button"
             >

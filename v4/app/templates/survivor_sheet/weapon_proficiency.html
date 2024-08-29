@@ -84,7 +84,7 @@
                     class="kd checkbox"
                     ng-repeat="box in range(8)"
                     ng-class="{
-                        'checked': survivor.sheet['Weapon Proficiency'] >= box,
+                        'checked': survivor.sheet['Weapon Proficiency'] > box,
                         'heavy': [2,7].indexOf(box) >= 0,
                     }"
                 >
@@ -103,7 +103,7 @@
                         class="kd checkbox tiny"
                         ng-repeat="box in range(wpMilestone.boxes)"
                         ng-class="{
-                            'checked': survivor.sheet['Weapon Proficiency'] >= wpMilestone.value,
+                            'checked': survivor.sheet['Weapon Proficiency'] > wpMilestone.value,
                         }"
                     >
                     </div>
@@ -118,7 +118,8 @@
         id="{a weaponProficiencyControlDiv a}"
         class="roll_down_container rolled_up"
         ng-class="{'rolled_down': ngRolledUp[weaponProficiencyControlDiv] === false}"
-    >
+    >    
+    {a survivor.sheet['Weapon Proficiency'] a}
         <button
             class="kd capsule blue full_width"
             ng-click="
